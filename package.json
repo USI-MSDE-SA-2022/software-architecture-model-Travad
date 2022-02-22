@@ -1,0 +1,21 @@
+{
+  "name": "2022-MSDE-SA",
+  "version": "1.0.0",
+  "description": "Software Architecture Modeling Exercises",
+  "main": "build.js",
+  "author": "Cesare Pautasso",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "fs-extra": "^10.0.0",
+    "glob-fs": "^0.1.7",
+    "marked": "^4.0.12",
+    "metalsmith-plantuml": "^0.0.4"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "clean": "rm -rf upload/*",
+    "watch": "onchange src/** -- yarn build"
+  },
+  "doc_build": 108
+}

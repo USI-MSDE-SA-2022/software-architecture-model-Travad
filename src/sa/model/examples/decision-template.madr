@@ -1,0 +1,36 @@
+## ADR #0 (Template)
+
+1. What did you decide?
+
+Give a short title of solved problem and solution
+
+2. What was the context for your decision?
+
+What is the goal you are trying to achieve?
+
+What are the constraints?
+
+What is the scope of your decision? Does it affect the entire architecture?
+
+3. What is the problem you are trying to solve?
+
+You may want to articulate the problem in form of a question.
+
+4.  Which alternative options did you consider?
+
+List at least 3 options
+
+5. Which one did you choose?
+
+Pick one of the options as the outcome of your decision
+
+6. What is the main reason for that?
+
+List the positive consequences (pros) of your decision:
+
+* quality improvement
+* satisfaction of external constraint
+
+If any, list the negative consequences (cons)
+
+* quality degradation

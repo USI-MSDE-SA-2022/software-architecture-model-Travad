@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(user_s, "Students", "")
+Person(user_p, "Profs", "")
+
+System_Boundary(boundary, "ASQ") {
+
+}
+
+System_Ext(icorsi, "iCorsi")
+
+Rel(user_s, boundary, "Answer questions")
+Rel(user_p, boundary, "Ask questions")
+Rel(boundary, icorsi, "Import/Export", "Student List, Grades")
+@enduml

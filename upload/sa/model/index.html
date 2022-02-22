@@ -1,0 +1,438 @@
+<html>
+
+<head>
+    <title>Software Architecture Model</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Sans|Fira+Mono">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.0/build/styles/default.min.css">
+    <style>
+        body,
+        * {
+            font-family: "Fira Sans";
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 1em;
+        }
+
+        #usi-logo {
+            width: 75px;
+            height: 75px;
+        }
+
+        header {
+            display: flex;
+            align-content: space-between;
+            width: 100%;
+            justify-items: center;
+        }
+
+        header ul {
+            list-style: none;
+        }
+
+        header .title {
+            flex: 1;
+            margin-left: 1em;
+        }
+
+        html {
+            min-height: 100vh;
+        }
+
+        pre,
+        code {
+            font-family: "Fira Mono"
+        }
+
+        pre {
+            background: rgb(202, 227, 255);
+            padding: 1em;
+        }
+
+        td {
+            text-align: center
+        }
+
+        td:last-child {
+            text-align: left;
+        }
+
+        th {
+            font-weight: normal;
+            color: rgb(0, 61, 131);
+        }
+
+        thead {
+            border-bottom: 2px solid rgb(202, 227, 255);
+        }
+
+        table {
+            width: 100%
+        }
+
+        span.task {
+            display: inline-flex;
+            border-radius: 50%;
+            border: 1px solid white;
+            background: #ffbc00;
+            width: 2em;
+            height: 2em;
+            justify-content: center;
+            align-items: center;
+            font-weight: normal;
+            margin-top: 2em;
+        }
+
+        section.instructions {
+            padding: 2em;
+            background-color: rgb(255, 241, 196);
+            background-image: linear-gradient(1deg, white, transparent,rgba(255,255,255,0.5) 90%,transparent 100%);
+        }
+
+        section.instructions::before {
+            content: "Task Description";
+            font-size: 1.75em;
+            color: #ffbc00;
+            font-weight: bold;
+            transform: translateY(-2em) rotate(1deg);
+            display: block;
+            margin-bottom: -2em;
+            text-align: center;
+        }
+
+        section.pass, section.exceed, section.ok {
+            margin-top: 1em;
+        }
+
+        section.pass span, section.exceed span, section.hint span, section.ok span {
+            margin-right: 0.5em;
+            padding: 0.5em;
+            display: inline-block;
+        }
+
+        section.pass {
+            border: 2px solid green;
+        }
+
+        section.ok {
+            border: 2px solid rgb(6, 175, 6);
+        }
+
+        section.exceed {
+            border: 2px solid rgb(34, 255, 34);
+        }
+
+        section.hint {
+            border: 2px solid rgb(255, 214, 34);
+        }
+
+        section.pass span {
+            background-color: green; color: white;
+            background-image: linear-gradient(45deg, #000000a6, transparent);
+        }
+
+        section.ok span {
+            background-color: rgb(6, 175, 6); color: white;
+            background-image: linear-gradient(135deg, #000000a6, transparent);
+        }
+
+        section.exceed span {
+            background-color: rgb(34, 255, 34); 
+            background-image: linear-gradient(-45deg, white, transparent);
+        }
+
+        section.hint span {
+            background-color: rgb(255, 214, 34);
+            background-image: linear-gradient(-45deg, white, transparent);
+        }
+
+        .deadline {
+            text-align: right;
+        }
+
+        p.deadline {
+            font-size: 2em;
+        }
+
+        .deadline b {
+            border-bottom: 1px solid black;
+        }
+
+        form label {
+            display: inline-block;
+            margin-right: 1em;
+            vertical-align: middle;
+        }
+
+
+form button {
+    min-width: 10em;
+    min-height: 2em;
+    background: #008d4f;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+form input[type=text],
+form textarea,
+form select {
+    flex: 3;
+    margin: 0.5em;
+	font-size: 1.1em;
+}	
+
+form p { display: flex; 
+	align-items: stretch;
+    min-height: 2.5em;
+    padding-left: 0.5em; 
+flex-direction: column}
+
+    </style>
+</head>
+<body>
+
+    <header>    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="usi-logo" x="0px" y="0px" width="200" height="200" viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve" class="injected-svg svg">
+        <g>
+            <path d="M180,41.7h-51.1V31.1h42.2C153.1,12.5,127.8,1,99.9,1C45.2,1.1,0.9,45.4,1,100.1c0,26.8,10.7,51.1,28.1,68.9   c-1.4-2-2.4-4.1-3-6.1c-1-3.5-1-5.9-1.1-15.8v-47.1h14.8v48.5c0,3.4-0.1,6.6,1,9.6c3,7.6,11.3,8.5,16,8.5c2.3,0,8.3-0.1,12.6-3.9   c4.4-3.9,4.4-8.4,4.4-15v-47.7h14.9v49.7c-0.1,8.9-0.1,16.3-8.5,23.5c-8,7-18.4,7.7-23.8,7.7c-4.8,0-9.5-0.6-14-2.1   c-1.8-0.6-3.5-1.4-5-2.3c17.1,14,39,22.4,62.8,22.4c54.7-0.1,99-44.4,98.9-99.1C199,78.1,191.9,58,180,41.7z M175.3,94.4l-6.3-9   c2.1-1.4,8.7-5.7,8.7-17.7c0-2-0.2-4.1-1-6.2c-1.7-4.1-4.6-4.9-6.6-4.9c-3.6,0-4.9,2.5-5.7,4.3c-0.5,1.3-0.6,1.5-1.8,6.6l-1.5,6.9   c-0.9,3.6-1.3,5.4-2,7.2c-1.1,2.6-4.5,9.6-14,9.6c-10.9,0-17.8-9.2-17.8-22.6c0-12.3,6.1-19,11.6-23l6.6,8.8   c-2.8,1.9-8.5,5.7-8.5,14.8c0,5.8,2.6,10.8,7,10.8c4.9,0,5.8-5.3,6.8-10.5l1.3-5.9c1.6-7.7,4.8-18.6,17-18.6   c13.1,0,18.4,12.2,18.4,24.3c0,3.2-0.3,6.7-1.3,10.2C185.1,83.4,182.3,90.1,175.3,94.4z"></path>
+        </g>
+        </svg>
+        <div class="title">
+            <h2></h2>
+            <h1>Software Architecture Model</h1>
+        </div>
+        <ul>
+            <li>Prof. Cesare Pautasso</li>
+        </ul>
+        </header>
+
+    <main>
+        <h1 id="getting-started">Getting started</h1>
+<p>You will use <a href="https://www.markdownguide.org/cheat-sheetplan">Markdown</a> and <a href="https://plantuml.com/">PlantUML</a> to describe a software architecture model about your own project.</p>
+<p>This document will grow during the semester as you sketch and refine your software architecture model.</p>
+<p>When you are done with each task, please push so we can give you feedback about your work.</p>
+<p>We begin by selecting a suitable project domain.</p>
+<h1 id="ex---domain-selection"><span class='task'>1.</span>  Domain Selection</h1>
+<section class="instructions"><p>Submit the name and brief description (about 100 words) of your domain using the following vision statement template:</p>
+<pre><code>For [target customers]
+Who [need/opportunity/problem]
+The [name your project]
+Is  [type of project]
+That [major features, core benefits, compelling reason to buy]
+Unlike [current reality or competitors]
+Our Project [summarize main advantages over status quo, unique selling point]
+</code></pre>
+<p>Please indicate if your choice is:</p>
+<ul>
+<li>a project you have worked on in the past (by yourself or with a team)</li>
+<li>a project you are going to work on this semester in another lecture (which one?)</li>
+<li>a new project you plan to build in the future</li>
+<li>some existing open source project you are interested to contribute to</li>
+</ul>
+<p>The chosen domain should be unique for each student.</p>
+<p>Please be ready to give a 2 minute presentation about it (you can use a slide but it&#39;s not necessary)</p>
+<section class="hint"><span>Hint: </span>to choose a meaningful project look at the rest of the modeling tasks which you are going to perform in the context of your domain.</section></section><p>Project Name: <em>My Project</em></p>
+<p>Project Type:</p>
+<p>Vision Statement:</p>
+<p>Additional Information:</p>
+<h1 id="ex---architectural-decision-records"><span class='task'>2.</span>  Architectural Decision Records</h1>
+<section class="instructions"><p>Software architecture is about making design decisions that will impact the quality of the software you plan to build.</p>
+<p>Let&#39;s practice how to describe an architectural decision. We will keep using ADRs to document architectural decisions in the rest of the model.</p>
+<p>Use the following template to capture one or more architectural design decisions in the context of your project domain</p>
+<section class="pass"><span>&starf;&star;&star;: </span>1 ADR</section><section class="ok"><span>&starf;&starf;&star;: </span>2 ADR</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 ADR</section></section><p><h3>Architectural Decision Record Template</h3><h2 id="adr-0-template">ADR #0 (Template)</h2>
+<ol>
+<li>What did you decide?</li>
+</ol>
+<p>Give a short title of solved problem and solution</p>
+<ol start="2">
+<li>What was the context for your decision?</li>
+</ol>
+<p>What is the goal you are trying to achieve?</p>
+<p>What are the constraints?</p>
+<p>What is the scope of your decision? Does it affect the entire architecture?</p>
+<ol start="3">
+<li>What is the problem you are trying to solve?</li>
+</ol>
+<p>You may want to articulate the problem in form of a question.</p>
+<ol start="4">
+<li>Which alternative options did you consider?</li>
+</ol>
+<p>List at least 3 options</p>
+<ol start="5">
+<li>Which one did you choose?</li>
+</ol>
+<p>Pick one of the options as the outcome of your decision</p>
+<ol start="6">
+<li>What is the main reason for that?</li>
+</ol>
+<p>List the positive consequences (pros) of your decision:</p>
+<ul>
+<li>quality improvement</li>
+<li>satisfaction of external constraint</li>
+</ul>
+<p>If any, list the negative consequences (cons)</p>
+<ul>
+<li>quality degradation</li>
+</ul>
+</p>
+<h1 id="ex---quality-attribute-scenario"><span class='task'>3.</span>  Quality Attribute Scenario</h1>
+<section class="instructions"><ol>
+<li><p>Pick a scenario for a specific quality attribute. Describe it with natural language.</p>
+</li>
+<li><p>Refine the scenario using the following structure:</p>
+</li>
+</ol>
+<img src="./puml_e0.svg"><p><em>Stimulus</em>: condition affecting the system</p>
+<p><em>Source</em>: entity generating the stimulus</p>
+<p><em>Environment</em>: context under which stimulus occurred (e.g., build, test, deployment, startup, normal operation, overload, failure, attack, change)</p>
+<p><em>Response</em>: observable result of the stimulus</p>
+<p><em>Measure</em>: benchmark or target value defining a successful response</p>
+<section class="pass"><span>&starf;&star;&star;: </span>3 scenarios</section><section class="ok"><span>&starf;&starf;&star;: </span>&gt;3 scenarios</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 scenarios using challenging qualities</section></section><h2 id="example-scenario">Example Scenario</h2>
+<p>Quality: <em>Recoverability</em></p>
+<p>Scenario: In case of power failure, rebooting the system should take up to 20 seconds.</p>
+<img src="./puml_e1.svg"><h1 id="ex---quality-attribute-tradeoff"><span class='task'>4.</span>  Quality Attribute Tradeoff</h1>
+<section class="instructions"><p>Pick a free combination of two qualities on the <a href="https://usi365.sharepoint.com/:x:/s/MSDE-2022-SoftwareArchitecture/ESVksoXVgMNHtKBKrIwatMYBqorOFaKjxnoqssEy0gNPCg?e=81W7SI">map</a> and write your name to claim it.</p>
+<p>Then write a short text giving an example for the tradeoff in this assignment.</p>
+<section class="pass"><span>&starf;&star;&star;: </span>1 unique trade-off</section><section class="ok"><span>&starf;&starf;&star;: </span>2 trade-offs</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 trade-offs</section></section><h2 id="portability-vs-performance-example">Portability vs. Performance (Example)</h2>
+<p>Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.</p>
+<h1 id="ex---feature-modeling"><span class='task'>5.</span>  Feature Modeling</h1>
+<section class="instructions"><p>In the context of your chosen project domain, describe your domain using a feature model.</p>
+<p>The feature model should be correctly visualized using the following template:</p>
+<p><img src="./puml_0.svg" alt="Example Feature Model Diagram"></p>
+<p>If possible, make use of all modeling constructs.</p>
+<section class="pass"><span>&starf;&star;&star;: </span>Include at least 4 non-trivial features</section><section class="ok"><span>&starf;&starf;&star;: </span>Include at least 6 non-trivial features, which are all implemented by your project</section><section class="exceed"><span>&starf;&starf;&starf;: </span>Include more than 8 non-trivial features, indicate which are found in your project and which belong to one competitor</section></section><h1 id="ex---context-diagram"><span class='task'>6.</span>  Context Diagram</h1>
+<section class="instructions"><p>Prepare a context diagram to define the design boundary for your project.</p>
+<p>Here is a PlantUML/C4 example to get started.</p>
+<p><img src="./puml_1.svg" alt="Example Context Diagram"></p>
+<p>Make sure to include all possible user personas and external dependencies you may need.</p>
+<section class="pass"><span>&starf;&star;&star;: </span>1 User and 1 Dependency</section><section class="ok"><span>&starf;&starf;&star;: </span>&gt;1 User and &gt;1 Dependency</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;1 User and &gt;1 Dependency, with both incoming and outgoing dependencies</section></section><h1 id="ex---component-model-top-down"><span class='task'>7.</span>  Component Model: Top-Down</h1>
+<section class="instructions"><p>Within the context of your project domain, represent a model of your modular software architecture decomposed into components.</p>
+<p>The number of components in your logical view should be between 6 and 9:</p>
+<ul>
+<li>At least one component should be further decomposed into sub components</li>
+<li>At least one component should already exist. You should plan how to reuse it, by locating it in some software repository and including in your model the exact link to its specification and its price.</li>
+<li>At least one component should be stateful.</li>
+</ul>
+<p>The logical view should represent provide/require dependencies that are consistent with the interactions represented in the process view.</p>
+<p>The process view should illustrate how the proposed decomposition is used to satisfy the main use case given by your domain model.</p>
+<p>You can add additional process views showing how other use cases can be satisfied by the same set of components.</p>
+<p>This assignment will focus on modularity-related decisions, we will worry about deployment and the container view later.</p>
+<p>Here is a PlantUML example logical view and process view.</p>
+<img src="./puml_e2.svg"><img src="./puml_e3.svg"><section class="hint"><span>Hint: </span>How to connect sub-components to other external components? Use this pattern.</section><img src="./puml_e4.svg"><section class="pass"><span>&starf;&star;&star;: </span>6 components (1 decomposed), 1 use case/process view</section><section class="ok"><span>&starf;&starf;&star;: </span>6 components (1 decomposed), 2 use case/process view</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 components (&gt;1 decomposed) and &gt;2 use case/process view</section></section><h2 id="logical-view">Logical View</h2>
+<h2 id="process-views">Process Views</h2>
+<p>Use Case: </p>
+<h1 id="ex---component-model-bottom-up"><span class='task'>8.</span>  Component Model: Bottom-Up</h1>
+<section class="instructions"><p>Within the context of your project domain, represent a model of your modular software architecture decomposed into components.</p>
+<p>To design this model you should attempt to buy and reuse as many components as possible.</p>
+<p>In addition to the logical and process views, you should give a precise list to all sources and prices of the components you have selected to be reused.</p>
+<p>Write an ADR to document your component selection process (indicating which alternatives were considered).</p>
+<section class="pass"><span>&starf;&star;&star;: </span>Existing design with at least 1 reused components (1 Logical View, 1 Process View)</section><section class="ok"><span>&starf;&starf;&star;: </span>Existing design with at least 3 reused components (1 Logical View, 1 Process View, 1 ADR)</section><section class="exceed"><span>&starf;&starf;&starf;: </span>Redesign based on &gt;3 reused components (1 Logical View, &gt;1 Process View, &gt;1 ADR)</section></section><h1 id="ex---interfaceapi-specification"><span class='task'>9.</span>  Interface/API Specification</h1>
+<section class="instructions"><p>In this iteration, we will detail your previous model to specify the provided interface of all components based on their interactions found in your existing process views.</p>
+<ol>
+<li><p>choose whether to use the top down or bottom up model. If you specify the interfaces of the bottom up model, your interface descriptions should match what the components you reuse already offer.</p>
+</li>
+<li><p>decide which interface elements are operations, properties, or events.</p>
+</li>
+</ol>
+<p>Get started with one of these PlantUML templates, or you can come up with your own notation to describe the interfaces, as long as it includes all the necessary details.</p>
+<p>The first template describes separately the provided/required interfaces of each component. </p>
+<p><img src="./puml_2.svg" alt="Separate Required/Provided Interfaces"></p>
+<p>The second template annotates the logical view with the interface descriptions: less redundant, but needs the logical dependencies to be modeled to show which are the required interfaces.</p>
+<p><img src="./puml_3.svg" alt="Shared Interfaces"></p>
+<section class="pass"><span>&starf;&star;&star;: </span>define interfaces of all outer-level components</section><section class="ok"><span>&starf;&starf;&star;: </span>Define interfaces of all outer-level components. Does your architecture publish a Web API? If not, extend it so that it does. </section><section class="exceed"><span>&starf;&starf;&starf;: </span>Also, document the Web API using the OpenAPI language. You can use the <a href="http://api-ace.inf.usi.ch/openapi-to-tree/">OpenAPI-to-Tree</a> tool to visualize the structure of your OpenAPI description.</section></section><h1 id="ex---connector-view"><span class='task'>10.</span>  Connector View</h1>
+<section class="instructions"><p>Extend your existing models introducing the connector view</p>
+<p>For every pair of connected components (logical view), pick the most suitable connector. Existing components can play the role of connector, or new connectors may need to be introduced.</p>
+<p>Make sure that the interactions shown in the process views reflect the primitives of the selected connector</p>
+<section class="pass"><span>&starf;&star;&star;: </span>model existing connectors based on previous model decisions</section><section class="ok"><span>&starf;&starf;&star;: </span>model existing connectors based on previous model decisions, write an ADR about the choice of one connector</section><section class="exceed"><span>&starf;&starf;&starf;: </span>introduce a new type of connector and update your existing process view 
+(sequence diagram) to show the connector primitives in action</section></section><h1 id="ex---adapters-and-coupling"><span class='task'>11.</span>  Adapters and Coupling</h1>
+<section class="instructions"><ol>
+<li>Highlight the connectors (or components) in your existing bottom-up design playing the role of adapter. (We suggest to use the bottom-up design since when dealing with externally sourced components, their interfaces can be a source of mismatches).</li>
+<li>Which kind of mismatch** are they solving?</li>
+<li>Introduce a wrapper in your architecture to hide one of the previously highlighted adapters</li>
+<li>Where would standard interfaces play a role in your architecture? Which standards could be relevant in your domain?</li>
+<li>Explain how one or more pairs of components are coupled according to different coupling facets</li>
+<li>Provide more details on how each adapter solves the mismatches identified using pseudo-code or the actual code</li>
+<li>How can you improve your architectural model to minimize coupling between components? (Include a revised logical/connector view with your solution)</li>
+</ol>
+<section class="pass"><span>&starf;&star;&star;: </span>1-5 (with one adapter)</section><section class="ok"><span>&starf;&starf;&star;: </span>1-6 (with at least two adapters)</section><section class="exceed"><span>&starf;&starf;&starf;: </span>1-7 (with at least two adapters)</section><p>** If you do not find any mismatch in your existing design we suggest to introduce one artificially.</p>
+<h2 id="hints">Hints</h2>
+<ul>
+<li><p>(1) Should we find cases where two components cannot communicate (and are doing it wrongly) and highlight they would need an adapter?, or cases where we have already a &quot;component playing the role of adapter in the view&quot; and highlight only the adapter?</p>
+<p><em>Both are fine. We assumed that if you draw a dependency (or a connector) the interfaces match, but if you detect that the components that should communicate cannot communicate then of course introduce an adapter to solve the mismatch</em></p>
+</li>
+<li><p>(2) Please show the details about the two interfaces which do not match (e.g., names of parameters, object structures) so that it becomes clear why an adapter is needed and what the adapter should do to bridge the mismatch</p>
+</li>
+<li><p>(5-6) These questions are about the implications on coupling based on the decisions you documented in the connector view.
+Whenever you have a connector you couple together the components and different connectors will have different forms of coupling</p>
+<p>For example, if you use calls everywhere, do you really need them everywhere? is there some pair of components where you could use a message queue instead?</p>
+<p>Regarding the coupling facets mentioned in question 5. You do not have to answer all questions related to &quot;discovery&quot;, &quot;session&quot;, &quot;binding&quot;, &quot;interaction&quot;, &quot;timing&quot;, &quot;interface&quot; and &quot;platform&quot; (p.441, Coupling Facets). Just the ones that you think are relevant for your design and by answering them you can get ideas on how to do question 6.</p>
+</li>
+</ul>
+</section><h1 id="ex---physical-and-deployment-views"><span class='task'>12.</span>  Physical and Deployment Views</h1>
+<section class="instructions"><p>a. Extend your architectural model with the following viewpoints:</p>
+<ol>
+<li><p>Physical or Container View</p>
+</li>
+<li><p>Deployment View</p>
+</li>
+</ol>
+<p>Your model should be non-trivial: include more than one physical device/virtual container (or both). Be ready to discuss which connectors are found at the device/container boundaries.</p>
+<p>b. Write an ADR about which deployment strategy you plan to adopt. The alternatives to be considered are: big bang, blue/green, shadow, pilot, gradual phase-in, canary, A/B testing.</p>
+<p>c. (Optional) Prepare a demo of a basic continuous integration and delivery pipeline for your architectural documentation so that you can obtain a single, integrated PDF with all the viewpoints you have modeled so far. </p>
+<p>For example:</p>
+<ul>
+<li>configure a GitHub webhook to be called whenever you push changes to your documentation</li>
+<li>setup a GitHub action (or similar) to build and publish your documentation on a website</li>
+</ul>
+<section class="pass"><span>&starf;&star;&star;: </span>1 physical view, 1 deployment view, 1 ADR (b.)</section><section class="ok"><span>&starf;&starf;&star;: </span>&gt;1 physical view, &gt;1 deployment view, 1 ADR (b.)</section><section class="exceed"><span>&starf;&starf;&starf;: </span>1 physical view, 1 deployment view, 1 ADR (b.) + 1 demo (c.)</section></section><h1 id="ex---availability-and-services"><span class='task'>13.</span>  Availability and Services</h1>
+<section class="instructions "><p>The goal of this week is to plan how to deliver your software as a service with high availability.</p>
+<ol>
+<li>If necessary, change your deployment design so that your software is hosted on a server (which could be running as a Cloud VM). Your SaaS architecture should show how your SaaS can be remotely accessed from a client such as a Web browser, or a mobile app</li>
+<li>Sketch your software as a service pricing model (optional)</li>
+<li>How would you define the availability requirements in your project domain? For example, what would be your expectation for the duration of planned/unplanned downtimes or the longest response time tolerated by your clients?</li>
+<li>Which strategy do you adopt to monitor your service&#39;s availability? Extend your architecture with a watchdog or a heartbeat monitor and motivate your choice with an ADR.</li>
+<li>What happens when a stateless component goes down? model a sequence diagram to show what needs to happen to recover one of your critical stateless components</li>
+<li>How do you plan to recover stateful components? write an ADR about your choice of replication strategy and whether you prefer consistency vs. availability. Also, consider whether event sourcing would help in your context.</li>
+<li>How do you plan to avoid cascading failures? Be ready to discuss how the connectors (modeled in your connector view) impact the reliability of your architecture.</li>
+<li>How did you mitigate the impact of your external dependencies being not available? (if applicable)</li>
+</ol>
+<section class="pass"><span>&starf;&star;&star;: </span>1, 3, 4, one of:  5, 6, 7, 8</section><section class="ok"><span>&starf;&starf;&star;: </span>1, 2, 3, 4, two of:  5, 6, 7, 8</section><section class="exceed"><span>&starf;&starf;&starf;: </span>1, 2, 3, 4, 5, 6, 7, 8</section></section><h1 id="ex---scalability"><span class='task'>14.</span>  Scalability</h1>
+<section class="instructions "><p>Now that your architecture delivers your software as a service, let&#39;s redesign it so that it can scale!</p>
+<ol>
+<li><p>Pick one scalability dimension: number of clients, size of input, size of state, number of dependencies</p>
+</li>
+<li><p>How well does your architecture scale along the chosen dimension? Where do you expect the bottleneck to be?</p>
+</li>
+<li><p>Modify your architecture to remove the scalability bottleneck you have identified (show both logical, process and deployment view) - consider whether the API/interface of the bottleneck component should be improved.</p>
+</li>
+<li><p>Write an ADR regarding the scalability pattern you have introduced.</p>
+</li>
+<li><p>Write an ADR regarding the issue of component discovery, choosing one of the alternatives: dependency injection vs. directory. Can you identify an existing component playing the role of directory/dependency injection container? Could you give an example of where you would need to add such component to facilitate dynamic component discovery?</p>
+</li>
+</ol>
+<section class="pass"><span>&starf;&star;&star;: </span>1, 2, 3, 5</section><section class="ok"><span>&starf;&starf;&star;: </span>1, 2, 3, 4, 5</section><section class="exceed"><span>&starf;&starf;&starf;: </span>1, 2, 3, 4, 5 then redo 1, 2, 3 for different scalability dimensions</section></section><h1 id="ex---flexibility"><span class='task'>15.</span>  Flexibility</h1>
+<section class="instructions "><p>Only dead software stops changing. You just received a message from your customer, they have an idea. Is your architecture ready for it?</p>
+<ol>
+<li><p>Pick a new use case scenario. Precisely, what exactly do you need to change of your existing architecture so that it can be supported? Model the updated logical/process/deployment views.</p>
+</li>
+<li><p>Pick another use case scenario so that it can be supported without any major architectural change (i.e., while you cannot add new components, it is possible to extend the interface of existing ones or introduce new dependencies). Illustrate with a process view, how your previous design can satisfy the new requirement.</p>
+</li>
+<li><p>Change impact. One of your externally sourced component/Web service API has announced it will introduce a breaking change. What is the impact of such change? How can you control and limit the impact of such change? Update your logical view</p>
+</li>
+<li><p>Open up your architecture so that it can be extended with plugins by its end-users. Where would be a good extension point? Update your logical view and give at least one example of what a plugin would actually do.</p>
+</li>
+<li><p>Assuming you have a centralized deployment with all stateful components storing their state in the same database, propose a strategy to split the monolith into at least two different microservices. Model the new logical/deployment view as well as the interfaces of each microservice you introduce.</p>
+</li>
+</ol>
+<section class="pass"><span>&starf;&star;&star;: </span>1, one out of 2-5.</section><section class="ok"><span>&starf;&starf;&star;: </span>1, two out of 2-5.</section><section class="exceed"><span>&starf;&starf;&starf;: </span>1-5.</section></section>
+    </main>
+
+
+<footer>
+
+</footer>
+
+</body>
+
+</html>

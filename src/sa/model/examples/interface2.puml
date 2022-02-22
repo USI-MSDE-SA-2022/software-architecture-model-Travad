@@ -1,0 +1,74 @@
+@startuml
+component App
+component Driver
+interface " " as iDriver
+
+component Spooler
+interface " " as iSpooler
+
+component Queue
+interface " " as iQueue
+
+component Printer
+interface " " as iPrinter
+
+App -( iDriver
+iDriver - Driver
+
+App --( iSpooler
+iSpooler - Spooler
+
+Spooler --( iQueue
+iQueue - Queue
+
+Printer --( iQueue
+iPrinter - Printer
+
+App --( iPrinter
+
+
+note top of iDriver
+operation:
+..
+print(PDF)
+end note
+
+note left of iSpooler
+operation:
+..
+scheduleJob(PS)
+end note
+
+note left of iQueue
+operations:
+..
+post(PS)
+get(id)
+delete(id)
+end note
+
+
+note left of iPrinter
+operation:
+..
+print(id)
+
+--
+events:
+..
+print_started
+print_done
+
+--
+properties:
+..
+paper_size
+color
+duplex
+end note
+
+
+
+skinparam monochrome true
+skinparam shadowing false
+@enduml

@@ -1,0 +1,46 @@
+
+@startuml
+rectangle "Feature" as A
+rectangle "Optional" as B
+rectangle "Required" as C
+ 
+A --0 B
+A --@ C
+
+rectangle "Feature" as E
+note left
+  Sub-features Combination
+end note
+rectangle "Sub Feature 1" as F
+rectangle "Sub Feature 2" as G
+ 
+E *-- F
+E *-- G
+
+rectangle "Feature" as H
+note right
+  Exclusive Sub-features
+end note
+
+rectangle "Alternative\nSubFeature 1" as I
+rectangle "Alternative\nSubFeature 2" as J
+
+H o-- I
+H o-- J
+
+F -[dotted]> B : require
+
+
+C <-[dotted]> J : exclusive
+
+rectangle "Product" as R
+
+R --0 A
+R --0 E : optional
+R --@ H : required
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

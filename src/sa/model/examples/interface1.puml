@@ -1,0 +1,114 @@
+@startuml
+hide circle
+
+class App {
+
+requires:
+--
+operations:
+..
+print(PDF)
+print(id)
+scheduleJob(PS)
+
+--
+properties:
+..
+paper_size
+color
+duplex
+
+--
+events:
+..
+print_started
+print_done
+
+
+}
+
+
+class Driver {
+
+provides:
+--
+operations:
+..
+print(PDF)
+
+}
+
+
+class Spooler {
+
+provides:
+--
+operations:
+..
+scheduleJob(PS)
+
+==
+
+requires:
+--
+operations:
+..
+post(PS)
+
+}
+
+
+class Queue {
+
+provides:
+--
+operations:
+..
+post(PS)
+get(id)
+delete(id)
+
+}
+
+class Printer {
+
+provides:
+--
+operations:
+..
+print(id)
+
+--
+properties:
+..
+paper_size
+color
+duplex
+
+--
+events:
+..
+print_started
+print_done
+
+==
+
+requires:
+--
+operations:
+..
+get(id)
+delete(id)
+
+}
+
+App -(0- Driver
+App -(0- Spooler
+App -(0- Printer
+Printer -(0- Queue
+Spooler -(0- Queue
+
+
+skinparam monochrome true
+skinparam shadowing false
+@enduml
