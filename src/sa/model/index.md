@@ -1,5 +1,5 @@
 title: 
-Software Architecture Model
+Software Architecture Model of FruitDash by Daniel Travaglia
 ---
  
 # Getting started
@@ -45,15 +45,22 @@ Hint: to choose a meaningful project look at the rest of the modeling tasks whic
 
 }
 
-Project Name: *My Project*
+Project Name: *FruitDash*
 
-Project Type:
+Project Type: Web application
 
-Vision Statement:
-
-Additional Information:
-
-
+Vision Statement: 
+  For small-medium enterprise employees, 
+  who need to make decisions based on clear visualized information, 
+  FruitDash is a web-based dashboard that displays metrics based on the fruit and vegetable orders of their clients.
+  Unlike Excel, 
+  Fruitdash provides the required information instantaneously to speed up the decision-making process
+  and enables the sharing of consistent information across the whole company. 
+   
+Additional Information: This is a project that I aim to build in the future. The dashboard
+should be accessible by multiple users at the same time and it should be built so that it respects
+conventions on how information should be displayed using tables and graphs. Furthermore, the application
+will be built using ASP.NET Core Framework (C#) and SQL Server as the database technology for retrieving data.
 
 # Ex - Architectural Decision Records
 
