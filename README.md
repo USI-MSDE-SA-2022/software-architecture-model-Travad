@@ -44,4 +44,3 @@ git push
 We will use github issues to provide feedback about your model. 
 
 Also, be ready to present your submission according to the [schedule](https://www.icorsi.ch/mod/url/view.php?id=769516).
-

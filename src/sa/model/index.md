@@ -82,6 +82,137 @@ Exceed: >2 ADR
 
 ![Architectural Decision Record Template](./examples/decision-template.madr)
 
+## ADR #1
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to adopt an external product as the go-to tool to develop the company dashboard.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+This decision boils down to decide on whether to adopt a third-party application or build one from scratch. The factors involved in this decision are mainly to keep data consistent across users, make sure that multiple users can access the product concurrently as well as to provide simple yet captivating visualization to the final user. To consider is also that the data of the client is stored in a Microsoft SQL Server database. This decision deeply influences the choices on the expertise needed to develop the project as well as the technology to adopt.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Would it be better to adopt an already existing solution on top of which
+we can build our final product or should we opt for an in-house solution?
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+* Internal solution: an Office Adds-in for Excel
+* Internal solution: a web framework solution 
+* External solution: Microsoft Power BI
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I picked to go for the external solution and therefore adopt the Microsoft Power BI platform.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. Besides the possibility to share the dashboard with multiple users in real-time, the killer feature of this solution is the ability to translate natural language requests for scouting data. The tool provides a connector to extract data from Microsoft SQL database. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it also grants low costs. Providing the same features with a solution built from scratch might results in far greater costs and might also provide less features. On the other hand, it would grant more flexibility when it comes to personalize the dashboard for ad-hoc analyses.
+
+## ADR #2
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+<!-- Allow the download of Excel for the data that is visualized on the dashboard >
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement
+satisfaction of external constraint
+If any, list the negative consequences (cons)
+quality degradation -->
+
+## ADR #3
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+<!-- >
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement
+satisfaction of external constraint
+If any, list the negative consequences (cons)
+quality degradation -->
+
+<!-- ADR #1
+Author: Sophie Reidl
+
+1.1 Decision: The application will be built as a mobile application.
+
+1.2 Context of decision: The goal of this decision process is to find the optimal form of application that ideally supports the idea and the requirements of the Smart Reminder application. The requirement that is especially important to take into account here is that a reminder should be sent and also reach the user immediately if he is at the right place. The decision made in this regard is crucial for building the whole architecture and affects almost all following decisions.
+
+1.3 Problem to be solved: Which kind of application should the Smart Reminder be?
+
+1.4 Alternatives:
+
+Web application
+Desktop application
+Mobile application
+1.5 Chosen alternative: Mobile application
+
+1.6 Main reason for decision: As the concept of this application is based on knowing where the user currently is (to send the correct reminders), the only suitable option is the mobile application. Smartphones are carried around and are frequently checked by users, which makes them the optimal platform to fullfil the requirement of checking the current location of the user in real time. Also the chances that the user reads the reminder when it should reach him is maximized when choosing this option. A downside of this decision is that the application will most likely not be accessible to all users (either iOS or Android use -->
+
+<!-- ADR #1
+Author: Marco Tereh
+
+Commercialisation: software as a service
+
+What was the context for your decision?
+In creating this system we must consider how to make it profitable, or at least not unprofitable. Thus it is necessary to consider how we sell it. We choose a software as a service model as that allows us to profit continuously from every client. This requires us to expend additional resources to deploy and maintain the system, but gives us greater control of the platform we are deployed on, decreasing the requirements on portability.
+
+What is the problem you are trying to solve?
+How do we make money from this?
+
+Which alternative options did you consider?
+one-time purchase of software package, software as a service
+
+Which one did you choose?
+software as a service
+
+What is the main reason for that?
+In the software as a service model, every client is a continuous revenue stream, allowing us to profit continuously as long as they keep using our service. It also increases attractivity by decreasing the burden on the clients for deploying the system, though at the cost of an increased expense. We have determined that the pros should outweigh the cons for our clients, as the kind of system which can benefit from a tagging system is one which contains large a volume of content and therefore must already be at a minimum scale, implying high availability of resources for the client and therefore greater affordibility of the cost of our service. The SaaS model also increases affordability for a client who is not sure whether they really need our service in the long term, or has limited initial investment, as it comes with a reduced up-front cost. This model will require us to maintain our own servers to run the system on, but with an appropriate pricing strategy we can ensure the cost of that is outweighed by the increased profits. Furthermore, full control of the platform on which we deploy reduces the burden of ensuring portability of our system, reducing the amount of work that is necessary before we become profitable.
+
+Deploying our software on a separate server from our clients' machines comes with the cost of increasing latency between queries and responses, but modern network speeds reduce it to an acceptable amount and using dedicated hardware counteracts this effect by avoiding increased processing times due to suboptimal hardware configurations or systems overloaded by other software running on the same machine. -->
+
+
+
+
+
+
 
 # Ex - Quality Attribute Scenario
 
