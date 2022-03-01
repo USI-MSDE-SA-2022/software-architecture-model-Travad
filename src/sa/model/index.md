@@ -84,76 +84,85 @@ Exceed: >2 ADR
 
 ## ADR #1
 
-### 1. What did you decide?
+1. What did you decide?
 <!-- Give a short title of solved problem and solution -->
 I decided to adopt an external product as the go-to tool to develop the company dashboard.
 
-### 2. What was the context for your decision?
+2. What was the context for your decision?
 <!-- What is the goal you are trying to achieve? -->
 <!-- What are the constraints? -->
 <!-- What is the scope of your decision? Does it affect the entire architecture? -->
-This decision boils down to decide on whether to adopt a third-party application or build one from scratch. The factors involved in this decision are mainly to keep data consistent across users, make sure that multiple users can access the product concurrently as well as to provide simple yet captivating visualization to the final user. To consider is also that the data of the client is stored in a Microsoft SQL Server database. This decision deeply influences the choices on the expertise needed to develop the project as well as the technology to adopt.
+This decision is between the adoption of a third-party application or whether to build one from scratch. The factors involved in this decision are mainly to keep data consistent across users, make sure that multiple users can access the product concurrently as well as to provide simple yet captivating visualization to the final user. To consider is also that the data of the client is stored in a Microsoft SQL Server database. This decision deeply influences the choices on the expertise needed to develop the project as well as the technology to adopt.
 
-### 3. What is the problem you are trying to solve?
+3. What is the problem you are trying to solve?
 <!-- You may want to articulate the problem in form of a question. -->
 Would it be better to adopt an already existing solution on top of which
 we can build our final product or should we opt for an in-house solution?
 
-### 4. Which alternative options did you consider?
+4. Which alternative options did you consider?
 <!-- List at least 3 options -->
-* Internal solution: an Office Adds-in for Excel
-* Internal solution: a web framework solution 
-* External solution: Microsoft Power BI
+1. Internal solution: an Office Adds-in for Excel
+2. Internal solution: a web framework solution 
+3. External solution: Microsoft Power BI
 
-### 5. Which one did you choose?
+5. Which one did you choose?
 <!-- Pick one of the options as the outcome of your decision -->
 I picked to go for the external solution and therefore adopt the Microsoft Power BI platform.
 
-### 6. What is the main reason for that?
+6. What is the main reason for that?
 <!-- List the positive consequences (pros) of your decision: -->
 <!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
 Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. Besides the possibility to share the dashboard with multiple users in real-time, the killer feature of this solution is the ability to translate natural language requests for scouting data. The tool provides a connector to extract data from Microsoft SQL database. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it also grants low costs. Providing the same features with a solution built from scratch might results in far greater costs and might also provide less features. On the other hand, it would grant more flexibility when it comes to personalize the dashboard for ad-hoc analyses.
 
 ## ADR #2
 
-### 1. What did you decide?
+1. What did you decide?
 <!-- Give a short title of solved problem and solution -->
-<!-- Allow the download of Excel for the data that is visualized on the dashboard >
+<!-- Allow the download of Excel for the data that is visualized on the dashboard > -->
+Allow the download of visualized data directly from the dashboard in Excel format. 
 
 ### 2. What was the context for your decision?
 <!-- What is the goal you are trying to achieve? -->
 <!-- What are the constraints? -->
 <!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The context of this decision is to allow the user to download data directly from the dashboard so to enable further or even ad-hoc analysis on a specific context. It should be made simple for the user to use (e.g. an Excel icon button link to click) but it should not have an impact on the visualizations, which clearly has the priority. There is no impact on the architectural side of the application.
 
 ### 3. What is the problem you are trying to solve?
 <!-- You may want to articulate the problem in form of a question. -->
+Introduce flexibility in the data analysis process for the user. 
 
 ### 4. Which alternative options did you consider?
 <!-- List at least 3 options -->
+1. An external service that retrieve data directly from the database and produce an ad-hoc Excel file.
+2. A Microsoft Power BI plug-in service
+3. 
 
 ### 5. Which one did you choose?
 <!-- Pick one of the options as the outcome of your decision -->
+The Microsoft Power BI plug-in solution
 
 ### 6. What is the main reason for that?
 <!-- List the positive consequences (pros) of your decision: -->
-<!-- quality improvement
-satisfaction of external constraint
-If any, list the negative consequences (cons)
-quality degradation -->
+<!-- quality improvement satisfaction of external constraint If any, list the negative consequences (cons) quality degradation -->
+This decision will allow the user to perform further analysis on any piece of information that is identified from the visualizations provided. 
+
+A clear negative consequence of this decision is the cost involved, as it consists of a premium SaaS feature of the Microsoft Power BI software.
 
 ## ADR #3
 
 ### 1. What did you decide?
 <!-- Give a short title of solved problem and solution -->
-<!-- >
+Provide additional security thanks to 2-factors authentication
 
 ### 2. What was the context for your decision?
 <!-- What is the goal you are trying to achieve? -->
 <!-- What are the constraints? -->
 <!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The current infrastructure of the company is built in such a way that information security is clearly a priority. The goal here is to keep information protected yet easily accessible. However, protecting information often introduces slowtimes and reduces the product usability. Nevertheless, as the client is particularly sensible to this topic, reduced usability should not represent a big problem.
 
 ### 3. What is the problem you are trying to solve?
 <!-- You may want to articulate the problem in form of a question. -->
+
 
 ### 4. Which alternative options did you consider?
 <!-- List at least 3 options -->
