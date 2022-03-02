@@ -176,7 +176,7 @@ Multi-factor authentication for Power BI.
 ### 6. What is the main reason for that?
 <!-- List the positive consequences (pros) of your decision: -->
 <!-- quality improvement satisfaction of external constraint If any, list the negative consequences (cons) quality degradation -->
-Two-factors authentication adds a layer of protection as to ensure the identify of the user and that the user has authorization to access the dashboard. On the negative side, it decreases usability and might have an impact on the usage frequency of the dashboard. 
+Two-factors authentication adds a layer of protection as to ensure the identify of the user and that the user has authorization to access the dashboard. On the other hand, it decreases usability and might have an impact on the usage frequency of the dashboard. 
 
 
 <!-- ADR #1
