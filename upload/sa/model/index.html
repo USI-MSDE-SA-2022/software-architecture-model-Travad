@@ -330,53 +330,7 @@ will be built using ASP.NET Core Framework (C#) and SQL Server as the database t
 <h3 id="6-what-is-the-main-reason-for-that-2">6. What is the main reason for that?</h3>
 <!-- List the positive consequences (pros) of your decision: -->
 <!-- quality improvement satisfaction of external constraint If any, list the negative consequences (cons) quality degradation -->
-<p>Two-factors authentication adds a layer of protection as to ensure the identify of the user and that the user has authorization to access the dashboard. On the negative side, it decreases usability and might have an impact on the usage frequency of the dashboard. </p>
-<!-- ADR #1
-Author: Sophie Reidl
-
-1.1 Decision: The application will be built as a mobile application.
-
-1.2 Context of decision: The goal of this decision process is to find the optimal form of application that ideally supports the idea and the requirements of the Smart Reminder application. The requirement that is especially important to take into account here is that a reminder should be sent and also reach the user immediately if he is at the right place. The decision made in this regard is crucial for building the whole architecture and affects almost all following decisions.
-
-1.3 Problem to be solved: Which kind of application should the Smart Reminder be?
-
-1.4 Alternatives:
-
-Web application
-Desktop application
-Mobile application
-1.5 Chosen alternative: Mobile application
-
-1.6 Main reason for decision: As the concept of this application is based on knowing where the user currently is (to send the correct reminders), the only suitable option is the mobile application. Smartphones are carried around and are frequently checked by users, which makes them the optimal platform to fullfil the requirement of checking the current location of the user in real time. Also the chances that the user reads the reminder when it should reach him is maximized when choosing this option. A downside of this decision is that the application will most likely not be accessible to all users (either iOS or Android use -->
-
-<!-- ADR #1
-Author: Marco Tereh
-
-Commercialisation: software as a service
-
-What was the context for your decision?
-In creating this system we must consider how to make it profitable, or at least not unprofitable. Thus it is necessary to consider how we sell it. We choose a software as a service model as that allows us to profit continuously from every client. This requires us to expend additional resources to deploy and maintain the system, but gives us greater control of the platform we are deployed on, decreasing the requirements on portability.
-
-What is the problem you are trying to solve?
-How do we make money from this?
-
-Which alternative options did you consider?
-one-time purchase of software package, software as a service
-
-Which one did you choose?
-software as a service
-
-What is the main reason for that?
-In the software as a service model, every client is a continuous revenue stream, allowing us to profit continuously as long as they keep using our service. It also increases attractivity by decreasing the burden on the clients for deploying the system, though at the cost of an increased expense. We have determined that the pros should outweigh the cons for our clients, as the kind of system which can benefit from a tagging system is one which contains large a volume of content and therefore must already be at a minimum scale, implying high availability of resources for the client and therefore greater affordibility of the cost of our service. The SaaS model also increases affordability for a client who is not sure whether they really need our service in the long term, or has limited initial investment, as it comes with a reduced up-front cost. This model will require us to maintain our own servers to run the system on, but with an appropriate pricing strategy we can ensure the cost of that is outweighed by the increased profits. Furthermore, full control of the platform on which we deploy reduces the burden of ensuring portability of our system, reducing the amount of work that is necessary before we become profitable.
-
-Deploying our software on a separate server from our clients' machines comes with the cost of increasing latency between queries and responses, but modern network speeds reduce it to an acceptable amount and using dedicated hardware counteracts this effect by avoiding increased processing times due to suboptimal hardware configurations or systems overloaded by other software running on the same machine. -->
-
-
-
-
-
-
-
+<p>Two-factors authentication adds a layer of protection as to ensure the identify of the user and that the user has authorization to access the dashboard. On the other hand, it decreases usability and might have an impact on the usage frequency of the dashboard. </p>
 <h1 id="ex---quality-attribute-scenario"><span class='task'>3.</span>  Quality Attribute Scenario</h1>
 <section class="instructions"><ol>
 <li><p>Pick a scenario for a specific quality attribute. Describe it with natural language.</p>
@@ -389,14 +343,66 @@ Deploying our software on a separate server from our clients' machines comes wit
 <p><em>Environment</em>: context under which stimulus occurred (e.g., build, test, deployment, startup, normal operation, overload, failure, attack, change)</p>
 <p><em>Response</em>: observable result of the stimulus</p>
 <p><em>Measure</em>: benchmark or target value defining a successful response</p>
-<section class="pass"><span>&starf;&star;&star;: </span>3 scenarios</section><section class="ok"><span>&starf;&starf;&star;: </span>&gt;3 scenarios</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 scenarios using challenging qualities</section></section><h2 id="example-scenario">Example Scenario</h2>
-<p>Quality: <em>Recoverability</em></p>
-<p>Scenario: In case of power failure, rebooting the system should take up to 20 seconds.</p>
-<img src="./puml_e1.svg"><h1 id="ex---quality-attribute-tradeoff"><span class='task'>4.</span>  Quality Attribute Tradeoff</h1>
+<section class="pass"><span>&starf;&star;&star;: </span>3 scenarios</section><section class="ok"><span>&starf;&starf;&star;: </span>&gt;3 scenarios</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 scenarios using challenging qualities</section></section><!-- ## Example Scenario
+
+Quality: _Recoverability_
+
+Scenario: In case of power failure, rebooting the system should take up to 20 seconds.
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "After Power has been restored" {
+
+rectangle "Admin" as Source
+rectangle "max 20s" as Measure
+
+Source -> [System] : "Boot"
+
+[System] -> [Measure] : "Online"
+
+}
+
+@enduml
+```
+  -->
+
+<h2 id="scenario-1">Scenario 1</h2>
+<p>Quality: <em>Compatibility</em></p>
+<p>Scenario: The user should be able to access the dashboard from any device.</p>
+<img src="./puml_e1.svg"><h2 id="scenario-2">Scenario 2</h2>
+<p>Quality: <em>Security</em></p>
+<p>Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts </p>
+<img src="./puml_e2.svg"><h2 id="scenario-3">Scenario 3</h2>
+<p>Quality: <em>Capacity</em></p>
+<p>Scenario: The system should be able to handle requests from the maximum user&#39;s capacity of 100 users simultaneously    </p>
+<img src="./puml_e3.svg"><h2 id="scenario-4">Scenario 4</h2>
+<p>Quality: <em>Ease of Integration</em></p>
+<p>Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API</p>
+<img src="./puml_e4.svg"><h2 id="scenario-5">Scenario 5</h2>
+<p>Quality: <em>Ease of Support</em></p>
+<p>Scenario: In case of service failure, the user should receive support within 30 minutes </p>
+<img src="./puml_e5.svg"><h2 id="scenario-6">Scenario 6</h2>
+<p>Quality: <em>Affordability</em></p>
+<p>Scenario: As per customer request, the software should be ready within 4 months</p>
+<img src="./puml_e6.svg"><h2 id="scenario-7">Scenario 7</h2>
+<p>Quality: <em>Privacy</em></p>
+<p>Scenario: As per customer request, when an account is deleted, all the related data should be deleted immediately</p>
+<img src="./puml_e7.svg"><h1 id="ex---quality-attribute-tradeoff"><span class='task'>4.</span>  Quality Attribute Tradeoff</h1>
 <section class="instructions"><p>Pick a free combination of two qualities on the <a href="https://usi365.sharepoint.com/:x:/s/MSDE-2022-SoftwareArchitecture/ESVksoXVgMNHtKBKrIwatMYBqorOFaKjxnoqssEy0gNPCg?e=81W7SI">map</a> and write your name to claim it.</p>
 <p>Then write a short text giving an example for the tradeoff in this assignment.</p>
 <section class="pass"><span>&starf;&star;&star;: </span>1 unique trade-off</section><section class="ok"><span>&starf;&starf;&star;: </span>2 trade-offs</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 trade-offs</section></section><h2 id="portability-vs-performance-example">Portability vs. Performance (Example)</h2>
 <p>Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.</p>
+<h2 id="compatibility-vs-stability">Compatibility vs. Stability</h2>
+<p>Ensuring that the user can access an application from multiple devices might lead to an increase in software&#39;s usability and flexibility, but it could make a system unstable from a design point of view. On the other hand, giving preference to stability over everything else introduces precise development guidelines, but might lead to lack of</p>
+<h2 id="feasibility-vs-defensibility">Feasibility vs. Defensibility</h2>
+<p>On one hand, one would ensure that the software is protected from every possible external attack. To achieve this objective, one would need a great investment and time, which would make the system less feasible. On the other hand, a developer would like to make the system affordable and with the lowest time possible to push it to market, compromising defensibility.</p>
+<h2 id="reliability-vs-scalability">Reliability vs. Scalability</h2>
+<p>The underlying objective of a developer is to make a system reliable, so that failures happens unfrequently. Nevertheless, if the focus shifts to scalable application, reliability might deteriorate as inevitably to deal with more requests or more users, failures would naturally occur more frequently.</p>
 <h1 id="ex---feature-modeling"><span class='task'>5.</span>  Feature Modeling</h1>
 <section class="instructions"><p>In the context of your chosen project domain, describe your domain using a feature model.</p>
 <p>The feature model should be correctly visualized using the following template:</p>
@@ -420,7 +426,7 @@ Deploying our software on a separate server from our clients' machines comes wit
 <p>You can add additional process views showing how other use cases can be satisfied by the same set of components.</p>
 <p>This assignment will focus on modularity-related decisions, we will worry about deployment and the container view later.</p>
 <p>Here is a PlantUML example logical view and process view.</p>
-<img src="./puml_e2.svg"><img src="./puml_e3.svg"><section class="hint"><span>Hint: </span>How to connect sub-components to other external components? Use this pattern.</section><img src="./puml_e4.svg"><section class="pass"><span>&starf;&star;&star;: </span>6 components (1 decomposed), 1 use case/process view</section><section class="ok"><span>&starf;&starf;&star;: </span>6 components (1 decomposed), 2 use case/process view</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 components (&gt;1 decomposed) and &gt;2 use case/process view</section></section><h2 id="logical-view">Logical View</h2>
+<img src="./puml_e8.svg"><img src="./puml_e9.svg"><section class="hint"><span>Hint: </span>How to connect sub-components to other external components? Use this pattern.</section><img src="./puml_e10.svg"><section class="pass"><span>&starf;&star;&star;: </span>6 components (1 decomposed), 1 use case/process view</section><section class="ok"><span>&starf;&starf;&star;: </span>6 components (1 decomposed), 2 use case/process view</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 components (&gt;1 decomposed) and &gt;2 use case/process view</section></section><h2 id="logical-view">Logical View</h2>
 <h2 id="process-views">Process Views</h2>
 <p>Use Case: </p>
 <h1 id="ex---component-model-bottom-up"><span class='task'>8.</span>  Component Model: Bottom-Up</h1>
