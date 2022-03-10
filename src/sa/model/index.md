@@ -269,7 +269,7 @@ rectangle "When a user connects to the platform" {
 rectangle "User" as Source
 rectangle "Design consistency metrics" as Measure
 
-Source -> [Device] : "Connects through any"
+Source -> [Device] : "Connects"
 
 [Device] -> [Measure] : "Visualize"
 
@@ -282,7 +282,7 @@ Source -> [Device] : "Connects through any"
 
 Quality: _Security_
 
-Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts 
+Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts. 
 
 ```puml
 @startuml
@@ -309,7 +309,7 @@ Source -> [System] : "Authenticate"
 
 Quality: _Capacity_
 
-Scenario: The system should be able to handle requests from the maximum user's capacity of 100 users simultaneously    
+Scenario: The system should be able to handle requests from the maximum user's capacity of 100 users simultaneously.    
 
 ```puml
 @startuml
@@ -325,7 +325,7 @@ rectangle "100 users" as Measure
 
 Source -> [System] : "Connects"
 
-[System] -> [Measure] : "Responds to"
+[System] -> [Measure] : "Responds"
 
 }
 
@@ -336,7 +336,7 @@ Source -> [System] : "Connects"
 
 Quality: _Ease of Integration_
 
-Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API
+Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API.
 
 ```puml
 @startuml
@@ -350,9 +350,9 @@ rectangle "When a program issues a request to the API" {
 rectangle "Program" as Source
 rectangle "The same base route (common prefix)" as Measure
 
-Source -> [System] : "Issues a request to the"
+Source -> [System] : "Issues a request"
 
-[System] -> [Measure] : "Replies using"
+[System] -> [Measure] : "Replies"
 
 }
 
@@ -363,7 +363,7 @@ Source -> [System] : "Issues a request to the"
 
 Quality: _Ease of Support_
 
-Scenario: In case of service failure, the user should receive support within 30 minutes 
+Scenario: In case of service failure, the user should receive support within 30 minutes. 
 
 ```puml
 @startuml
@@ -390,7 +390,7 @@ Source -> [System] : "Interacts with the"
 
 Quality: _Affordability_
 
-Scenario: As per customer request, the software should be ready within 4 months
+Scenario: As per customer request, the software should be ready within 4 months.
 
 ```puml
 @startuml
@@ -417,7 +417,7 @@ Source -> [System] : "Requests"
 
 Quality: _Privacy_
 
-Scenario: As per customer request, when an account is deleted, all the related data should be deleted immediately
+Scenario: As per customer request, when an account is canceled, all the related data should be deleted immediately.
 
 ```puml
 @startuml
@@ -456,21 +456,21 @@ Exceed: >2 trade-offs
 
 }
 
-## Portability vs. Performance (Example)
+<!-- ## Portability vs. Performance (Example)
 
-Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.
-
-## Compatibility vs. Stability
-
-Ensuring that the user can access an application from multiple devices might lead to an increase in software's usability and flexibility, but it could make a system unstable from a design point of view. On the other hand, giving preference to stability over everything else introduces precise development guidelines, but might lead to lack of
+Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance. -->
 
 ## Feasibility vs. Defensibility
 
-On one hand, one would ensure that the software is protected from every possible external attack. To achieve this objective, one would need a great investment and time, which would make the system less feasible. On the other hand, a developer would like to make the system affordable and with the lowest time possible to push it to market, compromising defensibility.
+On one hand, we need to ensure that the software is protected from every possible external attack. However, to achieve this objective, time and money investments are critical, which would make the system less feasible. On the other hand, a developer would like to build an affordable architecture with the shortest possible time to market, often compromising defensibility.
 
 ## Reliability vs. Scalability
 
-The underlying objective of a developer is to make a system reliable, so that failures happens unfrequently. Nevertheless, if the focus shifts to scalable application, reliability might deteriorate as inevitably to deal with more requests or more users, failures would naturally occur more frequently.
+During development phase, one of the underlying objective of a developer is to make a system reliable, so that failures happen unfrequently. Nevertheless, if the focus shifts to scalable application, reliability might deteriorate. The software would have to deal with an increasing amount of requests and as such, failures would naturally occur more frequently.
+
+## Compatibility vs. Modifiability
+
+Ensuring that the user can access an application from multiple devices might lead to an increase in software's usability and flexibility, but it could also introduce design complexity and make it difficult to update the software. On the other hand, the developer could add additional features to the architecture, but would need to make sure that these changes are applied uniformly across the whole range of devices a user can use.
 
 # Ex - Feature Modeling
 

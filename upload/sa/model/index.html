@@ -376,33 +376,35 @@ Source -> [System] : "Boot"
 <p>Scenario: The user should be able to access the dashboard from any device.</p>
 <img src="./puml_e1.svg"><h2 id="scenario-2">Scenario 2</h2>
 <p>Quality: <em>Security</em></p>
-<p>Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts </p>
+<p>Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts. </p>
 <img src="./puml_e2.svg"><h2 id="scenario-3">Scenario 3</h2>
 <p>Quality: <em>Capacity</em></p>
-<p>Scenario: The system should be able to handle requests from the maximum user&#39;s capacity of 100 users simultaneously    </p>
+<p>Scenario: The system should be able to handle requests from the maximum user&#39;s capacity of 100 users simultaneously.    </p>
 <img src="./puml_e3.svg"><h2 id="scenario-4">Scenario 4</h2>
 <p>Quality: <em>Ease of Integration</em></p>
-<p>Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API</p>
+<p>Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API.</p>
 <img src="./puml_e4.svg"><h2 id="scenario-5">Scenario 5</h2>
 <p>Quality: <em>Ease of Support</em></p>
-<p>Scenario: In case of service failure, the user should receive support within 30 minutes </p>
+<p>Scenario: In case of service failure, the user should receive support within 30 minutes. </p>
 <img src="./puml_e5.svg"><h2 id="scenario-6">Scenario 6</h2>
 <p>Quality: <em>Affordability</em></p>
-<p>Scenario: As per customer request, the software should be ready within 4 months</p>
+<p>Scenario: As per customer request, the software should be ready within 4 months.</p>
 <img src="./puml_e6.svg"><h2 id="scenario-7">Scenario 7</h2>
 <p>Quality: <em>Privacy</em></p>
-<p>Scenario: As per customer request, when an account is deleted, all the related data should be deleted immediately</p>
+<p>Scenario: As per customer request, when an account is canceled, all the related data should be deleted immediately.</p>
 <img src="./puml_e7.svg"><h1 id="ex---quality-attribute-tradeoff"><span class='task'>4.</span>  Quality Attribute Tradeoff</h1>
 <section class="instructions"><p>Pick a free combination of two qualities on the <a href="https://usi365.sharepoint.com/:x:/s/MSDE-2022-SoftwareArchitecture/ESVksoXVgMNHtKBKrIwatMYBqorOFaKjxnoqssEy0gNPCg?e=81W7SI">map</a> and write your name to claim it.</p>
 <p>Then write a short text giving an example for the tradeoff in this assignment.</p>
-<section class="pass"><span>&starf;&star;&star;: </span>1 unique trade-off</section><section class="ok"><span>&starf;&starf;&star;: </span>2 trade-offs</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 trade-offs</section></section><h2 id="portability-vs-performance-example">Portability vs. Performance (Example)</h2>
-<p>Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.</p>
-<h2 id="compatibility-vs-stability">Compatibility vs. Stability</h2>
-<p>Ensuring that the user can access an application from multiple devices might lead to an increase in software&#39;s usability and flexibility, but it could make a system unstable from a design point of view. On the other hand, giving preference to stability over everything else introduces precise development guidelines, but might lead to lack of</p>
+<section class="pass"><span>&starf;&star;&star;: </span>1 unique trade-off</section><section class="ok"><span>&starf;&starf;&star;: </span>2 trade-offs</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;2 trade-offs</section></section><!-- ## Portability vs. Performance (Example)
+
+Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance. -->
+
 <h2 id="feasibility-vs-defensibility">Feasibility vs. Defensibility</h2>
-<p>On one hand, one would ensure that the software is protected from every possible external attack. To achieve this objective, one would need a great investment and time, which would make the system less feasible. On the other hand, a developer would like to make the system affordable and with the lowest time possible to push it to market, compromising defensibility.</p>
+<p>On one hand, we need to ensure that the software is protected from every possible external attack. However, to achieve this objective, time and money investments are critical, which would make the system less feasible. On the other hand, a developer would like to build an affordable architecture with the shortest possible time to market, often compromising defensibility.</p>
 <h2 id="reliability-vs-scalability">Reliability vs. Scalability</h2>
-<p>The underlying objective of a developer is to make a system reliable, so that failures happens unfrequently. Nevertheless, if the focus shifts to scalable application, reliability might deteriorate as inevitably to deal with more requests or more users, failures would naturally occur more frequently.</p>
+<p>During development phase, one of the underlying objective of a developer is to make a system reliable, so that failures happen unfrequently. Nevertheless, if the focus shifts to scalable application, reliability might deteriorate. The software would have to deal with an increasing amount of requests and as such, failures would naturally occur more frequently.</p>
+<h2 id="compatibility-vs-modifiability">Compatibility vs. Modifiability</h2>
+<p>Ensuring that the user can access an application from multiple devices might lead to an increase in software&#39;s usability and flexibility, but it could also introduce design complexity and make it difficult to update the software. On the other hand, the developer could add additional features to the architecture, but would need to make sure that these changes are applied uniformly across the whole range of devices a user can use.</p>
 <h1 id="ex---feature-modeling"><span class='task'>5.</span>  Feature Modeling</h1>
 <section class="instructions"><p>In the context of your chosen project domain, describe your domain using a feature model.</p>
 <p>The feature model should be correctly visualized using the following template:</p>
