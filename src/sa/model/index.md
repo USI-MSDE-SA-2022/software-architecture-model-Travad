@@ -305,6 +305,33 @@ Source -> [System] : "Authenticate"
 @enduml
 ```
 
+{.feedback
+
+Make the refined scenario more precise
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "two-factor-authentication" {
+
+rectangle "User" as Source
+rectangle "Max attempts reached" as Measure
+
+Source -> [System] : "Incorrect Authentication (3x)"
+
+[System] -> [Measure] : "Failure"
+
+}
+
+@enduml
+```
+
+}
+
 ## Scenario 3
 
 Quality: _Capacity_
@@ -331,6 +358,34 @@ Source -> [System] : "Connects"
 
 @enduml
 ```
+
+
+{.feedback
+
+Make the refined scenario more precise
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Normal Operation (with sufficient resources)" {
+
+rectangle "Users" as Source
+rectangle "Acceptable Performance" as Measure
+
+Source -> [System] : "100 simultaneous connections"
+
+[System] -> [Measure] : "Responds"
+
+}
+
+@enduml
+```
+
+}
 
 ## Scenario 4
 
@@ -389,6 +444,16 @@ Source -> [System] : "Interacts with the"
 ## Scenario 6
 
 Quality: _Affordability_
+
+{.feedback
+
+Better quality:
+
+- Time to Market
+
+since no budget or cost is mentioned in the scenario
+
+}
 
 Scenario: As per customer request, the software should be ready within 4 months.
 
