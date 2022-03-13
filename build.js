@@ -47,6 +47,7 @@ fs.outputJsonSync('package.json', package_json, { spaces: 2 });
 
 let puml_count = 0;
 let epuml_count = 0;
+let fml_count = 0;
 
 const renderer = new marked.Renderer();
 
@@ -129,6 +130,18 @@ renderer.image = function(href, title, text) {
         })
 
         return `<img src="./puml_${i}.svg" alt="${text}">`;
+
+    }
+
+    if (href.endsWith(".fml")) {
+
+        let i = fml_count++;
+
+        const fml_output = renderer._out_folder+"fml_"+i+".svg";
+
+        run("node fml " + href.replace("./",renderer._in_folder) + " " + fml_output);
+
+        return `<img src="./fml_${i}.svg" alt="${text}">`;
 
     }
 
