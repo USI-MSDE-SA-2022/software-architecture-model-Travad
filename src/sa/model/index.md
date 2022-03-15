@@ -13,7 +13,6 @@ When you are done with each task, please push so we can give you feedback about 
 We begin by selecting a suitable project domain.
 
 
-
 # Ex - Domain Selection 
 
 {.instructions
@@ -291,21 +290,21 @@ skinparam componentStyle rectangle
 skinparam monochrome true
 skinparam shadowing false
 
-rectangle "When a user authenticate" {
+rectangle "2-factor authentication" {
 
 rectangle "User" as Source
-rectangle "Max 3 attempts" as Measure
+rectangle "Max available attempts reached" as Measure
 
-Source -> [System] : "Authenticate"
+Source -> [System] : "(3x) Incorrect Authentications"
 
-[System] -> [Measure] : "Checks"
+[System] -> [Measure] : "Error"
 
 }
 
 @enduml
 ```
 
-{.feedback
+<!-- {.feedback
 
 Make the refined scenario more precise
 
@@ -330,7 +329,7 @@ Source -> [System] : "Incorrect Authentication (3x)"
 @enduml
 ```
 
-}
+} -->
 
 ## Scenario 3
 
@@ -345,12 +344,12 @@ skinparam componentStyle rectangle
 skinparam monochrome true
 skinparam shadowing false
 
-rectangle "When each user connects simultaneously" {
+rectangle "Normal Operation (with sufficient resources)" {
 
 rectangle "Users" as Source
-rectangle "100 users" as Measure
+rectangle "Seamless performance" as Measure
 
-Source -> [System] : "Connects"
+Source -> [System] : "100 simultaneous connections"
 
 [System] -> [Measure] : "Responds"
 
@@ -360,7 +359,7 @@ Source -> [System] : "Connects"
 ```
 
 
-{.feedback
+<!-- {.feedback
 
 Make the refined scenario more precise
 
@@ -385,7 +384,7 @@ Source -> [System] : "100 simultaneous connections"
 @enduml
 ```
 
-}
+} -->
 
 ## Scenario 4
 
@@ -443,9 +442,9 @@ Source -> [System] : "Interacts with the"
 
 ## Scenario 6
 
-Quality: _Affordability_
+Quality: _Time To Market_
 
-{.feedback
+<!-- {.feedback
 
 Better quality:
 
@@ -453,7 +452,7 @@ Better quality:
 
 since no budget or cost is mentioned in the scenario
 
-}
+} -->
 
 Scenario: As per customer request, the software should be ready within 4 months.
 

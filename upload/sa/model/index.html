@@ -377,17 +377,81 @@ Source -> [System] : "Boot"
 <img src="./puml_e1.svg"><h2 id="scenario-2">Scenario 2</h2>
 <p>Quality: <em>Security</em></p>
 <p>Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts. </p>
-<img src="./puml_e2.svg"><h2 id="scenario-3">Scenario 3</h2>
+<img src="./puml_e2.svg"><!-- {.feedback
+
+Make the refined scenario more precise
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "two-factor-authentication" {
+
+rectangle "User" as Source
+rectangle "Max attempts reached" as Measure
+
+Source -> [System] : "Incorrect Authentication (3x)"
+
+[System] -> [Measure] : "Failure"
+
+}
+
+@enduml
+```
+
+} -->
+
+<h2 id="scenario-3">Scenario 3</h2>
 <p>Quality: <em>Capacity</em></p>
 <p>Scenario: The system should be able to handle requests from the maximum user&#39;s capacity of 100 users simultaneously.    </p>
-<img src="./puml_e3.svg"><h2 id="scenario-4">Scenario 4</h2>
+<img src="./puml_e3.svg"><!-- {.feedback
+
+Make the refined scenario more precise
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Normal Operation (with sufficient resources)" {
+
+rectangle "Users" as Source
+rectangle "Acceptable Performance" as Measure
+
+Source -> [System] : "100 simultaneous connections"
+
+[System] -> [Measure] : "Responds"
+
+}
+
+@enduml
+```
+
+} -->
+
+<h2 id="scenario-4">Scenario 4</h2>
 <p>Quality: <em>Ease of Integration</em></p>
 <p>Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API.</p>
 <img src="./puml_e4.svg"><h2 id="scenario-5">Scenario 5</h2>
 <p>Quality: <em>Ease of Support</em></p>
 <p>Scenario: In case of service failure, the user should receive support within 30 minutes. </p>
 <img src="./puml_e5.svg"><h2 id="scenario-6">Scenario 6</h2>
-<p>Quality: <em>Affordability</em></p>
+<p>Quality: <em>Time To Market</em></p>
+<!-- {.feedback
+
+Better quality:
+
+- Time to Market
+
+since no budget or cost is mentioned in the scenario
+
+} -->
+
 <p>Scenario: As per customer request, the software should be ready within 4 months.</p>
 <img src="./puml_e6.svg"><h2 id="scenario-7">Scenario 7</h2>
 <p>Quality: <em>Privacy</em></p>
