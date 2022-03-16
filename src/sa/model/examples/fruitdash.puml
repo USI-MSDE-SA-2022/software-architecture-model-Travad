@@ -1,0 +1,103 @@
+@startuml
+
+' Layer 0 rectangle
+rectangle "FruitDash" as FD
+
+' Layer 1 rectangles
+rectangle "Authentication" as AUTHC
+rectangle "Authorization" as AUTHR
+rectangle "Home Page" as HP
+rectangle "Graph Extractor" as GE
+rectangle "Natural Language Based Search" as NLBS
+
+FD --* AUTHC
+FD --* AUTHR
+FD --* HP
+' FD --* DD
+' FD --* DE
+FD --0 GE
+FD --0 NLBS
+
+' Layer 2 rectangles
+rectangle "1-factor" as 1F
+rectangle "2-factors" as 2F
+AUTHC *-- 1F
+AUTHC *-- 2F
+2F -[dotted]> 1F : require
+
+rectangle "Role" as ROLE
+AUTHR *-- ROLE
+
+rectangle "Search" as SEARCH
+rectangle "Data Displayer" as DD
+rectangle "Data Extractor" as DE
+rectangle "KPI" as KPI
+HP 0-- SEARCH
+HP *-- KPI
+HP *-- DD
+HP *-- DE
+NLBS -[dotted]> SEARCH : requires
+
+rectangle "Graph provider" as GP
+GE *-- GP
+
+rectangle "Query" as QUE
+NLBS *-- QUE
+
+' Layer 3 rectangles
+rectangle "Password" as PWD
+rectangle "Biometrics" AS BIO
+rectangle "SMS Code" as SMS
+rectangle "Email Code" as EMAIL
+rectangle "Security Questions" as SQ
+1F o-- PWD
+1F o-- BIO
+2F o-- SMS
+2F o-- EMAIL
+2F o-- SQ
+
+rectangle "Tabular data" as LD
+rectangle "Visualizations" as VIS
+DD *-- LD
+DD *-- VIS
+
+rectangle "Analyst" as ANA
+rectangle "Manager" as MAN
+rectangle "Administrator" as ADMIN
+ROLE o-- ANA
+ROLE o-- MAN
+ROLE o-- ADMIN
+
+rectangle "User input" as UI
+rectangle "App generated suggestion" as AGS
+QUE *-- UI
+QUE *-- AGS
+
+rectangle "User selected" as US
+GP *-- US
+
+' Layer 4 rectangles
+rectangle "Approvals" as APPR
+rectangle "Role assignment" as ROASS
+MAN *-- APPR
+ADMIN O-- ROASS
+US -[dotted]> APPR : requires
+
+rectangle "Products" as PROD
+rectangle "Logistic" as LOG
+rectangle "Clients" as CLI
+LD *-- PROD
+LD *-- LOG
+LD *-- CLI
+
+rectangle "Most profitable clients" as MPC
+rectangle "Most ordered products" as MOP 
+rectangle "Running quaterly revenues" as RYR 
+KPI *-- MPC
+KPI *-- MOP
+KPI *-- RYR
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

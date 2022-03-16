@@ -290,7 +290,7 @@ skinparam componentStyle rectangle
 skinparam monochrome true
 skinparam shadowing false
 
-rectangle "2-factor authentication" {
+rectangle "Two-factors authentication" {
 
 rectangle "User" as Source
 rectangle "Max available attempts reached" as Measure
@@ -536,6 +536,7 @@ During development phase, one of the underlying objective of a developer is to m
 
 Ensuring that the user can access an application from multiple devices might lead to an increase in software's usability and flexibility, but it could also introduce design complexity and make it difficult to update the software. On the other hand, the developer could add additional features to the architecture, but would need to make sure that these changes are applied uniformly across the whole range of devices a user can use.
 
+<!-- TODO -->
 # Ex - Feature Modeling
 
 {.instructions
@@ -555,6 +556,8 @@ Good: Include at least 6 non-trivial features, which are all implemented by your
 Exceed: Include more than 8 non-trivial features, indicate which are found in your project and which belong to one competitor
 
 }
+
+![Fruith Dash Modelling](./examples/fruitdash.puml)
 
 
 # Ex - Context Diagram
@@ -577,7 +580,7 @@ Exceed: >1 User and >1 Dependency, with both incoming and outgoing dependencies
 
 }
 
-
+![Fruitdash Context Diagram](./examples/context_fd.puml)
 
 
 # Ex - Component Model: Top-Down
