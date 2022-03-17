@@ -20,5 +20,9 @@
     "clean": "rm -rf upload/*",
     "watch": "onchange src/** -- yarn build"
   },
+<<<<<<< HEAD
   "doc_build": 130
+=======
+  "doc_build": 168
+>>>>>>> bfac2700e300da9f1209f7cad4ef177b36ca8d0c
 }

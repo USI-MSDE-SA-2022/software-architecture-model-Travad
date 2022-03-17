@@ -1,0 +1,21 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(user_a, "Analyst", "")
+Person(user_m, "Manager", "")
+Person(user_ad, "Administrator", "")
+
+Rel(user_a, boundary, "Analyze",  "business data")
+Rel(user_m, boundary, "Sends", "approvals")
+Rel(user_ad, boundary, "Set", "roles")
+
+System_Boundary(boundary, "Dashboard") {
+
+}
+
+System_Ext(sql, "SQL Server Database")
+System_Ext(excl, "Excel Plug-in")
+
+Rel(boundary, sql, "Import/Export", "Orders, Clients, Logistic Data")
+Rel(boundary, excl, "Export", "Data Download Integration")
+@enduml
