@@ -1,5 +1,13 @@
 @startuml
 
+' Descriptors
+' rectangle "Exclusive" as EXCL #0AA60F
+' rectangle "Competition" as COMP #FF5733
+' rectangle "Both" as BOTH
+
+' EXCL *-- COMP
+' COMP *-- BOTH
+
 ' Layer 0 rectangle
 rectangle "FruitDash" as FD
 
@@ -7,8 +15,8 @@ rectangle "FruitDash" as FD
 rectangle "Authentication" as AUTHC
 rectangle "Authorization" as AUTHR
 rectangle "Home Page" as HP
-rectangle "Graph Extractor" as GE
-rectangle "Natural Language Based Search" as NLBS
+rectangle "Graph Extractor" as GE #0AA60F
+rectangle "Natural Language Based Search" as NLBS #FF5733
 
 FD --* AUTHC
 FD --* AUTHR
@@ -60,6 +68,7 @@ rectangle "Tabular data" as LD
 rectangle "Visualizations" as VIS
 DD *-- LD
 DD *-- VIS
+LD -[dotted]> VIS : requires
 
 rectangle "Analyst" as ANA
 rectangle "Manager" as MAN
@@ -80,7 +89,7 @@ GP *-- US
 rectangle "Approvals" as APPR
 rectangle "Role assignment" as ROASS
 MAN *-- APPR
-ADMIN O-- ROASS
+ADMIN *-- ROASS
 US -[dotted]> APPR : requires
 
 rectangle "Products" as PROD
@@ -97,7 +106,7 @@ KPI *-- MPC
 KPI *-- MOP
 KPI *-- RYR
 
-skinparam monochrome true
+skinparam monochrome false
 skinparam shadowing false
 skinparam defaultFontName Courier
 @enduml
