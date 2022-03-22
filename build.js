@@ -37,11 +37,11 @@ function run(cmd, cwd, done) {
 }
 
 
-const package_json = fs.readJsonSync('package.json');
+const build_json = fs.readJSONSync('build.json', { throws: false }) || {};
 
-package_json.doc_build = (package_json.doc_build || 0) + 1;
+build_json.doc_build = (build_json.doc_build || 0) + 1;
 
-fs.outputJsonSync('package.json', package_json, { spaces: 2 });
+fs.outputJsonSync('build.json', build_json, { spaces: 2 });
 
 
 
@@ -357,7 +357,7 @@ function buildDoc(changed, deleted, slide) {
         //console.log(e);
     }
 
-    md.meta.build = package_json.doc_build;
+    md.meta.build = build_json.doc_build;
     //md.meta.lecture = "Web Atelier 2020 ";
     md.meta.timestamp = new Date().toLocaleString();
 
@@ -370,7 +370,7 @@ function buildDoc(changed, deleted, slide) {
 
         md.meta.series = "";
 
-        let model = { title: slide, md: md.md, meta: md.meta, pid: slide + "." + package_json.build }
+        let model = { title: slide, md: md.md, meta: md.meta, pid: slide + "." + build_json.build }
 
         let mdout = `./upload/${slide}/index.html`;
 
