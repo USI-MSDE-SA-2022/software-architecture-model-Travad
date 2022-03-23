@@ -1,0 +1,22 @@
+@startuml
+title User access to the dashboard​
+
+participant "Identity Service" as IS
+participant "Dashboard" as DS
+participant "Database service​" as DBS
+participant "Data API​" as DAPI
+participant "Graph provider​" as GP
+participant "Data extractor​​" as DE
+
+IS -> DS: Grants access to the user
+DS -> GP: Retrieves the graphs calling the graph provider service ​
+GP -> DAPI: Requests the data​
+DAPI -> IS: Check authentication and authorization​
+IS -> DAPI: Provide authentication reply​
+DAPI -> DBS: Fetch the data​
+GP -> DS: Returns the rendered graphs​
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

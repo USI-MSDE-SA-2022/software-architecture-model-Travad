@@ -1,0 +1,20 @@
+@startuml
+title Role assignment from the admin​
+
+participant "Identity Service" as IS
+participant "Dashboard" as DS
+participant "Database service​" as DBS
+participant "Data API​" as DAPI
+participant "Graph provider​" as GP
+participant "Data extractor​​" as DE
+
+IS -> DS: Grants access to the user
+DS -> DAPI: Issues change of role for a particular user​
+DAPI -> IS: Check authentication and authorization for the admin​
+IS -> DAPI: Authentication and authorization approval​
+DAPI -> DS: Change of role confirmed​
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

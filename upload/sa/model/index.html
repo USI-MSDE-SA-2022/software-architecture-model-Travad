@@ -84,6 +84,12 @@
             margin-top: 2em;
         }
 
+        section.feedback {
+            padding: 2em;
+            background-color: rgb(92, 192, 223);
+            background-image: linear-gradient(1deg, white, transparent,rgba(255,255,255,0.5) 90%,transparent 100%);
+        }
+
         section.instructions {
             padding: 2em;
             background-color: rgb(255, 241, 196);
@@ -496,8 +502,14 @@ Developing an app natively for each OS is expensive and time consuming, but it b
 <p>This assignment will focus on modularity-related decisions, we will worry about deployment and the container view later.</p>
 <p>Here is a PlantUML example logical view and process view.</p>
 <img src="./puml_e8.svg"><img src="./puml_e9.svg"><section class="hint"><span>Hint: </span>How to connect sub-components to other external components? Use this pattern.</section><img src="./puml_e10.svg"><section class="pass"><span>&starf;&star;&star;: </span>6 components (1 decomposed), 1 use case/process view</section><section class="ok"><span>&starf;&starf;&star;: </span>6 components (1 decomposed), 2 use case/process view</section><section class="exceed"><span>&starf;&starf;&starf;: </span>&gt;6 components (&gt;1 decomposed) and &gt;2 use case/process view</section></section><h2 id="logical-view">Logical View</h2>
+<p><img src="./puml_4.svg" alt="FruitDash - Logical View"></p>
 <h2 id="process-views">Process Views</h2>
 <p>Use Case: </p>
+<p><img src="./puml_5.svg" alt="FruitDash - Process View 1"></p>
+<p>Use Case: </p>
+<p><img src="./puml_6.svg" alt="FruitDash - Process View 2"></p>
+<p>Use Case: </p>
+<p><img src="./puml_7.svg" alt="FruitDash - Process View 3"></p>
 <h1 id="ex---component-model-bottom-up"><span class='task'>8.</span>  Component Model: Bottom-Up</h1>
 <section class="instructions"><p>Within the context of your project domain, represent a model of your modular software architecture decomposed into components.</p>
 <p>To design this model you should attempt to buy and reuse as many components as possible.</p>
@@ -513,9 +525,9 @@ Developing an app natively for each OS is expensive and time consuming, but it b
 </ol>
 <p>Get started with one of these PlantUML templates, or you can come up with your own notation to describe the interfaces, as long as it includes all the necessary details.</p>
 <p>The first template describes separately the provided/required interfaces of each component. </p>
-<p><img src="./puml_4.svg" alt="Separate Required/Provided Interfaces"></p>
+<p><img src="./puml_8.svg" alt="Separate Required/Provided Interfaces"></p>
 <p>The second template annotates the logical view with the interface descriptions: less redundant, but needs the logical dependencies to be modeled to show which are the required interfaces.</p>
-<p><img src="./puml_5.svg" alt="Shared Interfaces"></p>
+<p><img src="./puml_9.svg" alt="Shared Interfaces"></p>
 <section class="pass"><span>&starf;&star;&star;: </span>define interfaces of all outer-level components</section><section class="ok"><span>&starf;&starf;&star;: </span>Define interfaces of all outer-level components. Does your architecture publish a Web API? If not, extend it so that it does. </section><section class="exceed"><span>&starf;&starf;&starf;: </span>Also, document the Web API using the OpenAPI language. You can use the <a href="http://api-ace.inf.usi.ch/openapi-to-tree/">OpenAPI-to-Tree</a> tool to visualize the structure of your OpenAPI description.</section></section><h1 id="ex---connector-view"><span class='task'>10.</span>  Connector View</h1>
 <section class="instructions"><p>Extend your existing models introducing the connector view</p>
 <p>For every pair of connected components (logical view), pick the most suitable connector. Existing components can play the role of connector, or new connectors may need to be introduced.</p>

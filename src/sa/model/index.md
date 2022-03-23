@@ -691,12 +691,21 @@ Exceed: >6 components (>1 decomposed) and >2 use case/process view
 
 ## Logical View
 
-
+![FruitDash - Logical View](./examples/component_model_top_down.puml)
 
 ## Process Views
 
 Use Case: 
 
+![FruitDash - Process View 1](./examples/process_view_use_case_1.puml)
+
+Use Case: 
+
+![FruitDash - Process View 2](./examples/process_view_use_case_2.puml)
+
+Use Case: 
+
+![FruitDash - Process View 3](./examples/process_view_use_case_3.puml)
 
 
 # Ex - Component Model: Bottom-Up
