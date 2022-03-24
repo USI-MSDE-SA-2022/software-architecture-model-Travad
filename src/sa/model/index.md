@@ -693,6 +693,14 @@ Exceed: >6 components (>1 decomposed) and >2 use case/process view
 
 ![FruitDash - Logical View](./examples/component_model_top_down.puml)
 
+{.feedback
+
+Check and correct the dependencies. X )- Y indicates that Y requires what X provides. If X )- Y in the logical view, the process view should consistently show that Y -> X, Y calls X and not the other way around.
+
+Also each component should have a distinct interface.
+
+}
+
 ## Process Views
 
 First Use Case: 
