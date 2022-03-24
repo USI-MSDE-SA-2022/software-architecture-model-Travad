@@ -4,26 +4,31 @@ skinparam componentStyle rectangle
 !include <tupadr3/font-awesome/database>
 
 title Fruitdash Top-Down Component Model
-' interface " " as MPI
-' interface " " as SRI
-' interface " " as CDI
-' interface " " as PSI
 
 interface " " as CDBI
 interface " " as APII
-interface " " as DEI
 interface " " as DSI
 interface " " as ISI
-interface " " as GPI
 
-[Database Service <$database{scale=0.33}>] as CDB 
-[Data API] as API
-[Dashboard] as DS
-[Identity Service] as ISIS
-[Graph Provider] as GP
-[Data Extractor] as DE
+component Identity {
+   interface " " as ISISIS
+   interface " " as AUTH_2FA
+   component [Identity Service] as IS
+   component [Authorization Service] as AUTHOR
+   component [Authentication Service] as AUTHENT
+   component [Two Factor Authentication] as 2FA
+   IS -- ISISIS 
+   ISISIS )-- AUTHOR
+   ISISIS )-- AUTHENT
+   AUTHENT --( AUTH_2FA
+   AUTH_2FA -- 2FA
+}
 
-' TODO: Adjust
+component [Database Service <$database{scale=0.33}>] as CDB 
+component [Data API] as API
+component [Dashboard] as DS
+component [Graph Provider] as GP
+component [Data Extractor] as DE
 
 CDB --( CDBI 
 CDBI -- API
@@ -34,25 +39,11 @@ APII )-- API
 
 API -- ISI
 DS -- ISI
-ISI )-- ISC
+ISI )-- IS
 
 DE -- DSI
 GP -- DSI
 DSI )-- DS
-
-component C {
-   interface " " as ISISIS
-   interface " " as AUTH_2FA
-   component [Identity Service] as IS
-   component [Authorization Service] as AUTHOR
-   component [Authentication Service] as AUTHENT
-   component [Two Factor Authentication] as 2FA
-   IS -- ISISIS 
-   ISISIS )-- AUTHOR
-   ISISIS )-- AUTHENT
-   AUTHENT -- AUTH_2FA
-   AUTH_2FA )-- 2FA
-}
 
 skinparam monochrome true
 skinparam shadowing false

@@ -695,15 +695,15 @@ Exceed: >6 components (>1 decomposed) and >2 use case/process view
 
 ## Process Views
 
-Use Case: 
+First Use Case: 
 
 ![FruitDash - Process View 1](./examples/process_view_use_case_1.puml)
 
-Use Case: 
+Second Use Case: 
 
 ![FruitDash - Process View 2](./examples/process_view_use_case_2.puml)
 
-Use Case: 
+Third Use Case: 
 
 ![FruitDash - Process View 3](./examples/process_view_use_case_3.puml)
 
