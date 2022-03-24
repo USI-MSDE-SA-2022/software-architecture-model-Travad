@@ -1,7 +1,9 @@
 @startuml
 title Extract the data in tabular form​
 
-participant "Identity Service" as IS
+box "Identity"
+participant "Identity" as IS
+end box 
 participant "Dashboard" as DS
 participant "Database service​" as DBS
 participant "Data API​" as DAPI
@@ -14,6 +16,8 @@ DE -> IS: Asks for authorization to the manager​
 IS -> DE: Provides authorization approval​
 DE -> DAPI: Requests the data​
 DAPI -> DBS: Fetch the data​
+DBS -> DAPI: Returns the data fetched
+DAPI -> DE: Forwards the data received
 DE -> DS: Provides the file to be saved​
 
 skinparam monochrome true
