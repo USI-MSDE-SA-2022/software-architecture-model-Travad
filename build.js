@@ -44,6 +44,34 @@ build_json.doc_build = (build_json.doc_build || 0) + 1;
 fs.outputJsonSync('build.json', build_json, { spaces: 2 });
 
 
+String.prototype.hashCode = function() {
+    var hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
+
+const cache_json = fs.readJSONSync('./upload/puml_cache.json', { throws: false }) || {};
+
+
+function cache_lookup(text, miss) {
+    let hash = new String(text).hashCode();
+
+    if (cache_json[hash]) { //hit
+        return new Promise((resolve,reject)=>resolve(cache_json[hash]));
+    } else {
+        return miss(text).then((output) => {
+            cache_json[hash] = output;
+            fs.outputJson('./upload/puml_cache.json', cache_json, { spaces: 2 });
+            return output;
+        })
+    }
+}
+
 
 let puml_count = 0;
 let epuml_count = 0;
@@ -103,7 +131,7 @@ renderer.code = function(code, infostring, escaped) {
     if (infostring) {
         if (infostring.startsWith("puml")) {
             let i = epuml_count++;
-            plantuml(code).then(svg=>{
+            cache_lookup(code, ()=>plantuml(code)).then(svg=>{
                 fs.writeFile(renderer._out_folder+"puml_e"+i+".svg", svg)
             })
             return `<img src="./puml_e${i}.svg">`;
@@ -124,7 +152,8 @@ renderer.image = function(href, title, text) {
         let i = puml_count++;
 
         fs.readFile(href.replace("./",renderer._in_folder)).then(puml=>{
-            return plantuml(puml)
+            return cache_lookup(puml, ()=>plantuml(puml))
+            //return plantuml(puml)
         }).then(svg=>{
             fs.writeFile(renderer._out_folder+"puml_"+i+".svg", svg)
         })
