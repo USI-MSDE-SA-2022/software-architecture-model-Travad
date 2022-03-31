@@ -1,30 +1,34 @@
 @startuml
-title User access to the dashboard​
+title Analyze data within the Dashboard 
 
 box "Identity"
-participant "Authentication Service" as AUTHENTS
-participant "Authorization Service" as AUTHORS
-participant "Identity Service" as IS
+participant "Azure Active Directory" as AAD
 end box
-participant "Dashboard" as DS
-participant "Database service​" as DBS
-participant "Data API​" as DAPI
-participant "Graph provider​" as GP
-participant "Data extractor​​" as DE
+participant "SQL Server​" as SQLS
+participant "Power BI" as PBI
+' participant "ASP.NET API​" as DAPI
+participant "Power BI - Data Extractor​​" as PBIDE
 
-IS -> AUTHENTS: Verify authentication of the user
-AUTHENTS -> IS: Reply with authentication approval or denial 
-IS -> DS: Grants access to the user
-DS -> GP: Retrieves the graphs calling the graph provider service ​
-GP -> DAPI: Requests the data​
-DAPI -> IS: Check user authorization​
-IS -> AUTHORS: Filter authorization request
-AUTHORS -> IS: Reply with authorization approval or denial
-IS -> DAPI: Provide authentication success or failure
-DAPI -> DBS: Fetch the data​
-DBS -> DAPI: Returns the data fetched
-DAPI -> GP: Forwards the data received
-GP -> DS: Returns the rendered graphs on the data fetched​
+PBI -> AAD: Check the attempt of a user to enter the platform
+AAD -> AAD: Verify authentication of the user
+' AUTHENTS -> AAD: Reply with authentication approval or denial 
+AAD -> PBI: Provide authentication success or failure
+PBI -> PBIDE: Request of the user to analyze data in excel format
+PBIDE -> SQLS: Request the data
+SQLS -> PBIDE: Forward the data of the request
+PBIDE -> PBI: Provide rendered data in tabular form in the Excel UI format
+
+
+
+' DAPI -> AAD: Check user authorization​
+' ' AAD -> AUTHORS: Filter authorization request
+' AAD -> AAD: Verify authorization request for the user
+' ' AUTHORS -> AAD: Reply with authorization approval or denial
+' AAD -> DAPI: Provide authorization success or failure
+' DAPI -> SQLS: Fetch the data​
+' SQLS -> DAPI: Returns the data fetched
+' DAPI -> PBI: Forwards the data received
+' PBI -> PBI: Renders the graphs and display them to the user
 
 skinparam monochrome true
 skinparam shadowing false

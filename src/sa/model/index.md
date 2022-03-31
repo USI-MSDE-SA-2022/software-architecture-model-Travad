@@ -759,6 +759,76 @@ Second Use Case:
 
 ![FruitDash - Process View 2](./examples/bu_process_view_use_case_2.puml)
 
+## ADR
+
+### ADR #1
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to adopt Azure Active Directory as a solution for the identity service.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+In the context of my application, I need a service that is capable of handling basic authentication and authorization
+features, but that is also supporting advanced features such as 2FA. 
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Keep the data protected and not accessible from users that do not have the authorization to see them.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Identity framework supported by the ASP.NET Framework
+2. Power BI - Microsoft Account
+3. Azure Active Directory
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go with the third option: Azure Active Directory.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The main reason for my choice is that the identity is a critical component of the whole architecture. Giving support 
+through a framework might introduce bugs in the application that can be difficult to handle. Hence, the first option
+is excluded. The second option initially was my first choice, but there is drawback: it cannot be integrated with a
+SQL Server solution to check that the user has the proper authentication grants to visualize the data. 
+Finally, Azure Active Directory can be integrated in all the components that I picked, and it is therefore the solution I decided to opt for.
+
+
+## ADR #1
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+To adopt Power BI as the development tool to set up the company's data dashboard
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+We need to decide whether to adopt a third-party application or to build one from scratch. The factors involved in this decision are mainly to keep data consistent across users, make sure that multiple users can access the product concurrently as well as to provide simple yet captivating visualization. To consider is also that the data of the client is already stored in a Microsoft SQL Server database. This decision deeply influences the choices on the expertise needed to develop the project as well as the technology to adopt.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Making sure that the application has a great and consistent UI without compromising the security and scalability 
+features that the client request
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Using a web development frameworks: Angular or React
+3. Using a Microsft Office Adds-in for Excel
+3. Using a third-party software: Microsoft Power BI
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go with the last option and develop the application using the Microsoft Power BI platform.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. This tool provides a connector to extract data from Microsoft SQL database and it can be easily integrated with Azure Active Directory module to grant security features. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it might also grant lower costs of development and maintenance. 
 
 # Ex - Interface/API Specification
 
