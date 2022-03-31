@@ -691,7 +691,7 @@ Exceed: >6 components (>1 decomposed) and >2 use case/process view
 
 ## Logical View
 
-![FruitDash - Logical View](./examples/component_model_top_down.puml)
+![FruitDash - Logical View](./examples/logical_view_top_down.puml)
 
 <!-- {.feedback
 
@@ -735,6 +735,17 @@ Good: Existing design with at least 3 reused components (1 Logical View, 1 Proce
 Exceed: Redesign based on >3 reused components (1 Logical View, >1 Process View, >1 ADR)
 
 }
+
+Reused Components List
+
+* [SQL Server Standard](https://www.microsoft.com/it-it/sql-server/sql-server-downloads)
+* [Power BI](https://powerbi.microsoft.com/it-ch/)
+<!-- * [Power BI - In-app Excel Analyzer](https://docs.microsoft.com/en-us/power-bi/collaborate-share/service-analyze-in-excel) -->
+* [Power BI - Excel data extractor](https://docs.microsoft.com/en-us/power-bi/collaborate-share/service-connect-power-bi-datasets-excel)
+* [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/#features)
+* [ASP.NET - Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio)
+
+![FruitDash - Logical View](./examples/logical_view_bottom_up.puml)
 
 
 # Ex - Interface/API Specification
