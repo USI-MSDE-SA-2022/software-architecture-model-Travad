@@ -15,7 +15,7 @@ rectangle Backend {
 
    interface " " as CDBI
    interface " " as DEI
-   interface " " as GPI
+   ' interface " " as GPI
 
    component [Database Service <$database{scale=0.33}>] as CDB 
    component [SQL Server Standard] as SQL #C7C6C1
@@ -30,7 +30,7 @@ rectangle Backend {
    API --( ASPI
    ASPI -- ASP
 
-   component [Graph Provider] as GP
+   ' component [Graph Provider] as GP
    component [Data Extractor] as DE
    DE --( PBIDEI
    PBIDEI -- PBIDE
@@ -74,15 +74,15 @@ CDB -- CDBI
 CDBI )-- API
 
 ' API 
-GP --( APII
+' GP --( APII
 DE --( APII
 APII -- API
 
 ' Graph and data services
 DE -- DEI
-GP -- GPI
+' GP -- GPI
 DEI )-- DS
-GPI )-- DS
+' GPI )-- DS
 
 ' Identity
 API --( ISI

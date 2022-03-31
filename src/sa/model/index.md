@@ -705,15 +705,15 @@ Also each component should have a distinct interface.
 
 First Use Case: 
 
-![FruitDash - Process View 1](./examples/process_view_use_case_1.puml)
+![FruitDash - Process View 1](./examples/td_process_view_use_case_1.puml)
 
 Second Use Case: 
 
-![FruitDash - Process View 2](./examples/process_view_use_case_2.puml)
+![FruitDash - Process View 2](./examples/td_process_view_use_case_2.puml)
 
 Third Use Case: 
 
-![FruitDash - Process View 3](./examples/process_view_use_case_3.puml)
+![FruitDash - Process View 3](./examples/td_process_view_use_case_3.puml)
 
 
 # Ex - Component Model: Bottom-Up
@@ -736,7 +736,7 @@ Exceed: Redesign based on >3 reused components (1 Logical View, >1 Process View,
 
 }
 
-Reused Components List
+## Reused Components List
 
 * [SQL Server Standard](https://www.microsoft.com/it-it/sql-server/sql-server-downloads)
 * [Power BI](https://powerbi.microsoft.com/it-ch/)
@@ -745,7 +745,19 @@ Reused Components List
 * [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/#features)
 * [ASP.NET - Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio)
 
+## Logical View
+
 ![FruitDash - Logical View](./examples/logical_view_bottom_up.puml)
+
+## Process Views
+
+First Use Case: 
+
+![FruitDash - Process View 1](./examples/bu_process_view_use_case_1.puml)
+
+Second Use Case: 
+
+![FruitDash - Process View 2](./examples/bu_process_view_use_case_2.puml)
 
 
 # Ex - Interface/API Specification
