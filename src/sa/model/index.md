@@ -797,8 +797,7 @@ is excluded. The second option initially was my first choice, but there is drawb
 SQL Server solution to check that the user has the proper authentication grants to visualize the data. 
 Finally, Azure Active Directory can be integrated in all the components that I picked, and it is therefore the solution I decided to opt for.
 
-
-## ADR #1
+### ADR #2
 
 ### 1. What did you decide?
 <!-- Give a short title of solved problem and solution -->
