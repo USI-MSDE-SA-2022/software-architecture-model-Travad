@@ -829,6 +829,9 @@ I decided to go with the last option and develop the application using the Micro
 <!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
 Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. This tool provides a connector to extract data from Microsoft SQL database and it can be easily integrated with Azure Active Directory module to grant security features. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it might also grant lower costs of development and maintenance. 
 
+
+
+
 # Ex - Interface/API Specification
 
 {.instructions
@@ -856,6 +859,16 @@ Good: Define interfaces of all outer-level components. Does your architecture pu
 Exceed: Also, document the Web API using the OpenAPI language. You can use the [OpenAPI-to-Tree](http://api-ace.inf.usi.ch/openapi-to-tree/) tool to visualize the structure of your OpenAPI description.
 
 }
+
+### Interface API Specification
+
+![FruitDash - Interface API/Specification](./examples/td_fruitdash_interface.puml)
+
+### OpenAPI Specification
+
+![FruitDash - OpenAPI Specifications](../../../upload/assets/openapi-fruitdash-tree.png)
+
+
 
 # Ex - Connector View
 

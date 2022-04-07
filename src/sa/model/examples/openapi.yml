@@ -1,0 +1,248 @@
+openapi: '3.0.2'
+info:
+  title: FruitDash API
+  version: '1.0'
+  description: "Minimal API interface outline to exchange information within the FruitDash architecture"
+servers:
+  - url: https://api.fruitdash.com/v1
+paths:
+
+  ###############
+  ### Clients ###
+  ###############
+  /clients:
+    get:
+      summary: Get all clients
+      operationId: getClients
+      responses:
+        200:
+          description: A list of clients
+          content:
+            application/json:
+              schema:
+                type: array
+
+  /clients/{id}:
+    get:
+      summary: Get a client by id
+      operationId: getClientById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the client
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A client
+        404:
+          description: Client not found
+
+  /clients/{year}:
+    get:
+      summary: Get the new clients of a year
+      operationId: getNewClients
+      parameters:
+        - name: year
+          in: path
+          description: The year of the new clients
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of new clients
+
+        404:
+          description: Client not found
+
+
+  ################
+  ### Invoices ###
+  ################
+  /invoices/amount/:
+    get:
+      summary: Get the amount of invoices of all client
+      operationId: getAmountInvoices
+      responses:
+        200:
+          description: The amount of invoices of all client
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /invoices/{clientId}/amount/:
+    get:
+      summary: Get the amount of invoices of a client
+      operationId: getAmountInvoices
+      parameters:
+        - name: clientId
+          in: path
+          description: The id of the client
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The amount of invoices of a client
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /invoices/{invoiceId}/{clientId}/amount/:
+    get:
+      summary: Get the amount of invoices of a client
+      operationId: getAmountInvoices
+      parameters:
+        - name: invoiceId
+          in: path
+          description: The id of the invoice
+          required: true
+          schema:
+            type: string
+        - name: clientId
+          in: path
+          description: The id of the client
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The amount of invoices of a client
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  ################
+  ### Products ###
+  ################
+  /products:
+    get:
+      summary: Get all products
+      operationId: getProducts
+      responses:
+        200:
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+
+  /products/{id}:
+    get:
+      summary: Get a product by id
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the product
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A product
+        404:
+          description: Product not found
+  
+  /products/{clientId}:
+    get:
+      summary: Get all products sold to a client
+      operationId: getProductsSoldToClient
+      parameters:
+        - name: clientId
+          in: path
+          description: The id of the client
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of products sold to a specific client
+        404:
+          description: Product not found  
+
+  /products/{year}:
+    get:
+      summary: Get all products new for a particular year
+      operationId: getNewProducts
+      parameters:
+        - name: year
+          in: path
+          description: The year of the product
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A list of products for a particular year
+        404:
+          description: Products not found
+
+  /products/{year}/mostcommon/:
+    get:
+      summary: Get the most common products of a year
+      operationId: getMostCommonProducts
+      parameters:
+        - name: year
+          in: path
+          description: The year of the most common products
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of most common products
+        404:
+          description: Product not found
+
+  ################
+  ### Logistic ###
+  ################
+  /logistic/trucks:
+    get:
+      summary: Get the list of available trucks
+      operationId: getAllTrucks
+      responses:
+        200:
+          description: A list of available trucks to deliver the products
+        404:
+          description: Trucks not found
+
+  /logistic/{clientId}/destinations:
+    get:
+      summary: Get all the possible destinations for a client to deliver the products
+      operationId: getAllDestinationsByClient
+      parameters:
+        - name: clientId
+          in: path
+          description: The id of a client
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A list of destinations for a particular client
+        404:
+          description: Destinations not found
+
+  /logistic/{clientId}/departures:
+    get:
+      summary: Get all the possible departures locations for a client
+      operationId: getAllDeparturesByClient
+      parameters:
+        - name: clientId
+          in: path
+          description: The id of a client
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A list of departures locations for a particular client
+        404:
+          description: Destinations not found

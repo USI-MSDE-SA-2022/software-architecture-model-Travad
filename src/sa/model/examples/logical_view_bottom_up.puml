@@ -25,7 +25,7 @@ rectangle Backend {
 
    component [Data API] as API
    interface " " as APII
-   component [ASP. NET Framework] as ASP #C7C6C1
+   component [ASP.NET Framework] as ASP #C7C6C1
    interface " " as ASPI
    API --( ASPI
    ASPI -- ASP

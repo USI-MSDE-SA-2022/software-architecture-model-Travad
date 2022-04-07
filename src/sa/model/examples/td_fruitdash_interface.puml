@@ -1,0 +1,138 @@
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+interface " " as CDBI
+interface " " as APII
+' interface " " as DSI
+interface " " as DEI
+interface " " as GPI
+interface " " as ISI
+
+component [Database Service <$database{scale=0.33}>] as CDB 
+component [Data API] as API
+component [Dashboard] as DS
+component [Graph Provider] as GP
+component [Data Extractor] as DE
+
+component Identity {
+   interface " " as AUTH_2FAI
+   interface " " as AUTHORI
+   interface " " as AUTHENTI
+   component [Identity Service] as IS
+   component [Authorization Service] as AUTHOR
+   component [Authentication Service] as AUTHENT
+   component [Two Factor Authentication] as 2FA
+   IS -- ISI
+   IS --( AUTHORI
+   IS --( AUTHENTI
+   AUTHORI -- AUTHOR
+   AUTHENTI -- AUTHENT
+   AUTHENT --( AUTH_2FAI
+   AUTH_2FAI -- 2FA 
+}
+
+' Stateful
+CDB -- CDBI 
+CDBI )-- API
+
+' API 
+GP --( APII
+DE --( APII
+APII -- API
+
+' Graph and data services
+DE -- DEI
+GP -- GPI
+DEI )-- DS
+GPI )-- DS
+
+' Identity
+API --( ISI
+DS --( ISI
+
+' Notes on single nodes
+note top of DEI
+operation:
+..
+getFormat()
+setFormat(newFormat)
+saveData(data, format?)
+--
+events:
+..
+onCompletedSerialization()
+--
+properties:
+..
+format
+end note
+
+note left of GPI
+operation:
+..
+getKPIs()
+getGraphs()
+getTables()
+--
+events:
+..
+onRefreshUpdateGraphs()
+--
+properties:
+..
+colorPalette
+graphSize
+
+end note
+
+note right of CDBI
+properties:
+..
+clients
+invoices
+products
+logistic
+end note
+
+note bottom of APII
+operations:
+..
+getClients()
+getClientById(clientId)
+getNewClientsByYear(year)
+getInvoicesTotalAmount()
+getInvoicesTotalAmountByYear(year)
+getInvoicesAmountByClient(clientId)
+getInvoicesAmountByClientByID(clientId, invoiceId)
+getProducts()
+getProductById(productId)
+getProductsSoldToClient(clientId)
+getMostFrequentSoldProductsByYear(year)
+getTotalAmountOfTrucksByYear(year)
+end note
+
+note bottom of ISI
+operation:
+..
+authenticate(userId)
+authorize(userId)
+
+--
+events:
+..
+onChangeIdentity()
+onRequestAuthorization()
+onRequest2FA()
+
+--
+properties:
+..
+authenticatedUsers
+end note
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
