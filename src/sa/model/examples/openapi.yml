@@ -73,7 +73,7 @@ paths:
               schema:
                 type: integer
 
-  /invoices/{clientId}/amount/:
+  /invoices/amount/{clientId}/:
     get:
       summary: Get the amount of invoices of a client
       operationId: getAmountInvoices
@@ -92,7 +92,7 @@ paths:
               schema:
                 type: integer
 
-  /invoices/{invoiceId}/{clientId}/amount/:
+  /invoices/amount/{invoiceId}/{clientId}/:
     get:
       summary: Get the amount of invoices of a client
       operationId: getAmountInvoices
