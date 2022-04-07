@@ -874,7 +874,7 @@ Which component of your architecture implements the Web API?
 
 ### OpenAPI Specification
 
-![FruitDash - OpenAPI Specifications](../../../upload/assets/openapi-fruitdash-tree.png)
+![FruitDash - OpenAPI Specifications](../../../src/sa/model/assets/openapi-fruitdash-tree.png)
 
 
 

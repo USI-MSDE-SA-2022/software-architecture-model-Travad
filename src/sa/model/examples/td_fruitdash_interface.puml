@@ -76,10 +76,6 @@ getKPIs()
 getGraphs()
 getTables()
 --
-events:
-..
-onRefreshUpdateGraphs()
---
 properties:
 ..
 colorPalette
