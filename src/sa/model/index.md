@@ -864,6 +864,14 @@ Exceed: Also, document the Web API using the OpenAPI language. You can use the [
 
 ![FruitDash - Interface API/Specification](./examples/td_fruitdash_interface.puml)
 
+{.feedback
+
+What kind of event is `onRefreshUpdateGraphs()` - what provokes it?
+
+Which component of your architecture implements the Web API?
+
+}
+
 ### OpenAPI Specification
 
 ![FruitDash - OpenAPI Specifications](../../../upload/assets/openapi-fruitdash-tree.png)
