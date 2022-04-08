@@ -174,6 +174,18 @@ renderer.image = function(href, title, text) {
 
     }
 
+    if (href.endsWith(".c5")) {
+
+        let i = fml_count++;
+
+        const fml_output = renderer._out_folder+"c5_"+i+".svg";
+
+        run("node c5 " + href.replace("./",renderer._in_folder) + " " + fml_output);
+
+        return `<img src="./c5_${i}.svg" alt="${text}">`;
+
+    }
+
     if (href.endsWith(".madr")) {
 
         let md = fs.readFileSync(href.replace("./",renderer._in_folder));

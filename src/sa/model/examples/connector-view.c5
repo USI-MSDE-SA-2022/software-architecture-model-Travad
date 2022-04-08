@@ -1,0 +1,49 @@
+/// The Connector View is a graph of components/connectors
+
+/// Simple 1-1 connectors are modeled on the edges
+
+Client -call-> Server
+
+Source -stream-> Filter -stream-> Sink
+
+Writer -file-> Reader
+
+Sender -queue-> Recipient
+
+/// N-M connectors are modeled as nodes with a given type
+
+/// the shared "db" connector (Shared is just a label)
+
+Business Logic -> db Shared -> Analytics
+
+/// the message "bus" (ESB is just a label)
+
+Service -> bus ESB -> Microservice
+
+bus ESB -> Nanoservice
+
+/// the "web" (API is just a label)
+
+Browser -> web API -> Web Server
+
+/// the shared "ram" memory (Buffer is just a label)
+
+Writer Thread -> ram Buffer -> Reader Thread
+
+/// the "disruptor"
+
+Producer Thread -> disruptor Buffer -> Consumer Thread
+
+disruptor Buffer -> Another Consumer Thread
+
+/// the "tuple" Space (Space is just a label)
+/// note that it is possible to label the edges
+
+Producer -in-> tuple Space -out-> Consumer
+
+/// the "blockchain"
+
+Miner -> blockchain -> Smart Contract
+
+/// Edges can flow in either or both directions
+/// -> <- <->
