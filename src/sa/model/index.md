@@ -897,6 +897,14 @@ Exceed: introduce a new type of connector and update your existing process view
 
 }
 
+![Example Connector View Diagram](./examples/connector-view.c5)
+
+![Connector View Diagram](./examples/fruitdash-connector-view.c5)
+
+<!-- ![Process View Diagram update](./examples/fruitdash-process-view-update.puml) -->
+
+{.feedback
+
 # Ex - Adapters and Coupling
 
 {.instructions

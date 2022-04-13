@@ -1,0 +1,25 @@
+/// TODO
+
+Dashboard -call-> Data Extractor
+Dashboard -> web Graph API -> Graph Provider
+
+Dashboard -> web Identity API -> Identity Service
+API Server -> web Identity API -> Identity Service
+
+Graph Provider -> web Data API -> API Server
+Data Extractor -> web Data API -> API Server
+
+Identity Service -call-> Authentication Service
+Identity Service -call-> Authorization Service
+Authentication Service -call-> Two Factor Authentication
+
+Business Database -call-> db Analytics DB 
+API Server -> db Analytics DB
+
+
+
+
+
+
+
+

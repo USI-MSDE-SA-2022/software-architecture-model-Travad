@@ -1,6 +1,4 @@
-/// The Connector View is a graph of components/connectors
 
-/// Simple 1-1 connectors are modeled on the edges
 
 Client -call-> Server
 
