@@ -1,0 +1,42 @@
+@startuml
+title Extract the data in tabular form​
+
+box "Identity"
+participant "Identity Service" as IS
+end box
+participant "Identity API" as IDAPI 
+
+participant "Dashboard" as DS
+participant "Database service​" as DBS
+
+participant "Graph provider​" as GP
+participant "Data extractor​​" as DE
+participant "Redis" as REDIS
+
+participant "Data API​" as DAPI
+participant "API Server" as APIS
+participant "Analytics DB" as ADB
+
+' Authentication request
+DS -> IDAPI: GET /identity/user/{userId}
+IDAPI -> IS: Verify identity qualitifications
+IS -> IDAPI: GET 200 OK | GET 404 Not Found
+
+' Data request
+DS -> REDIS: Rd <graph-data>
+REDIS -> DS: <graph-data> 
+
+' Data extraction
+DS -> DE: Request: extract data
+DE -> IDAPI: GET /identity/user/{userId}
+IDAPI -> IS: Request: verify identity and authorization
+IS -> IDAPI: Response: verified
+IDAPI -> DE: GET 200 OK | GET 404 Not Found | GET 403 Forbidden
+DE -> REDIS: Rd <graph-data>
+REDIS -> DE: <graph-data>
+DE -> DS: Response: extracted data and save file
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

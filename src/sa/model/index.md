@@ -899,11 +899,48 @@ Exceed: introduce a new type of connector and update your existing process view
 
 ![Example Connector View Diagram](./examples/connector-view.c5)
 
+## Connector View Diagram
 ![Connector View Diagram](./examples/fruitdash-connector-view.c5)
 
-<!-- ![Process View Diagram update](./examples/fruitdash-process-view-update.puml) -->
+## ADR Connector
 
-{.feedback
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to introduce a tuple space to handle the interface between the dashboard, the graph and the data extractor components
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of my decision is to be able to render graphs on the UI (dashboard) in a simple and efficient manner,
+without having to extract data from the SQL database every time a new graph needs to be rendered. Imagine the 
+user would like to display a graph that has been already rendered previously. I would like to retrieve the 
+data from a temporary storage to avoid the render component to wait for the data extraction before rendering the graph. This would also allow to simplify the data extraction, as when the user issues a request to save
+data, the data can be extracted directly from the tuple space.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Making sure that the user does not have to wait long for graphs to render when the data is already available.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Using a web API to connect the components
+3. Using an RPC procedule call to connect the components
+3. Using a tuple space to connect the components
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go with the last option and introduce a tuple space to handle the interface between the dashboard, the graph and the data extractor components.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The main reason is that the option I went for improves the experience of the user as the graphs are rendered without having to wait for the data extraction from the database through the API. The user should experience
+an improvement of the overall experience of using the application.
+
+
+## Process View Diagram
+![Process View Diagram update](./examples/fruitdash-pw-update.puml)
 
 # Ex - Adapters and Coupling
 

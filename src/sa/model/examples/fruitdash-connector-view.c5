@@ -1,22 +1,21 @@
 /// TODO
 
 Dashboard -call-> Data Extractor
-Dashboard -> web Graph API -> Graph Provider
+/// Dashboard -> web Graph API -> Graph Provider
+Dashboard <--> tuple Redis <--> Graph Provider
 
 Dashboard -> web Identity API -> Identity Service
 API Server -> web Identity API -> Identity Service
 
 Graph Provider -> web Data API -> API Server
-Data Extractor -> web Data API -> API Server
+Data Extractor <-- tuple Redis
 
 Identity Service -call-> Authentication Service
 Identity Service -call-> Authorization Service
 Authentication Service -call-> Two Factor Authentication
 
-Business Database -call-> db Analytics DB 
+Business Database -> db Analytics DB 
 API Server -> db Analytics DB
-
-
 
 
 
