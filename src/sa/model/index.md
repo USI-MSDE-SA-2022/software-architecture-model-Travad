@@ -829,9 +829,6 @@ I decided to go with the last option and develop the application using the Micro
 <!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
 Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. This tool provides a connector to extract data from Microsoft SQL database and it can be easily integrated with Azure Active Directory module to grant security features. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it might also grant lower costs of development and maintenance. 
 
-
-
-
 # Ex - Interface/API Specification
 
 {.instructions
@@ -877,7 +874,6 @@ Which component of your architecture implements the Web API?
 ![FruitDash - OpenAPI Specifications](../../../src/sa/model/assets/openapi-fruitdash-tree.png)
 
 
-
 # Ex - Connector View
 
 {.instructions
@@ -897,11 +893,13 @@ Exceed: introduce a new type of connector and update your existing process view
 
 }
 
-![Example Connector View Diagram](./examples/connector-view.c5)
+<!-- ![Example Connector View Diagram](./examples/connector-view.c5) -->
 
+<!-- Connector 1 -->
 ## Connector View Diagram
 ![Connector View Diagram](./examples/fruitdash-connector-view.c5)
 
+<!-- Connector 2 -->
 ## ADR Connector
 
 ### 1. What did you decide?
@@ -938,7 +936,7 @@ I decided to go with the last option and introduce a tuple space to handle the i
 The main reason is that the option I went for improves the experience of the user as the graphs are rendered without having to wait for the data extraction from the database through the API. The user should experience
 an improvement of the overall experience of using the application.
 
-
+<!-- Connector 3 -->
 ## Process View Diagram
 ![Process View Diagram update](./examples/fruitdash-pw-update.puml)
 
