@@ -27,8 +27,8 @@ rectangle Backend {
    CDBOI )-- TA
 
    ' connect TA to Operational DB
-   TA -- TAI
-   TAI )-- CDBA
+   TA --( TAI
+   TAI -- CDBA
 
    ' component [SQL Server Standard] as SQL #C7C6C1
    ' interface " " as SQLI

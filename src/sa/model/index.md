@@ -999,7 +999,8 @@ it can be stored in an analytical database (such as Cassandra, MongoDB, etc...).
 
 ### 11.3 - Wrapper
 
-![FruitDash - Logical View - Wrapper](./examples/lw_bottom_up_wrappers.puml)
+Not provided in this case as no suitable wrappers were identified
+<!-- ![FruitDash - Logical View - Wrapper](./examples/lw_bottom_up_wrappers.puml) -->
 
 <!-- Wrapper to be added -->
 
