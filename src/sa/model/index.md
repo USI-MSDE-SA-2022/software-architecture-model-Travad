@@ -997,7 +997,9 @@ The second adapter is a component that plays the role of an adapter in the view.
 operational (day-to-day transactions) database into data that can be analyzed and displayed quickly and that
 it can be stored in an analytical database (such as Cassandra, MongoDB, etc...).
 
-### 11.3
+### 11.3 - Wrapper
+
+![FruitDash - Logical View - Wrapper](./examples/lw_bottom_up_wrappers.puml)
 
 <!-- Wrapper to be added -->
 
@@ -1026,11 +1028,40 @@ which would allow PowerBI to calls the API with the same address for each possib
 
 ### 11.6 - Pseudo-code or Codes
 
+Graph Adapter API
+```
+function upload_graph_image(dashboard_id, graph_id)
+    user = getCurrentActiveUser(dashboard_id)
+    user_auth = getUserAuth(user)
+    if user_auth {
+      graph_image = getGraphFromPowerBI(user, dashboard_id, graph_id)
+      return graph_data
+    }
+    else {
+      throw an exception for the "user not authorized"
+    }
 ```
 
+Transformer Adapter API
+```
+function query_data(sql_query) {
+    return query(sql_query)
+}
+
+function pre_process_data(sql_query)
+    data = query_data(sql_query)
+    data_no_empties = dropEmptyEntries(data)
+    data_cleaned_boundaries = checkExpectedBoundaries(data)
+    data_columnar_metadata = addMetadataInfo(data_cleaned_boundaries)
+    data_columnar_type_fields = convertToCorrectTypeField(data_columnar_metadata)
+    return data_columnar_type_fields
+
+// ingestion ...
 ```
 
 ### 11.7
+In my opinion the coupling among my components is already minimized and I do not see any improvements to be made. There is a strong relationship
+binding with the vendors of PowerBI and Azure Active Directory, but any other vendor solution would introduce the same problem. 
 
 
 

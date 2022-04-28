@@ -13,18 +13,22 @@ rectangle Backend {
    component [ASP.NET Web API] as ASP #EDEDED
 
    ' Database layer services
-   component [Operational DB <$database{scale=0.33}>] as CDBO #EDEDED
    component [Analytical DB <$database{scale=0.33}>] as CDBA #EDEDED
-   interface " " as CDBOI
    interface " " as CDBAI
    ' interface " " as DEI
    ' interface " " as GPI
-   component [Transformer Adapter] as TA #99FF00
    interface " " as TAI
 
+   ' wrapper
+   rectangle OperationalWrapper {
+      component [Transformer Adapter] as TA #99FF00
+      component [Operational DB <$database{scale=0.33}>] as CDBO #EDEDED
+      interface " " as CDBOI
+      CDBO -- CDBOI
+      CDBOI )-- TA
+   }
+
    ' connect Operational DB to Transformer Adapter
-   CDBO -- CDBOI
-   CDBOI )-- TA
 
    ' connect TA to Operational DB
    TA -- TAI
