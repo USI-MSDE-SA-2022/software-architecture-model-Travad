@@ -1,0 +1,129 @@
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Fruitdash Bottom-Up Component Model
+
+' interface " " as DSI
+' interface " " as ISI
+
+rectangle Backend {
+
+   component [ASP.NET Web API] as ASP #EDEDED
+
+   ' Database layer services
+   component [Operational DB <$database{scale=0.33}>] as CDBO #EDEDED
+   component [Analytical DB <$database{scale=0.33}>] as CDBA #EDEDED
+   interface " " as CDBOI
+   interface " " as CDBAI
+   ' interface " " as DEI
+   ' interface " " as GPI
+   component [Transformer Adapter] as TA #99FF00
+   interface " " as TAI
+
+   ' connect Operational DB to Transformer Adapter
+   CDBO -- CDBOI
+   CDBOI )-- TA
+
+   ' connect TA to Operational DB
+   TA -- TAI
+   TAI )-- CDBA
+
+   ' component [SQL Server Standard] as SQL #C7C6C1
+   ' interface " " as SQLI
+   ' CDB --( SQLI
+   ' SQLI -- SQL
+
+   ' component [Data API] as API
+   ' interface " " as APII
+
+   ' API --( ASPI
+   ' ASPI -- ASP
+
+   ' component [Graph Provider] as GP
+   ' component [Data Extractor] as DE
+   ' DE --( PBIDEI
+   ' PBIDEI -- PBIDE
+
+}
+
+rectangle UserInterface {
+   ' component [Dashboard] as DS
+   component [Power BI - Dashboard] as PBI #EDEDED
+   ' interface " " as PBII
+   component [Power BI - Data Extractor] as PBIDE #EDEDED
+   interface " " as PBIDEI
+   PBIDE -- PBIDEI
+   PBIDEI )-- PBI
+
+   ' extractor
+   component [Graph Extractor] as GE #EDEDED
+   interface " " as GEI
+   ' GE -- GEI
+   ' GEI )-- PBI
+   
+   ' adapter
+   component [Graph Adapter API] as GD #99FF00
+   ' wrapper internal communications
+   GE --( GEI
+   GEI -- GD
+
+   ' dashboard adapter
+   interface " " as GDII
+   GD --( GDII
+   GDII -- PBI
+}
+
+' Graph download component
+'GET https://api.powerbi.com/v1.0/myorg/reports/{reportId}/exports/{exportId}/file
+' Would like to have an adapter that is able to store the charts directly into
+' the database, what a better way than old school web api?
+
+component Identity {
+   
+   component [Azure Active Directory] as AAD #EDEDED
+   ' component [Identity Service] as IS
+   ' IS --( AZUREADI
+   ' AZUREADI -- AAD
+
+   component [Authorization Service] as AUTHOR #EDEDED
+   interface " " as AUTHORI
+   component [Authentication Service] as AUTHENT #EDEDED
+   interface " " as AUTHENTI
+   component [Two Factor Authentication] as 2FA #EDEDED
+   interface " " as AUTH_2FAI
+
+   AAD --( AUTHORI
+   AAD --( AUTHENTI
+   AUTHORI -- AUTHOR
+   AUTHENTI -- AUTHENT
+   AUTHENT --( AUTH_2FAI
+   AUTH_2FAI -- 2FA 
+}
+
+' Stateful
+CDBA -- CDBAI 
+CDBAI )-- ASP
+
+' API 
+' GP --( APII
+' PBIDE --( ASPI
+' ASPI -- ASP
+
+' Data service layer
+interface " " as ASPI
+PBI --( ASPI
+ASPI -- ASP
+
+' Identity
+interface " " as AZUREADI
+AAD -- AZUREADI
+ASP --( AZUREADI
+PBI --( AZUREADI
+
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

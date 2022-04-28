@@ -6,7 +6,7 @@ API Server -get-> web Identity API
 /// Dashboard actions
 Dashboard <-call-> Graph Provider 
 Dashboard <-call-> Data Extractor
-Graph Provider <-get and put-> tuple Redis
+Graph Provider <-getput-> tuple Redis
 Data Extractor -get-> tuple Redis
 
 /// Data extraction
@@ -15,7 +15,7 @@ Data Extractor -write-> file .xlsx
 /// API data extraction
 Graph Provider -Get-> web Data API -> API Server
 API Server -query-> db Analytics DB 
-db Operational DB -extract-> Data pump (transformer) -load-> db Analytics DB
+db Operational DB -extract-> Transformer -load-> db Analytics DB
 
 
 

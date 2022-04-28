@@ -977,6 +977,63 @@ Whenever you have a connector you couple together the components and different c
 
 }
 
+## Adapters 
+
+### 11.1
+
+![FruitDash - Logical View - Adapters](./examples/lw_bottom_up_adapters.puml)
+
+### 11.2 - Adapters
+
+<!-- First adapter -->
+To accomplish the task for this assignment, I substituted the PowerBI integrated graph extractor component
+with a personalized graph extractor that achieve the same result, but is built outside the PowerBI world 
+and therefore, it would need an adapter to make sure that these two can talk to each other.
+The Graph Adapter API is designed for this purpose and it serves the client with a service to extract 
+the graph data from the PowerBI interface.
+
+<!-- Second adapter -->
+The second adapter is a component that plays the role of an adapter in the view. Its role is to transform the
+operational (day-to-day transactions) database into data that can be analyzed and displayed quickly and that
+it can be stored in an analytical database (such as Cassandra, MongoDB, etc...).
+
+### 11.3
+
+<!-- Wrapper to be added -->
+
+### 11.4 - Standard Interfaces
+The bottom-up architecture diagram displays components that already expose standard interfaces to be able to communicate with each other components. The communication is mainly implemented through REST APIs interfaces between components by exchanging 
+information in JSON format. The Data Extractor and Graph Extractor in reality are components that are integrated within
+the PowerBI solution, which ultimately exposes APIs interfaces to the outside world to be able to call these operations
+even from other components. 
+
+### 11.5 - Coupling Facets
+First of all, a timing facet is present between the Dashboard and the Graph Extractor components, as the extractor 
+waits for the synchronous call from the dashboard to return the graph data once the user triggers the action to extract
+the figure from the UI. 
+
+Second, we face a binding facet because of the relationships established with the vendors of PowerBI and Azure Active Directory. If the price of these services increases, the cost of the solution will increase and consequently, the business
+should take into consideration the possibility of switching to a different vendor solution. For instance, PowerBI is cheap
+for low data loading solutions (as in our case), but starts to become increasingly expensive as soon as the data scales.
+
+Thirdly, a platform independence facet is present between the Identity Service (implemented through means of the Azure Active Directory) and the other services that requires authentication. Switching to other authentication services might require
+a change in the architecture that the client could notice (e.g., using Google Authentication services, the client would need
+to register and log-in with a different account).
+
+Finally, the presence of a discovery facet between PowerBI (front-end) and the Data API service (back-end), which requires
+an address to be provided to the client to fetch data from the API. The API server is unique and receives a static IP address,
+which would allow PowerBI to calls the API with the same address for each possible call.
+
+### 11.6 - Pseudo-code or Codes
+
+```
+
+```
+
+### 11.7
+
+
+
 # Ex - Physical and Deployment Views
 
 {.instructions
