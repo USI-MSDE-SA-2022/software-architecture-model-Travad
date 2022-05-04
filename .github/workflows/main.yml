@@ -1,0 +1,23 @@
+name: CICD
+on:
+  push:
+    branches:
+      - master
+
+  workflow_dispatch:
+
+jobs:
+  
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: compile
+        run: |
+          sudo apt install graphviz
+          yarn install
+          yarn build
+         
