@@ -1,0 +1,31 @@
+@startuml
+title FruitDash - Physical View
+
+cloud "Identity Server" as identitycloud <<cloud>> {
+}
+cloud "Front-end Server" as appcloud <<cloud>> {
+}
+
+database "Analytical " as analyticaldb <<dbServer>> {
+}
+database "Operational" as operationaldb <<dbServer>> {
+}
+
+node "ETL" as transformer <<hostingServer>> {
+}
+node "Data API" as dataapi <<hostingServer>>  {
+}
+
+' Identity
+appcloud -- identitycloud: internet
+dataapi -- identitycloud: internet
+
+' Data Transformer
+analyticaldb -- transformer: internet
+operationaldb -- transformer: internet
+
+' Data sourcing
+appcloud -- dataapi: internet
+dataapi -- analyticaldb: internet
+
+@enduml

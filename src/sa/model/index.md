@@ -1095,6 +1095,54 @@ Exceed: 1 physical view, 1 deployment view, 1 ADR (b.) + 1 demo (c.)
 
 }
 
+### 1. Physical view
+![FruitDash - Logical View - Adapters](./examples/physical_view.puml)
+
+### 2. Deployment view
+![FruitDash - Logical View - Adapters](./examples/deployment_view.puml)
+
+### ADR (Deployment strategy)
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to go only with a shadow strategy for the release and deployment activity of my dashboard solution.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this ADR is to find the optimal way to release / deploy my application.
+In order to select the best strategy for this purpose, we need to consider the environment in which we are deploying our application. The scope of the dashboard is constrained within the company and therefore, it can only have a set of limited users that can access it.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Make sure that the users are the least affected by my release strategy.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Big-bang and Blue/Green deployment strategies alternatives
+3. Pilot deployment strategy
+3. Shadow deployment strategy
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go for the shadow deployment strategy.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The main reason I decided to go with this option is that I would like to create the 
+least friction for the users, who will always use the latest available version of the dashboard as it is deployed as a SaaS solution. Hence, I do not want to consider
+strategies that would roll out the software on a rolling basis which would exclude part of the users from using the latests feature available. Using a shadow release strategy, I would be able to deploy the dashboard on a rolling basis and keep all the users updated with the latest features. 
+
+
+### Continuous Development and Continuous Integration (CD/CI) Demo
+
+```
+TODO
+```
+
+
 # Ex - Availability and Services
 
 {.instructions 
