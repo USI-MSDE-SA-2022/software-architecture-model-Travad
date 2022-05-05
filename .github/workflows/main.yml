@@ -20,4 +20,9 @@ jobs:
           sudo apt install graphviz
           yarn install
           yarn build
-         
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: upload/sa/model
