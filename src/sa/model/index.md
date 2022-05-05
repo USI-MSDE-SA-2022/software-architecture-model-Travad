@@ -1137,7 +1137,7 @@ strategies that would roll out the software on a rolling basis which would exclu
 
 
 ### Continuous Development and Continuous Integration (CD/CI) Demo
-Done on the github repository.
+Deployment completed on GitHub.
 
 
 # Ex - Availability and Services
