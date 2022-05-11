@@ -1139,7 +1139,7 @@ strategies that would roll out the software on a rolling basis which would exclu
 ### Continuous Development and Continuous Integration (CD/CI) Demo
 
 ```
-TODO
+DONE
 ```
 
 
@@ -1165,6 +1165,124 @@ Good: 1, 2, 3, 4, two of:  5, 6, 7, 8
 Exceed: 1, 2, 3, 4, 5, 6, 7, 8
 
 }
+
+## 1. Hosting the app on a server
+
+This is already the case as PowerBI is a SaaS solution that is accessible either through a client, a web browser or a mobile app.
+
+## 2. Pricing model 
+
+I came up with two pricing models for my dashboard solution. 
+1. A **monthly subscription model**: this option includes a monthly-based agreement to use the software, along with 24/7 technical support for a discounted fee that is agreed with the customer.
+2. A **one-time purchase model**: this option includes a lifetime purchase of the software, but the technical support is provided when requested and is invoiced apart.
+
+The client is free to make a choice between the two models.
+
+## 3. Availability requirements
+Availability of the implemented services should be obviously high. The users should always be able to access the dashboard. The external dependencies are granted to have a 99.9% availability from the respective cloud providers (for both PowerBI and Azure Active Directory services).
+
+For what concern the internal infrastructure (mainly related to APIs and the databases), the planned downtime should occur during weekends and preferably on night shifts, as it would impact the least number of users (who would anyway be notified of such downtime). Such a downtime should take no more than a night shift and therefore, it should last approximately no more than 6 hours. 
+
+The service response time should be as low as possible, as it mainly involves fetching the data from the database and serving the UI with graphical rendered data. This service is provided from PowerBI and it also scales to large amount of data to aggregate and display. Therefore, the maximum expected delay should be in order of seconds. 
+
+<!-- TODO -->
+## 4. Service availability monitoring
+
+![FruitDash - Deployment View - Heartbeat](./examples/13_deployment_view_heartbeat.puml)
+
+![FruitDash - Deployment View - Watchdog](./examples/13_deployment_view_watchdog.puml)
+
+### ADR (Availability strategy)
+
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+To introduce an heartbeat component to detect the availability of my services
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal to achieve is to detect whether one of the internal 
+components (APIs or Database) has gone down.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Make sure that when a service goes down, my solution detects that in
+a cleaned and effective way.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Heartbeat
+2. Watchdog
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I went for the heartbeat strategy.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+A positive note for introducing an heartbeat component in the architecture is the possibility of registering multiple components to the same heartbeat monitoring service. The Data API, Data Processor and Dashboard components that require failover monitoring, we can easily register them to the same heartbeat monitoring service and have one centralized monitoring system.  
+
+Note however that if we were to leverage the ability of PowerBI to connect directly to the SQL Server Database, we would effectively eliminate the API component, and therefore, a watchdog would probably be a better service to monitor the availability of our solution. Moreover, PowerBI provides services to alert the service failover, as well as to extend
+high-availability features to on-premises database solutions, as in our case.
+
+For more info: https://docs.microsoft.com/en-us/data-integration/gateway/service-gateway-high-availability-clusters
+
+## 5. Stateless component recovery
+!["FruitDash - Process View - Stateless components"](./examples/13_process_view_stateless.puml)
+
+## 6. Stateful component recovery
+
+Event sourcing would be helpful in a scenario in which the data processing service goes down. How do we get the state of the analytical database if the service went down while it was executing a batch load operation? We could log all the events that happened during the batch ingestion to understand at which point the process was interrupted and restore the operation from that point. 
+
+In our use case, consistency prevails over availability as we want to be strict on having data that is up-to-date to ensure the correctness of the information displayed on the dashboard.
+
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to leverage the synchronous replication strategy
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this decision is to allow strong consistency when node outages occur.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Make sure that when an outage occur, the information that are displayed on the dashboard are accurate.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Synchronous replication strategy
+2. Asynchronous replication strategy
+3. No replication strategy
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+The synchronous replication strategy was chosen.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The only components that perform write operation in my case is the data processor. As the goal of my application is to display data and speed up the analytical process within the company, the data that is displayed must be accurate. Therefore, the synchronous replication strategy is the one that suits best, as it allows us to have the most up-to-date data.
+
+On the other hand, the synchronous strategy might take time for replicas to be coordinated and therefore, it might
+slow down the process of extracting, transforming and loading data into the analytical database.
+
+## 7. Avoid cascading failures
+
+
+## 8. Mitigation of external dependencies
+
+The external dependencies that the solution provided makes use of are the PowerBI and Azure Active Directory services.
+Given that, there are multiple ways in which we can mitigate the impact of the external dependencies:
+
+1. For what concern the identity module, we could cache the history of the authorized and authenticated users
+locally so that, in case the service goes down, we can still allow (at least) the users that have already been authenticated to access the dashboard. This solution however might incur the risk of authenticating a user 
+that is not in the company anymore and it should therefore kept updated.
+
+2. For what concern the dashboard, we could deploy an on-premise version of the PowerBI application on the users' desktops and make sure that the application is always updated with the latest version. 
 
 # Ex - Scalability
 
