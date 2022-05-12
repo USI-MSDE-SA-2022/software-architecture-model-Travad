@@ -1192,6 +1192,9 @@ The service response time should be as low as possible, as it mainly involves fe
 
 ![FruitDash - Deployment View - Watchdog](./examples/13_deployment_view_watchdog.puml)
 
+```
+Is the heartbeat deployed in an independent component or is it a heartbeat monitor?
+```
 ### ADR (Availability strategy)
 
 #### 1. What did you decide?
@@ -1235,7 +1238,9 @@ For more info: https://docs.microsoft.com/en-us/data-integration/gateway/service
 
 ## 5. Stateless component recovery
 !["FruitDash - Process View - Stateless components"](./examples/13_process_view_stateless.puml)
-
+```
+Is the second tick placed in the correct column?
+```
 ## 6. Stateful component recovery
 
 Event sourcing would be helpful in a scenario in which the data processing service goes down. How do we get the state of the analytical database if the service went down while it was executing a batch load operation? We could log all the events that happened during the batch ingestion to understand at which point the process was interrupted and restore the operation from that point. 
