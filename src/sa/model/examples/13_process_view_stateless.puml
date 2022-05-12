@@ -31,6 +31,7 @@ HTB -> DAPI: Re-deploy the service (container)
 
 ' The service is up and running when it sends the beat to the monitoring service
 DAPI -> HTB: "beat"
+HTB -> DAPI: "tick"
 
 ' Re-attempt to retrieve the data
 PBI -> DAPI: /GET (query)

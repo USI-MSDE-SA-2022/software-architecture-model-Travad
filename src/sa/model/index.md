@@ -1181,14 +1181,14 @@ The client is free to make a choice between the two models.
 ## 3. Availability requirements
 Availability of the implemented services should be obviously high. The users should always be able to access the dashboard. The external dependencies are granted to have a 99.9% availability from the respective cloud providers (for both PowerBI and Azure Active Directory services).
 
-For what concern the internal infrastructure (mainly related to APIs and the databases), the planned downtime should occur during weekends and preferably on night shifts, as it would impact the least number of users (who would anyway be notified of such downtime). Such a downtime should take no more than a night shift and therefore, it should last approximately no more than 6 hours. 
+For what concern the internal infrastructure (mainly related to APIs and the databases), the planned downtime should occur during weekends and preferably on night shifts, as it would impact the least number of users (who would anyway be notified of such downtime). Such a downtime should take no more than a night shift and therefore, it should last approximately no more than 6 hours. Unplanned downtimes should be avoided as much as possible, but if occurring, the downtime should be equivalent to the time it takes to redeploy the containers that hosts each individual component (around 15-20 minutes).
 
 The service response time should be as low as possible, as it mainly involves fetching the data from the database and serving the UI with graphical rendered data. This service is provided from PowerBI and it also scales to large amount of data to aggregate and display. Therefore, the maximum expected delay should be in order of seconds. 
 
 <!-- TODO -->
 ## 4. Service availability monitoring
 
-![FruitDash - Deployment View - Heartbeat](./examples/13_deployment_view_heartbeat.puml)
+<!-- ![FruitDash - Deployment View - Heartbeat](./examples/13_deployment_view_heartbeat.puml) -->
 
 ![FruitDash - Deployment View - Watchdog](./examples/13_deployment_view_watchdog.puml)
 
@@ -1196,36 +1196,40 @@ The service response time should be as low as possible, as it mainly involves fe
 
 #### 1. What did you decide?
 <!-- Give a short title of solved problem and solution -->
-To introduce an heartbeat component to detect the availability of my services
+To introduce multiple watchdogs component to detect the availability of my services
 
 #### 2. What was the context for your decision?
 <!-- What is the goal you are trying to achieve? -->
 <!-- What are the constraints? -->
 <!-- What is the scope of your decision? Does it affect the entire architecture? -->
-The goal to achieve is to detect whether one of the internal 
-components (APIs or Database) has gone down.
+The goal to achieve is to detect whether the components are available or not. 
 
 ### 3. What is the problem you are trying to solve?
 <!-- You may want to articulate the problem in form of a question. -->
-Make sure that when a service goes down, my solution detects that in
-a cleaned and effective way.
+Make sure that when a service goes down, my solution detects that in a cleaned and effective way.
 
 ### 4. Which alternative options did you consider?
 <!-- List at least 3 options -->
 1. Heartbeat
 2. Watchdog
+3. Heartbeat + Watchdog
 
 ### 5. Which one did you choose?
 <!-- Pick one of the options as the outcome of your decision -->
-I went for the heartbeat strategy.
+I went for an hybrid approach: heartbeat and watchdog strategy.
 
 ### 6. What is the main reason for that?
 <!-- List the positive consequences (pros) of your decision: -->
 <!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
-A positive note for introducing an heartbeat component in the architecture is the possibility of registering multiple components to the same heartbeat monitoring service. The Data API, Data Processor and Dashboard components that require failover monitoring, we can easily register them to the same heartbeat monitoring service and have one centralized monitoring system.  
+A positive note for introducing an heartbeat component in the architecture is the possibility of registering multiple components to the same heartbeat monitoring service. The Data APIa and the Data Processor components that require failover monitoring, we can easily register them to the same heartbeat monitoring service and have one centralized monitoring system.  
 
-Note however that if we were to leverage the ability of PowerBI to connect directly to the SQL Server Database, we would effectively eliminate the API component, and therefore, a watchdog would probably be a better service to monitor the availability of our solution. Moreover, PowerBI provides services to alert the service failover, as well as to extend
-high-availability features to on-premises database solutions, as in our case.
+The presence of external dependencies makes it such that we can only introduce watchdogs (active components) that call the services (passive) to
+monitor their availability and react accordingly.
+
+
+
+
+Note however that if we were to leverage the ability of PowerBI to connect directly to the SQL Server Database, we would effectively eliminate the API component, and therefore, a watchdog would probably be a better service to monitor the availability of our solution. Moreover, PowerBI provides services to alert the service failover, as well as to extend high-availability features to on-premises database solutions, as in our case.
 
 For more info: https://docs.microsoft.com/en-us/data-integration/gateway/service-gateway-high-availability-clusters
 
@@ -1271,7 +1275,9 @@ On the other hand, the synchronous strategy might take time for replicas to be c
 slow down the process of extracting, transforming and loading data into the analytical database.
 
 ## 7. Avoid cascading failures
+To ensure that cascading failures are prevented, we want to introduce circuit breaker strategy that works syhnchronously with the heartbeat monitoring service to keep track of which service goes down. This prevents the other services from being affected by the failure of the one that is down.
 
+A place where such component could make sense is between the identity service and all components that call this service (dashboard and the API). In case of a failover occurs, the circuit breaker is now aware of that and, for all the subsequent calls until the service is back up, it could redirect the calls to a local cache to retrieve authentications and authorizations information.
 
 ## 8. Mitigation of external dependencies
 

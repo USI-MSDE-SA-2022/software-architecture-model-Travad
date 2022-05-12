@@ -1,5 +1,5 @@
 @startuml
-title FruitDash - Deployment View - Heartbeat Monitor
+title FruitDash - Deployment View - Watchdog/Heartbeat Monitor
 
 cloud "Front-end Server" as appcloud <<cloud>> {
  [Dashboard] as DASH
@@ -20,14 +20,18 @@ database "Operational" as operationaldb <<dbServer>> {
 node "ETL" as transformer <<hostingServer>> {
     [Data Processor] as T
 }
-' node "Data API" as dataapi <<hostingServer>> {
-'     [Data API] as API
-' }
-node "Watchdog" as watchdog1 <<hostingServer>> {
-    [Watchdog1] as WTD1
+node "Data API" as dataapi <<hostingServer>> {
+    [Data API] as API
+}
+
+node "Heartbeat" as heartbeat <<hostingServer>> {
+    [Heartbeat] as HTB
 }
 node "Watchdog" as watchdog2 <<hostingServer>> {
-    [Watchdog2] as WTD2
+    [Watchdog] as WTD2
+}
+node "Watchdog" as watchdog3 <<hostingServer>> {
+    [Watchdog] as WTD3
 }
 
 ' Identity
@@ -37,8 +41,8 @@ DASH -- IS: HTTPS
 ' Dashboard interactions
 DASH -- DE
 DASH -- GE
-' DASH - API: HTTPS
-DASH - ADB: HTTPS
+DASH - API: HTTPS
+' DASH - ADB: HTTPS
 
 ' Data Transformer
 ODB -- T: HTTP
@@ -48,7 +52,11 @@ T -- ADB: HTTP
 API -- ADB: HTTP
 
 ' Watchdog
-WTD1 -- T: HTTP 
 WTD2 -- DASH: HTTP
+WTD3 -- IS: HTTP
+
+' Heartbeat
+HTB -- T: HTTP 
+HTB -- API: HTTP
 
 @enduml
