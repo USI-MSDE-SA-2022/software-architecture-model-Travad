@@ -13,8 +13,8 @@ participant "Heartbeat​​ Monitor" as HTB
 participant "Clock" as CLC
 
 ' Monitoring resources
-DAPI -> HTB: "beat"
 CLC -> HTB: "tick"
+DAPI -> HTB: "beat"
 
 ' Authentication in the meanwhile
 PBI -> AAD: Check the attempt of a user to enter the platform
@@ -30,8 +30,8 @@ HTB -> HTB: Timeout occurred, API component is down.
 HTB -> DAPI: Re-deploy the service (container)
 
 ' The service is up and running when it sends the beat to the monitoring service
+CLC -> HTB: "tick"
 DAPI -> HTB: "beat"
-HTB -> DAPI: "tick"
 
 ' Re-attempt to retrieve the data
 PBI -> DAPI: /GET (query)
