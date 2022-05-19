@@ -1,5 +1,5 @@
 @startuml
-title Use case: Access during ETL processing
+title (Basic) use case: access to the dashboard from multiple users
 
 box "Identity"
 participant "Azure Active Directory" as AAD
@@ -7,49 +7,28 @@ end box
 
 participant "Power BI" as PBI
 
-participant "Operational DB" as ODB
-participant "Analytical DB" as ADB
+box "Load Balancer"
+participant "Load Balancer" as LB
+participant "Directory" as DIR
+end box
+
 participant "Data API​" as DAPI
 
-box "Master/Workers"
-participant "Data Processor" as MASTER
-participant "Partition" as PARTITION
-participant "Worker" as W1
-participant "Worker" as W2
-end box
+participant "Operational DB" as ODB
+participant "Analytical DB" as ADB
+
 
 ' Authentication in the meanwhile
 PBI -> AAD: Check the attempt of a user to enter the platform
 AAD -> AAD: Verify authentication of the user
 AAD -> PBI: Provide authentication success or failure
 
-' The data API service attempts to query and reach out to check if any ETL job is schedule
-PBI -> DAPI: /GET (query)
-
-' Query the operational DB in the meantime
-MASTER -> ODB: Query
-ODB -> MASTER: Query result 
-
-' What if a request arrive in the middle of a ETL process?
-DAPI -> MASTER: Any scheduled ETL process?
-MASTER -> DAPI: Yes
-
-' Complete the job in the meantime
-MASTER -> PARTITION: Generate partitions for the workers
-PARTITION -> MASTER: Partitions generated
-MASTER -> W1: Assign job to worker
-MASTER -> W2: Assign job to worker
-W1 -> MASTER: Job result
-W2 -> MASTER: Job result
-MASTER -> ADB: Merge result
-
-' Alert the schedule is done
-MASTER -> DAPI: Scheduling is over
-
-' Re-attempt to retrieve the data
-PBI -> DAPI: /GET (query) re-attempt
-DAPI -> ADB: Query
-
+' The dashboard attempts to query the 
+PBI -> LB: Allocate resources for a GET Request: /GET (query)
+LB -> DIR: Retrieve the location of the allocated worker
+DIR -> LB: Return location of the allocated worker
+LB -> DAPI: Forwards the /GET (query) to received path
+DAPI -> ADB: Query the DB
 ADB -> DAPI: Query results
 DAPI -> PBI: Forward the data of the request
 PBI -> PBI: Render the graphs and display them to the user

@@ -25,6 +25,7 @@ node "Data API" as dataapi <<hostingServer>> {
 }
 
 node "Load Balancer" as LB 
+node "Directory" as DIR 
 
 ' Identity
 ' API -- IS: HTTPS
@@ -35,9 +36,9 @@ DASH -- DE
 DASH -- GE
 
 ' load balancer interactions
-DASH - LB: HTTPS
+DASH - LB: HTTP
+DIR - LB
 LB - API: HTTPS
-' DASH - ADB: HTTPS
 
 ODB -- T: HTTP
 T -- ADB: HTTP

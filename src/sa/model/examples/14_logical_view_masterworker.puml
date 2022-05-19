@@ -8,14 +8,13 @@ title Fruitdash - Logical View - Master/Worker
 rectangle Backend {
 
    component [Data API] as ASP #EDEDED
+   interface " " as ASPIN #EDEDED
 
    ' Database layer services
    component [Operational DB <$database{scale=0.33}>] as CDBO #EDEDED
    component [Analytical DB <$database{scale=0.33}>] as CDBA #EDEDED
    interface " " as CDBOI
    interface " " as CDBAI
-
-   ' component [Data Processor] as TA  #EDEDED
 
    ' data processor workers
    rectangle DataProcessor {
@@ -41,8 +40,12 @@ rectangle Backend {
    CDBOI )-- MAST
 
    ' connect TA to Operational DB
-   MAST --( MAST
+   MAST --( MASTI
    MASTI -- CDBA
+   
+   ' connect master to data api for communication
+   MAST -- ASPIN
+   ASPIN )-- ASP
    
 
 }
@@ -66,8 +69,6 @@ rectangle UserInterface {
 component Identity {
    component [Azure Active Directory] as AAD #EDEDED
 }
-
-component Directory as DIR #EDEDED
 
 ' Stateful
 CDBA -- CDBAI 

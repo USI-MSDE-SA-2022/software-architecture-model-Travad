@@ -28,8 +28,8 @@ AAD -> PBI: Provide authentication success or failure
 PBI -> DAPI: /GET (query)
 
 ' Query the operational DB in the meantime
-MASTER -> ODB: Query
-ODB -> MASTER: Query result 
+' MASTER -> ODB: Query
+' ODB -> MASTER: Query result 
 
 ' What if a request arrive in the middle of a ETL process?
 DAPI -> DIR: Find the data processor 

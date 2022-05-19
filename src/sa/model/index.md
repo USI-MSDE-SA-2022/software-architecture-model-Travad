@@ -1349,7 +1349,7 @@ I decided to introduce a master / worker architecture solution
 <!-- What are the constraints? -->
 <!-- What is the scope of your decision? Does it affect the entire architecture? -->
 The goal of this decision is to speed up the ETL process by introducing a master / worker architecture
-that achieves parralel computations
+that achieves parallel computations
 
 #### 3. What is the problem you are trying to solve?
 <!-- You may want to articulate the problem in form of a question. -->

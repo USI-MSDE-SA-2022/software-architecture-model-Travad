@@ -49,7 +49,7 @@ component Identity {
 }
 
 component [Load Balancer] as LB #EDEDED
-' component [Directory] as DIR #EDEDED
+component [Directory] as DIR #EDEDED
 
 ' Stateful
 CDBA -- CDBAI 
@@ -57,11 +57,15 @@ CDBAI )-- ASP
 
 ' Data service layer
 interface " " as LBI
+interface " " as DIRI
 interface " " as ASPI
 PBI --( LBI
 LBI -- LB
 
-LB --( ASPI
+LB --( DIRI
+DIRI -- DIR
+
+DIR --( ASPI
 ASPI -- ASP
 
 ' Identity
