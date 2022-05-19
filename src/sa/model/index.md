@@ -1331,6 +1331,17 @@ Therefore, this operation could be expensive and might take a long time to compl
 <!-- Logical view -->
 !["FruitDash - Logical View - Master/Worker"](./examples/14_logical_view_masterworker.puml)
 
+{.feedback
+
+There is some disconnected element (Directory) and an edge which loops back on the master
+
+The process view looks correct, the logical view is not consistent
+
+Should the directory be also informed that the job "scheduling" is over?
+
+}
+
+
 <!-- Deployment view -->
 !["FruitDash - Deployment View - Master/Worker"](./examples/14_deployment_view_masterworker.puml)
 
@@ -1425,7 +1436,11 @@ The external components (PowerBI and Azure Active Directory) are highly availabl
 <!-- Process -->
 !["FruitDash - Process View - Load Balancer"](./examples/14_process_view_loadbalancer.puml)
 
+{.feedback
 
+The process view does not include a load balancer (duplicate of the master/worker example)
+
+}
 
 # Ex - Flexibility
 
