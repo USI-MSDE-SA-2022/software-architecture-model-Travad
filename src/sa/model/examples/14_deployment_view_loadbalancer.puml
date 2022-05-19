@@ -18,15 +18,13 @@ database "Operational" as operationaldb <<dbServer>> {
 }
 
 node "ETL" as transformer <<hostingServer>> {
-    [Data Processor (Master)] as T
-    [Worker] as W1
-    [Worker] as W2
+    [Data Processor] as T
 }
 node "Data API" as dataapi <<hostingServer>> {
     [Data API] as API
 }
 
-node "Directory" as DIR
+node "Load Balancer" as LB 
 
 ' Identity
 ' API -- IS: HTTPS
@@ -35,19 +33,14 @@ DASH -- IS: HTTPS
 ' Dashboard interactions
 DASH -- DE
 DASH -- GE
-DASH - API: HTTPS
-' DASH - ADB: HTTPS
 
-' Data Transformer
-T -- W1
-T -- W2
+' load balancer interactions
+DASH - LB: HTTPS
+LB - API: HTTPS
+' DASH - ADB: HTTPS
 
 ODB -- T: HTTP
 T -- ADB: HTTP
-
-' directory component for dependencies
-T -- DIR
-DIR -- API
 
 ' Data sourcing
 API -- ADB: HTTP

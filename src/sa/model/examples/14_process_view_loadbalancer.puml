@@ -10,7 +10,6 @@ participant "Power BI" as PBI
 participant "Operational DB" as ODB
 participant "Analytical DB" as ADB
 participant "Data API​" as DAPI
-participant "Directory" AS DIR
 
 box "Master/Workers"
 participant "Data Processor" as MASTER
@@ -32,8 +31,6 @@ MASTER -> ODB: Query
 ODB -> MASTER: Query result 
 
 ' What if a request arrive in the middle of a ETL process?
-DAPI -> DIR: Find the data processor 
-DIR -> DAPI: (available) processor's information 
 DAPI -> MASTER: Any scheduled ETL process?
 MASTER -> DAPI: Yes
 

@@ -1328,11 +1328,15 @@ Therefore, this operation could be expensive and might take a long time to compl
 
 ### 3. Scalability solution
 
-<!-- Process -->
-!["FruitDash - Process View"](./examples/14_process_view_masterworker.puml)
+<!-- Logical view -->
+!["FruitDash - Logical View - Master/Worker"](./examples/14_logical_view_masterworker.puml)
 
-<!-- Logical view and deployment view -->
-!["FruitDash - Deployment View - Master Worker"](./examples/14_deployment_view_masterworker.puml)
+<!-- Deployment view -->
+!["FruitDash - Deployment View - Master/Worker"](./examples/14_deployment_view_masterworker.puml)
+
+<!-- Process -->
+!["FruitDash - Process View - Master/Worker"](./examples/14_process_view_masterworker.puml)
+
 
 ### 4. Scalability pattern (ADR)
 
@@ -1347,31 +1351,80 @@ I decided to introduce a master / worker architecture solution
 The goal of this decision is to speed up the ETL process by introducing a master / worker architecture
 that achieves parralel computations
 
-### 3. What is the problem you are trying to solve?
+#### 3. What is the problem you are trying to solve?
 <!-- You may want to articulate the problem in form of a question. -->
 The current solution does not scale when huge amounts of data need to be ingested into the analytical database
 from the operational database.
 
-### 4. Which alternative options did you consider?
+#### 4. Which alternative options did you consider?
 <!-- List at least 3 options -->
 1. Master / worker architecture
 2. No other solution were considered
 
-### 5. Which one did you choose?
+#### 5. Which one did you choose?
 <!-- Pick one of the options as the outcome of your decision -->
 Master / worker architecture
 
-### 6. What is the main reason for that?
+#### 6. What is the main reason for that?
 <!-- List the positive consequences (pros) of your decision: -->
 <!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
-The only components that perform write operation in my case is the data processor. As the goal of my application is to display data and speed up the analytical process within the company, the data that is displayed must be accurate. Therefore, the synchronous replication strategy is the one that suits best, as it allows us to have the most up-to-date data.
-
-On the other hand, the synchronous strategy might take time for replicas to be coordinated and therefore, it might
-slow down the process of extracting, transforming and loading data into the analytical database.
+The master / worker architecture is the one that suits best for this problem. During overloaded ETL processes while the user is interacting with the dashboard, the master / worker architecture allows us to have the most up-to-date data by speeding up the transformation process and loading data into the analytical database with the least possible delay.
 
 ### 5. Component discovery (ADR)
 
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to introduce a discovery scalability strategy
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this decision is to enable the Data API to discover the data processor component 
+
+#### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+The data processor component might need to perform an ETL process, and the Data API needs to know
+the address of such component. This should not be hardcoded.
+
+#### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Directory
+2. Dependency Injection
+
+#### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+Directory
+
+#### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The Data API needs a way to reach the data processor component in a dynamic way, since the address of such
+dependency might change during the ETL process, as the work could be distributed on multiple physical locations.
+We then need a middle layer component that can take the responsibility of keeping track of the addresses of the dependencies
+that can constantly change. Therefore, we need a directory component rather than a dependency injection one, which would retrieve
+the dependency position once and will always return the same address.
+
 ## Dimension 2 (Number of clients)
+
+### 1. Scalability dimension
+I decided to pick the **number of clients** as the second scalability dimension to challenge my solution.
+
+### 2. Scalability bottleneck
+The solution proposed could in theory handle a large number of clients and certainly, the clients that are part of a small-medium enterprise (SME). Nevertheless, if such a solution should be adopted from large corporations, the number of clients that could potentially utilize the service at the same can grow to a very large number. Is the architecture ready to process all these requests?
+The external components (PowerBI and Azure Active Directory) are highly available and scalable services. Hence, the bottleneck can only be on the API backend service that is responsible of fetching the data from the database and providing it to the UI (PowerBI dashboard). When the amount of customers start to increase above a certain threshold (e.g. 100), the service might be overloaded and the UI might not be able to respond to the user's requests.
+
+### 3. Scalability solution
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Load Balancer"](./examples/14_logical_view_loadbalancer.puml)
+
+<!-- Deployment view -->
+!["FruitDash - Deployment View - Load Balancer"](./examples/14_deployment_view_loadbalancer.puml)
+
+<!-- Process -->
+!["FruitDash - Process View - Load Balancer"](./examples/14_process_view_loadbalancer.puml)
+
 
 
 # Ex - Flexibility

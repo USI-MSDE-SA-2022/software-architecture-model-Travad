@@ -1,0 +1,91 @@
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Fruitdash - Logical View - Master/Worker
+
+rectangle Backend {
+
+   component [Data API] as ASP #EDEDED
+
+   ' Database layer services
+   component [Operational DB <$database{scale=0.33}>] as CDBO #EDEDED
+   component [Analytical DB <$database{scale=0.33}>] as CDBA #EDEDED
+   interface " " as CDBOI
+   interface " " as CDBAI
+
+   ' component [Data Processor] as TA  #EDEDED
+
+   ' data processor workers
+   rectangle DataProcessor {
+      
+      component [Master] as MAST #EDEDED
+      component [Worker 1] as W1 #EDEDED
+      component [Worker 2] as W2 #EDEDED
+      
+      interface " " as W1I
+      interface " " as W2I
+
+      MAST -- W1I
+      W1I )-- W1
+      MAST -- W2I
+      W2I )-- W2
+
+   }
+
+   interface " " as MASTI
+
+   ' connect Operational DB to Transformer Adapter
+   CDBO -- CDBOI
+   CDBOI )-- MAST
+
+   ' connect TA to Operational DB
+   MAST --( MAST
+   MASTI -- CDBA
+   
+
+}
+
+rectangle UserInterface {
+   ' component [Dashboard] as DS
+   component [Power BI - Dashboard] as PBI #EDEDED
+   ' interface " " as PBII
+   component [Power BI - Data Extractor] as PBIDE #EDEDED
+   interface " " as PBIDEI
+   PBIDE -- PBIDEI
+   PBIDEI )-- PBI
+
+   ' extractor
+   component [Graph Extractor] as GE #EDEDED
+   interface " " as GEI
+   GE -- GEI
+   GEI )-- PBI
+}
+
+component Identity {
+   component [Azure Active Directory] as AAD #EDEDED
+}
+
+component Directory as DIR #EDEDED
+
+' Stateful
+CDBA -- CDBAI 
+CDBAI )-- ASP
+
+' Data service layer
+interface " " as ASPI
+PBI --( ASPI
+ASPI -- ASP
+
+' Identity
+interface " " as AZUREADI
+AAD -- AZUREADI
+ASP --( AZUREADI
+PBI --( AZUREADI
+
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
