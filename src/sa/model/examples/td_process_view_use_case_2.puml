@@ -1,0 +1,26 @@
+@startuml
+title Extract the data in tabular form​
+
+box "Identity"
+participant "Identity" as IS
+end box 
+participant "Dashboard" as DS
+participant "Database service​" as DBS
+participant "Data API​" as DAPI
+participant "Graph provider​" as GP
+participant "Data extractor​​" as DE
+
+IS -> DS: Grants access to the user
+DS -> DE: Request to extract  the displayed data in tabular form (Excel)​
+DE -> IS: Asks for authorization to the manager​
+IS -> DE: Provides authorization approval​
+DE -> DAPI: Requests the data​
+DAPI -> DBS: Fetch the data​
+DBS -> DAPI: Returns the data fetched
+DAPI -> DE: Forwards the data received
+DE -> DS: Provides the file to be saved​
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

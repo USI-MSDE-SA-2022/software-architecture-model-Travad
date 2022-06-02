@@ -1,5 +1,5 @@
 title: 
-Software Architecture Model
+Software Architecture Model of FruitDash by Daniel Travaglia
 ---
  
 # Getting started
@@ -11,7 +11,6 @@ This document will grow during the semester as you sketch and refine your softwa
 When you are done with each task, please push so we can give you feedback about your work.
 
 We begin by selecting a suitable project domain.
-
 
 
 # Ex - Domain Selection 
@@ -45,15 +44,22 @@ Hint: to choose a meaningful project look at the rest of the modeling tasks whic
 
 }
 
-Project Name: *My Project*
+Project Name: *FruitDash*
 
-Project Type:
+Project Type: Web application
 
-Vision Statement:
-
-Additional Information:
-
-
+Vision Statement: 
+  For small-medium enterprise employees, 
+  who need to make decisions based on clear visualized information, 
+  FruitDash is a web-based dashboard that displays metrics based on the fruit and vegetable orders of their clients.
+  Unlike Excel, 
+  Fruitdash provides the required information instantaneously to speed up the decision-making process
+  and enables the sharing of consistent information across the whole company. 
+   
+Additional Information: This is a project that I aim to build in the future. The dashboard
+should be accessible by multiple users at the same time and it should be built so that it respects
+conventions on how information should be displayed using tables and graphs. Furthermore, the application
+will be built using ASP.NET Core Framework (C#) and SQL Server as the database technology for retrieving data.
 
 # Ex - Architectural Decision Records
 
@@ -73,7 +79,103 @@ Exceed: >2 ADR
 
 }
 
-![Architectural Decision Record Template](./examples/decision-template.madr)
+<!-- ![Architectural Decision Record Template](./examples/decision-template.madr) -->
+
+## ADR #1
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to adopt an external product as the go-to tool to develop the company dashboard.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+We need to decide whether to adopt a third-party application or to build one from scratch. The factors involved in this decision are mainly to keep data consistent across users, make sure that multiple users can access the product concurrently as well as to provide simple yet captivating visualization. To consider is also that the data of the client is already stored in a Microsoft SQL Server database. This decision deeply influences the choices on the expertise needed to develop the project as well as the technology to adopt.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Would it be better to adopt an already existing solution on top of which we can build our final product or should we opt for an in-house solution?
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Internal solution: an Office Adds-in for Excel
+2. Internal solution: a web framework solution 
+3. External solution: Microsoft Power BI
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I picked to go for the external solution and therefore adopt the Microsoft Power BI platform.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. Besides the possibility to share the dashboard with multiple users in real-time, the killer feature of this solution is the ability to translate natural language requests for scouting data. The tool provides a connector to extract data from Microsoft SQL database. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it also grants low costs. Providing the same features with a solution built from scratch might results in far greater costs and might also provide less features. On the other hand, it would grant more flexibility when it comes to personalize the dashboard for ad-hoc analyses.
+
+## ADR #2
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+<!-- Allow the download of Excel for the data that is visualized on the dashboard > -->
+Allow the download of visualized data directly from the dashboard in Excel format. 
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The context of this decision is to allow the user to download data directly from the dashboard so to enable further or even ad-hoc analysis on a specific context. It should be made simple for the user to use (e.g. an Excel icon button link to click) but it should not have an impact on the visualizations, which clearly has the priority. There is no impact on the architectural side of the application.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Introduce flexibility in the data analysis process for the user. 
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. An external service that retrieve data directly from the database and produce an ad-hoc Excel file.
+2. A Microsoft Power BI plug-in service
+3. Set up a recurrent job / task on the already existing database server 
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+The Microsoft Power BI plug-in solution.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement satisfaction of external constraint If any, list the negative consequences (cons) quality degradation -->
+This decision will allow the user to perform further analysis on any piece of information that is identified from the visualizations provided. 
+
+A clear negative consequence of this decision is the cost involved, as it consists of a premium SaaS feature of the Microsoft Power BI software.
+
+## ADR #3
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+Provide additional security thanks to 2-factors authentication.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The current infrastructure of the company is built in such a way that information security is clearly a priority. The goal here is to keep information protected yet easily accessible. However, protecting information often introduces slowtimes and reduces the product usability. Nevertheless, as the client is particularly sensible to this topic, reduced usability should not represent a big problem.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Keeping information secure.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. SMS external provider 2-factors authentication
+2. Microsoft Authentication service
+3. Multi-factor authentication for Power BI
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+Multi-factor authentication for Power BI.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement satisfaction of external constraint If any, list the negative consequences (cons) quality degradation -->
+Two-factors authentication adds a layer of protection as to ensure the identify of the user and that the user has authorization to access the dashboard. On the other hand, it decreases usability and might have an impact on the usage frequency of the dashboard. 
 
 
 # Ex - Quality Attribute Scenario
@@ -120,7 +222,7 @@ Exceed: >6 scenarios using challenging qualities
 
 }
 
-## Example Scenario
+<!-- ## Example Scenario
 
 Quality: _Recoverability_
 
@@ -146,7 +248,261 @@ Source -> [System] : "Boot"
 
 @enduml
 ```
- 
+  -->
+
+## Scenario 1
+
+Quality: _Compatibility_
+
+Scenario: The user should be able to access the dashboard from any device.
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "When a user connects to the platform" {
+
+rectangle "User" as Source
+rectangle "Design consistency metrics" as Measure
+
+Source -> [Device] : "Connects"
+
+[Device] -> [Measure] : "Visualize"
+
+}
+
+@enduml
+```
+
+## Scenario 2
+
+Quality: _Security_
+
+Scenario: When the user authenticate, two-factor-authentication should fail with more than 3 attempts. 
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Two-factors authentication" {
+
+rectangle "User" as Source
+rectangle "Max available attempts reached" as Measure
+
+Source -> [System] : "(3x) Incorrect Authentications"
+
+[System] -> [Measure] : "Error"
+
+}
+
+@enduml
+```
+
+<!-- {.feedback
+
+Make the refined scenario more precise
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "two-factor-authentication" {
+
+rectangle "User" as Source
+rectangle "Max attempts reached" as Measure
+
+Source -> [System] : "Incorrect Authentication (3x)"
+
+[System] -> [Measure] : "Failure"
+
+}
+
+@enduml
+```
+
+} -->
+
+## Scenario 3
+
+Quality: _Capacity_
+
+Scenario: The system should be able to handle requests from the maximum user's capacity of 100 users simultaneously.    
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Normal Operation (with sufficient resources)" {
+
+rectangle "Users" as Source
+rectangle "Seamless performance" as Measure
+
+Source -> [System] : "100 simultaneous connections"
+
+[System] -> [Measure] : "Responds"
+
+}
+
+@enduml
+```
+
+
+<!-- {.feedback
+
+Make the refined scenario more precise
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Normal Operation (with sufficient resources)" {
+
+rectangle "Users" as Source
+rectangle "Acceptable Performance" as Measure
+
+Source -> [System] : "100 simultaneous connections"
+
+[System] -> [Measure] : "Responds"
+
+}
+
+@enduml
+```
+
+} -->
+
+## Scenario 4
+
+Quality: _Ease of Integration_
+
+Scenario: It should be possible to retrieve the same application underlying data with 1 single consistent API.
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "When a program issues a request to the API" {
+
+rectangle "Program" as Source
+rectangle "The same base route (common prefix)" as Measure
+
+Source -> [System] : "Issues a request"
+
+[System] -> [Measure] : "Replies"
+
+}
+
+@enduml
+```
+
+## Scenario 5
+
+Quality: _Ease of Support_
+
+Scenario: In case of service failure, the user should receive support within 30 minutes. 
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "When a user encounters a system failure" {
+
+rectangle "User" as Source
+rectangle "Within 30 minutes" as Measure
+
+Source -> [System] : "Interacts with the"
+
+[System] -> [Measure] : "Triggers a failure and reply"
+
+}
+
+@enduml
+```
+
+## Scenario 6
+
+Quality: _Time To Market_
+
+<!-- {.feedback
+
+Better quality:
+
+- Time to Market
+
+since no budget or cost is mentioned in the scenario
+
+} -->
+
+Scenario: As per customer request, the software should be ready within 4 months.
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "Time of development" {
+
+rectangle "Customer" as Source
+rectangle "4 months" as Measure
+
+Source -> [System] : "Requests"
+
+[System] -> [Measure] : "Within"
+
+}
+
+@enduml
+```
+
+## Scenario 7
+
+Quality: _Privacy_
+
+Scenario: As per customer request, when an account is canceled, all the related data should be deleted immediately.
+
+```puml
+@startuml
+
+skinparam componentStyle rectangle
+skinparam monochrome true
+skinparam shadowing false
+
+rectangle "A user cancels the account" {
+
+rectangle "User" as Source
+rectangle "Data unavailable" as Measure
+
+Source -> [System] : "Cancel request"
+
+[System] -> [Measure] : "Issue user data request"
+
+}
+
+@enduml
+```
 
 # Ex - Quality Attribute Tradeoff
 
@@ -164,10 +520,23 @@ Exceed: >2 trade-offs
 
 }
 
-## Portability vs. Performance (Example)
+<!-- ## Portability vs. Performance (Example)
 
-Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance.
+Developing an app natively for each OS is expensive and time consuming, but it benefits from a good performance. Choosing a cross-platform environment on the other hand simplify the development process, making it faster and cheaper, but it might suffer in performance. -->
 
+## Feasibility vs. Defensibility
+
+On one hand, we need to ensure that the software is protected from every possible external attack. However, to achieve this objective, time and money investments are critical, which would make the system less feasible. On the other hand, a developer would like to build an affordable architecture with the shortest possible time to market, often compromising defensibility.
+
+## Reliability vs. Scalability
+
+During development phase, one of the underlying objective of a developer is to make a system reliable, so that failures happen unfrequently. Nevertheless, if the focus shifts to scalable application, reliability might deteriorate. The software would have to deal with an increasing amount of requests and as such, failures would naturally occur more frequently.
+
+## Compatibility vs. Modifiability
+
+Ensuring that the user can access an application from multiple devices might lead to an increase in software's usability and flexibility, but it could also introduce design complexity and make it difficult to update the software. On the other hand, the developer could add additional features to the architecture, but would need to make sure that these changes are applied uniformly across the whole range of devices a user can use.
+
+<!-- TODO -->
 # Ex - Feature Modeling
 
 {.instructions
@@ -187,6 +556,8 @@ Good: Include at least 6 non-trivial features, which are all implemented by your
 Exceed: Include more than 8 non-trivial features, indicate which are found in your project and which belong to one competitor
 
 }
+
+![Fruith Dash Modelling](./examples/fruitdash.puml)
 
 
 # Ex - Context Diagram
@@ -209,7 +580,7 @@ Exceed: >1 User and >1 Dependency, with both incoming and outgoing dependencies
 
 }
 
-
+![Fruitdash Context Diagram](./examples/context_fd.puml)
 
 
 # Ex - Component Model: Top-Down
@@ -320,12 +691,29 @@ Exceed: >6 components (>1 decomposed) and >2 use case/process view
 
 ## Logical View
 
+![FruitDash - Logical View](./examples/logical_view_top_down.puml)
 
+<!-- {.feedback
+
+Check and correct the dependencies. X )- Y indicates that Y requires what X provides. If X )- Y in the logical view, the process view should consistently show that Y -> X, Y calls X and not the other way around.
+
+Also each component should have a distinct interface.
+
+} -->
 
 ## Process Views
 
-Use Case: 
+First Use Case: 
 
+![FruitDash - Process View 1](./examples/td_process_view_use_case_1.puml)
+
+Second Use Case: 
+
+![FruitDash - Process View 2](./examples/td_process_view_use_case_2.puml)
+
+Third Use Case: 
+
+![FruitDash - Process View 3](./examples/td_process_view_use_case_3.puml)
 
 
 # Ex - Component Model: Bottom-Up
@@ -348,6 +736,98 @@ Exceed: Redesign based on >3 reused components (1 Logical View, >1 Process View,
 
 }
 
+## Reused Components List
+
+* [SQL Server Standard](https://www.microsoft.com/it-it/sql-server/sql-server-downloads)
+* [Power BI](https://powerbi.microsoft.com/it-ch/)
+<!-- * [Power BI - In-app Excel Analyzer](https://docs.microsoft.com/en-us/power-bi/collaborate-share/service-analyze-in-excel) -->
+* [Power BI - Excel data extractor](https://docs.microsoft.com/en-us/power-bi/collaborate-share/service-connect-power-bi-datasets-excel)
+* [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/#features)
+* [ASP.NET - Web API](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio)
+
+## Logical View
+
+![FruitDash - Logical View](./examples/logical_view_bottom_up.puml)
+
+## Process Views
+
+First Use Case: 
+
+![FruitDash - Process View 1](./examples/bu_process_view_use_case_1.puml)
+
+Second Use Case: 
+
+![FruitDash - Process View 2](./examples/bu_process_view_use_case_2.puml)
+
+## ADR
+
+### ADR #1
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to adopt Azure Active Directory as a solution for the identity service.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+In the context of my application, I need a service that is capable of handling basic authentication and authorization
+features, but that is also supporting advanced features such as 2FA. 
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Keep the data protected and not accessible from users that do not have the authorization to see them.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Identity framework supported by the ASP.NET Framework
+2. Power BI - Microsoft Account
+3. Azure Active Directory
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go with the third option: Azure Active Directory.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The main reason for my choice is that the identity is a critical component of the whole architecture. Giving support 
+through a framework might introduce bugs in the application that can be difficult to handle. Hence, the first option
+is excluded. The second option initially was my first choice, but there is drawback: it cannot be integrated with a
+SQL Server solution to check that the user has the proper authentication grants to visualize the data. 
+Finally, Azure Active Directory can be integrated in all the components that I picked, and it is therefore the solution I decided to opt for.
+
+### ADR #2
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+To adopt Power BI as the development tool to set up the company's data dashboard
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+We need to decide whether to adopt a third-party application or to build one from scratch. The factors involved in this decision are mainly to keep data consistent across users, make sure that multiple users can access the product concurrently as well as to provide simple yet captivating visualization. To consider is also that the data of the client is already stored in a Microsoft SQL Server database. This decision deeply influences the choices on the expertise needed to develop the project as well as the technology to adopt.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Making sure that the application has a great and consistent UI without compromising the security and scalability 
+features that the client request
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Using a web development frameworks: Angular or React
+3. Using a Microsft Office Adds-in for Excel
+3. Using a third-party software: Microsoft Power BI
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go with the last option and develop the application using the Microsoft Power BI platform.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+Microsoft Power BI provides a friendly and easy-to-use environment to create modern dashboards. This tool provides a connector to extract data from Microsoft SQL database and it can be easily integrated with Azure Active Directory module to grant security features. Moreover, as the data stored has a low disk footprint and the tool subscription is free up to 1GB of data loaded per user, it might also grant lower costs of development and maintenance. 
 
 # Ex - Interface/API Specification
 
@@ -377,6 +857,23 @@ Exceed: Also, document the Web API using the OpenAPI language. You can use the [
 
 }
 
+### Interface API Specification
+
+![FruitDash - Interface API/Specification](./examples/td_fruitdash_interface.puml)
+
+{.feedback
+
+What kind of event is `onRefreshUpdateGraphs()` - what provokes it?
+
+Which component of your architecture implements the Web API?
+
+}
+
+### OpenAPI Specification
+
+![FruitDash - OpenAPI Specifications](../../../src/sa/model/assets/openapi-fruitdash-tree.png)
+
+
 # Ex - Connector View
 
 {.instructions
@@ -395,6 +892,53 @@ Exceed: introduce a new type of connector and update your existing process view
 (sequence diagram) to show the connector primitives in action
 
 }
+
+<!-- ![Example Connector View Diagram](./examples/connector-view.c5) -->
+
+<!-- Connector 1 -->
+## Connector View Diagram
+![Connector View Diagram](./examples/fruitdash-connector-view.c5)
+
+<!-- Connector 2 -->
+## ADR Connector
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to introduce a tuple space to handle the interface between the dashboard, the graph and the data extractor components
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of my decision is to be able to render graphs on the UI (dashboard) in a simple and efficient manner,
+without having to extract data from the SQL database every time a new graph needs to be rendered. Imagine the 
+user would like to display a graph that has been already rendered previously. I would like to retrieve the 
+data from a temporary storage to avoid the render component to wait for the data extraction before rendering the graph. This would also allow to simplify the data extraction, as when the user issues a request to save
+data, the data can be extracted directly from the tuple space.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Making sure that the user does not have to wait long for graphs to render when the data is already available.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Using a web API to connect the components
+3. Using an RPC procedule call to connect the components
+3. Using a tuple space to connect the components
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go with the last option and introduce a tuple space to handle the interface between the dashboard, the graph and the data extractor components.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The main reason is that the option I went for improves the experience of the user as the graphs are rendered without having to wait for the data extraction from the database through the API. The user should experience
+an improvement of the overall experience of using the application.
+
+<!-- Connector 3 -->
+## Process View Diagram
+![Process View Diagram update](./examples/fruitdash-pw-update.puml)
 
 # Ex - Adapters and Coupling
 
@@ -433,6 +977,95 @@ Whenever you have a connector you couple together the components and different c
 
 }
 
+## Adapters 
+
+### 11.1
+
+![FruitDash - Logical View - Adapters](./examples/lw_bottom_up_adapters.puml)
+
+### 11.2 - Adapters
+
+<!-- First adapter -->
+To accomplish the task for this assignment, I substituted the PowerBI integrated graph extractor component
+with a personalized graph extractor that achieve the same result, but is built outside the PowerBI world 
+and therefore, it would need an adapter to make sure that these two can talk to each other.
+The Graph Adapter API is designed for this purpose and it serves the client with a service to extract 
+the graph data from the PowerBI interface.
+
+<!-- Second adapter -->
+The second adapter is a component that plays the role of an adapter in the view. Its role is to transform the
+operational (day-to-day transactions) database into data that can be analyzed and displayed quickly and that
+it can be stored in an analytical database (such as Cassandra, MongoDB, etc...).
+
+### 11.3 - Wrapper
+
+Not provided in this case as no suitable wrappers were identified
+<!-- ![FruitDash - Logical View - Wrapper](./examples/lw_bottom_up_wrappers.puml) -->
+
+<!-- Wrapper to be added -->
+
+### 11.4 - Standard Interfaces
+The bottom-up architecture diagram displays components that already expose standard interfaces to be able to communicate with each other components. The communication is mainly implemented through REST APIs interfaces between components by exchanging 
+information in JSON format. The Data Extractor and Graph Extractor in reality are components that are integrated within
+the PowerBI solution, which ultimately exposes APIs interfaces to the outside world to be able to call these operations
+even from other components. 
+
+### 11.5 - Coupling Facets
+First of all, a timing facet is present between the Dashboard and the Graph Extractor components, as the extractor 
+waits for the synchronous call from the dashboard to return the graph data once the user triggers the action to extract
+the figure from the UI. 
+
+Second, we face a binding facet because of the relationships established with the vendors of PowerBI and Azure Active Directory. If the price of these services increases, the cost of the solution will increase and consequently, the business
+should take into consideration the possibility of switching to a different vendor solution. For instance, PowerBI is cheap
+for low data loading solutions (as in our case), but starts to become increasingly expensive as soon as the data scales.
+
+Thirdly, a platform independence facet is present between the Identity Service (implemented through means of the Azure Active Directory) and the other services that requires authentication. Switching to other authentication services might require
+a change in the architecture that the client could notice (e.g., using Google Authentication services, the client would need
+to register and log-in with a different account).
+
+Finally, the presence of a discovery facet between PowerBI (front-end) and the Data API service (back-end), which requires
+an address to be provided to the client to fetch data from the API. The API server is unique and receives a static IP address,
+which would allow PowerBI to calls the API with the same address for each possible call.
+
+### 11.6 - Pseudo-code or Codes
+
+Graph Adapter API
+```
+function upload_graph_image(dashboard_id, graph_id)
+    user = getCurrentActiveUser(dashboard_id)
+    user_auth = getUserAuth(user)
+    if user_auth {
+      graph_image = getGraphFromPowerBI(user, dashboard_id, graph_id)
+      return graph_data
+    }
+    else {
+      throw an exception for the "user not authorized"
+    }
+```
+
+Transformer Adapter API
+```
+function query_data(sql_query) {
+    return query(sql_query)
+}
+
+function pre_process_data(sql_query)
+    data = query_data(sql_query)
+    data_no_empties = dropEmptyEntries(data)
+    data_cleaned_boundaries = checkExpectedBoundaries(data)
+    data_columnar_metadata = addMetadataInfo(data_cleaned_boundaries)
+    data_columnar_type_fields = convertToCorrectTypeField(data_columnar_metadata)
+    return data_columnar_type_fields
+
+// ingestion ...
+```
+
+### 11.7
+In my opinion the coupling among my components is already minimized and I do not see any improvements to be made. There is a strong relationship
+binding with the vendors of PowerBI and Azure Active Directory, but any other vendor solution would introduce the same problem. 
+
+
+
 # Ex - Physical and Deployment Views
 
 {.instructions
@@ -462,6 +1095,54 @@ Exceed: 1 physical view, 1 deployment view, 1 ADR (b.) + 1 demo (c.)
 
 }
 
+### 1. Physical view
+![FruitDash - Logical View - Adapters](./examples/physical_view.puml)
+
+### 2. Deployment view
+![FruitDash - Logical View - Adapters](./examples/deployment_view.puml)
+
+### ADR (Deployment strategy)
+
+### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to go only with a shadow strategy for the release and deployment activity of my dashboard solution.
+
+### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this ADR is to find the optimal way to release / deploy my application.
+In order to select the best strategy for this purpose, we need to consider the environment in which we are deploying our application. The scope of the dashboard is constrained within the company and therefore, it can only have a set of limited users that can access it.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Make sure that the users are the least affected by my release strategy.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Big-bang and Blue/Green deployment strategies alternatives
+3. Pilot deployment strategy
+3. Shadow deployment strategy
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I decided to go for the shadow deployment strategy.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The main reason I decided to go with this option is that I would like to create the 
+least friction for the users, who will always use the latest available version of the dashboard as it is deployed as a SaaS solution. Hence, I do not want to consider
+strategies that would roll out the software on a rolling basis which would exclude part of the users from using the latests feature available. Using a shadow release strategy, I would be able to deploy the dashboard on a rolling basis and keep all the users updated with the latest features. 
+
+
+### Continuous Development and Continuous Integration (CD/CI) Demo
+
+```
+DONE
+```
+
+
 # Ex - Availability and Services
 
 {.instructions 
@@ -485,6 +1166,133 @@ Exceed: 1, 2, 3, 4, 5, 6, 7, 8
 
 }
 
+## 1. Hosting the app on a server
+
+This is already the case as PowerBI is a SaaS solution that is accessible either through a client, a web browser or a mobile app.
+
+## 2. Pricing model 
+
+I came up with two pricing models for my dashboard solution. 
+1. A **monthly subscription model**: this option includes a monthly-based agreement to use the software, along with 24/7 technical support for a discounted fee that is agreed with the customer.
+2. A **one-time purchase model**: this option includes a lifetime purchase of the software, but the technical support is provided when requested and is invoiced apart.
+
+The client is free to make a choice between the two models.
+
+## 3. Availability requirements
+Availability of the implemented services should be obviously high. The users should always be able to access the dashboard. The external dependencies are granted to have a 99.9% availability from the respective cloud providers (for both PowerBI and Azure Active Directory services).
+
+For what concern the internal infrastructure (mainly related to APIs and the databases), the planned downtime should occur during weekends and preferably on night shifts, as it would impact the least number of users (who would anyway be notified of such downtime). Such a downtime should take no more than a night shift and therefore, it should last approximately no more than 6 hours. Unplanned downtimes should be avoided as much as possible, but if occurring, the downtime should be equivalent to the time it takes to redeploy the containers that hosts each individual component (around 15-20 minutes).
+
+The service response time should be as low as possible, as it mainly involves fetching the data from the database and serving the UI with graphical rendered data. This service is provided from PowerBI and it also scales to large amount of data to aggregate and display. Therefore, the maximum expected delay should be in order of seconds. 
+
+<!-- TODO -->
+## 4. Service availability monitoring
+
+<!-- ![FruitDash - Deployment View - Heartbeat](./examples/13_deployment_view_heartbeat.puml) -->
+
+![FruitDash - Deployment View - Watchdog](./examples/13_deployment_view_watchdog.puml)
+
+```
+Is the heartbeat deployed in an independent component or is it a heartbeat monitor?
+```
+### ADR (Availability strategy)
+
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+To introduce multiple watchdogs component to detect the availability of my services
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal to achieve is to detect whether the components are available or not. 
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Make sure that when a service goes down, my solution detects that in a cleaned and effective way.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Heartbeat
+2. Watchdog
+3. Heartbeat + Watchdog
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+I went for an hybrid approach: heartbeat and watchdog strategy.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+
+
+A positive note for introducing an heartbeat component in the architecture is the possibility of registering multiple components to the same heartbeat monitoring service. The Data APIa and the Data Processor components that require failover monitoring, we can easily register them to the same heartbeat monitoring service and have one centralized monitoring system.  
+
+The presence of external dependencies makes it such that we can only introduce watchdogs (active components) that call these services (passive) to
+monitor their availability and react accordingly.
+
+Moreover, PowerBI provides services to alert the service failover, as well as to extend high-availability features to on-premises database solutions.
+For more info: https://docs.microsoft.com/en-us/data-integration/gateway/service-gateway-high-availability-clusters
+
+## 5. Stateless component recovery
+!["FruitDash - Process View - Stateless components"](./examples/13_process_view_stateless.puml)
+```
+Is the second tick placed in the correct column?
+```
+## 6. Stateful component recovery
+
+Event sourcing would be helpful in a scenario in which the data processing service goes down. How do we get the state of the analytical database if the service went down while it was executing a batch load operation? We could log all the events that happened during the batch ingestion to understand at which point the process was interrupted and restore the operation from that point. 
+
+In our use case, consistency prevails over availability as we want to be strict on having data that is up-to-date to ensure the correctness of the information displayed on the dashboard.
+
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to leverage the synchronous replication strategy
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this decision is to allow strong consistency when node outages occur.
+
+### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+Make sure that when an outage occur, the information that are displayed on the dashboard are accurate.
+
+### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Synchronous replication strategy
+2. Asynchronous replication strategy
+3. No replication strategy
+
+### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+The synchronous replication strategy was chosen.
+
+### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The only components that perform write operation in my case is the data processor. As the goal of my application is to display data and speed up the analytical process within the company, the data that is displayed must be accurate. Therefore, the synchronous replication strategy is the one that suits best, as it allows us to have the most up-to-date data.
+
+On the other hand, the synchronous strategy might take time for replicas to be coordinated and therefore, it might
+slow down the process of extracting, transforming and loading data into the analytical database.
+
+## 7. Avoid cascading failures
+To ensure that cascading failures are prevented, we want to introduce circuit breaker strategy that works syhnchronously with the heartbeat monitoring service to keep track of which service goes down. This prevents the other services from being affected by the failure of the one that is down.
+
+A place where such component could make sense is between the identity service and all components that call this service (dashboard and the API). In case of a failover occurs, the circuit breaker is now aware of that and, for all the subsequent calls until the service is back up, it could redirect the calls to a local cache to retrieve authentications and authorizations information.
+
+## 8. Mitigation of external dependencies
+
+The external dependencies that the solution provided makes use of are the PowerBI and Azure Active Directory services.
+Given that, there are multiple ways in which we can mitigate the impact of the external dependencies:
+
+1. For what concern the identity module, we could cache the history of the authorized and authenticated users
+locally so that, in case the service goes down, we can still allow (at least) the users that have already been authenticated to access the dashboard. This solution however might incur the risk of authenticating a user 
+that is not in the company anymore and it should therefore kept updated.
+
+2. For what concern the dashboard, we could deploy an on-premise version of the PowerBI application on the users' desktops and make sure that the application is always updated with the latest version. 
+
 # Ex - Scalability
 
 {.instructions 
@@ -506,6 +1314,131 @@ Pass: 1, 2, 3, 5
 Good: 1, 2, 3, 4, 5
 
 Exceed: 1, 2, 3, 4, 5 then redo 1, 2, 3 for different scalability dimensions
+
+}
+
+## Dimension 1 (Size of input)
+
+### 1. Scalability dimension
+I decided to pick the **size of input** as a scalability dimension to challenge my solution
+
+### 2. Scalability bottleneck
+The solution proposed so far scales quite well in terms input size, and should be able to handle the average file data dimension that is produced on a daily basis by the business. Nevertheless, there might be some scalability issues that we need to address when it comes to the data processor component if the data suddently scales to X-fold dimensions. This component is responsible for extracting the data from the operational database, transform it and load it into the analytical database. We priviledge consistency over availability as we would like the data to be always up to date.
+Therefore, this operation could be expensive and might take a long time to complete, which could influence the UI responsiveness and affect the user experience.
+
+### 3. Scalability solution
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Master/Worker"](./examples/14_logical_view_masterworker.puml)
+
+{.feedback
+
+There is some disconnected element (Directory) and an edge which loops back on the master
+
+The process view looks correct, the logical view is not consistent
+
+Should the directory be also informed that the job "scheduling" is over?
+
+}
+
+
+<!-- Deployment view -->
+!["FruitDash - Deployment View - Master/Worker"](./examples/14_deployment_view_masterworker.puml)
+
+<!-- Process -->
+!["FruitDash - Process View - Master/Worker"](./examples/14_process_view_masterworker.puml)
+
+
+### 4. Scalability pattern (ADR)
+
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to introduce a master / worker architecture solution
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this decision is to speed up the ETL process by introducing a master / worker architecture
+that achieves parallel computations
+
+#### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+The current solution does not scale when huge amounts of data need to be ingested into the analytical database
+from the operational database.
+
+#### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Master / worker architecture
+2. No other solution were considered
+
+#### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+Master / worker architecture
+
+#### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The master / worker architecture is the one that suits best for this problem. During overloaded ETL processes while the user is interacting with the dashboard, the master / worker architecture allows us to have the most up-to-date data by speeding up the transformation process and loading data into the analytical database with the least possible delay.
+
+### 5. Component discovery (ADR)
+
+#### 1. What did you decide?
+<!-- Give a short title of solved problem and solution -->
+I decided to introduce a discovery scalability strategy
+
+#### 2. What was the context for your decision?
+<!-- What is the goal you are trying to achieve? -->
+<!-- What are the constraints? -->
+<!-- What is the scope of your decision? Does it affect the entire architecture? -->
+The goal of this decision is to enable the Data API to discover the data processor component 
+
+#### 3. What is the problem you are trying to solve?
+<!-- You may want to articulate the problem in form of a question. -->
+The data processor component might need to perform an ETL process, and the Data API needs to know
+the address of such component. This should not be hardcoded.
+
+#### 4. Which alternative options did you consider?
+<!-- List at least 3 options -->
+1. Directory
+2. Dependency Injection
+
+#### 5. Which one did you choose?
+<!-- Pick one of the options as the outcome of your decision -->
+Directory
+
+#### 6. What is the main reason for that?
+<!-- List the positive consequences (pros) of your decision: -->
+<!-- quality improvement, satisfaction of external constraint. If any, list the negative consequences (cons), quality degradation -->
+The Data API needs a way to reach the data processor component in a dynamic way, since the address of such
+dependency might change during the ETL process, as the work could be distributed on multiple physical locations.
+We then need a middle layer component that can take the responsibility of keeping track of the addresses of the dependencies
+that can constantly change. Therefore, we need a directory component rather than a dependency injection one, which would retrieve
+the dependency position once and will always return the same address.
+
+## Dimension 2 (Number of clients)
+
+### 1. Scalability dimension
+I decided to pick the **number of clients** as the second scalability dimension to challenge my solution.
+
+### 2. Scalability bottleneck
+The solution proposed could in theory handle a large number of clients and certainly, the clients that are part of a small-medium enterprise (SME). Nevertheless, if such a solution should be adopted from large corporations, the number of clients that could potentially utilize the service at the same can grow to a very large number. Is the architecture ready to process all these requests?
+The external components (PowerBI and Azure Active Directory) are highly available and scalable services. Hence, the bottleneck can only be on the API backend service that is responsible of fetching the data from the database and providing it to the UI (PowerBI dashboard). When the amount of customers start to increase above a certain threshold (e.g. 100), the service might be overloaded and the UI might not be able to respond to the user's requests.
+
+### 3. Scalability solution
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Load Balancer"](./examples/14_logical_view_loadbalancer.puml)
+
+<!-- Deployment view -->
+!["FruitDash - Deployment View - Load Balancer"](./examples/14_deployment_view_loadbalancer.puml)
+
+<!-- Process -->
+!["FruitDash - Process View - Load Balancer"](./examples/14_process_view_loadbalancer.puml)
+
+{.feedback
+
+The process view does not include a load balancer (duplicate of the master/worker example)
 
 }
 
@@ -532,3 +1465,41 @@ Good: 1, two out of 2-5.
 Exceed: 1-5.
 
 }
+
+### 1. First use case scenario
+After having tried the beta version of the dashboard, the users came with a request of integrating the available data produced by the company with external data sources (such as a ) to be able to capture the data seasonality, trends and correlations with the orders they receive.
+
+Such a change would require no particular change in the architecture besides the addition of a new external (API) dependency that would be connected to the dashboard. 
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Flexibility use case scenario"](./examples/15_logical_view_first_use_case.puml)
+<!-- Deployment view -->
+!["FruitDash - Deployment View - Flexibility use case scenario"](./examples/15_deployment_view_first_use_case.puml)
+<!-- Process view -->
+!["FruitDash - Process View - Flexibility use case scenario"](./examples/15_process_view_first_use_case.puml)
+
+### 2. Second use case scenario
+The users would apparently love to have the opportunity to explore anomalies that are related to the orders they receive so that they can understand when they are going to receive the most demanding orders.
+
+This change would not require any change in the architecture as it mainly consists of adding additional computations on the analytical database as well as new endpoints on the Data API component that expose the data to the dashboard.
+
+<!-- Process view -->
+!["FruitDash - Process View - Flexibility use case scenario"](./examples/15_process_view_second_use_case.puml)
+
+### 3. Change impact
+
+The architecture that I designed so far is quite robust to changes. In this sense, the external dependencies that are present in my architecture are two: the dashboard (PowerBI) and the identity service (Azure Active Directory). Both these products are sold by the same company, and therefore, since the two services talk to each other, the compatibility between the two is granted. Moreover, as PowerBI is a business intelligence tool that, as many other similar tools, has the ability to fetch data by calling an endpoint, we do not expect the communication interface between the data API and the dashboard to change.
+
+Nevertheless, the identity service might change the interface and for this specific case, the data API would be compromised as it would not be able to authenticate / authorize the user once it logs in to the dashboard and therefore, it would not be able to access the data. A potential solution to this problem could be to eliminate the data API once for all and leverage the feature of PowerBI to fetch the data directly from the database without any additional layer. This solution however need to be thought through properly, as it would introduce coupling between an external dependency and the internal database, with the risk of exposing too much information.
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Flexibility change impact"](./examples/15_logical_view_change_impact.puml)
+
+### 4. Plugin
+
+The PowerBI component already includes mechanisms to write user-defined plugins. This is a good example of how such a feature can be used to extend the functionality of the dashboard.
+
+Nevertheless, it would also make sense for the user to be able to specify its own queries to process and display data that is not available in the dashboard. Such functionality could be introduced on the dashboard, where the user would be able to express its own queries on a textbox, which would then be pass to an external service that would be able to validate the query, execute it on the analytical database and return the results back to the UI to be rendered properly.
+
+
+### 5. Microservices

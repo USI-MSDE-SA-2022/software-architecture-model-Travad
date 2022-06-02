@@ -1,0 +1,56 @@
+@startuml
+title FruitDash - Deployment View - Master/Worker Architecture
+
+cloud "Front-end Server" as appcloud <<cloud>> {
+ [Dashboard] as DASH
+ [Data Extractor] as DE
+ [Graph Extractor] as GE
+}
+cloud "Identity Server" as identitycloud <<cloud>> {
+ [Identity Service] as IS
+}
+
+database "Analytical " as analyticaldb <<dbServer>>  {
+ [Analytical Database] as ADB
+}
+database "Operational" as operationaldb <<dbServer>> {
+ [Operational Database] as ODB
+}
+
+node "ETL" as transformer <<hostingServer>> {
+    [Data Processor (Master)] as T
+    [Worker] as W1
+    [Worker] as W2
+}
+node "Data API" as dataapi <<hostingServer>> {
+    [Data API] as API
+}
+
+node "Directory" as DIR
+
+' Identity
+' API -- IS: HTTPS
+DASH -- IS: HTTPS
+
+' Dashboard interactions
+DASH -- DE
+DASH -- GE
+DASH - API: HTTPS
+' DASH - ADB: HTTPS
+
+' Data Transformer
+T -- W1
+T -- W2
+
+ODB -- T: HTTP
+T -- ADB: HTTP
+
+' directory component for dependencies
+T -- DIR
+DIR -- API
+
+' Data sourcing
+API -- ADB: HTTP
+
+
+@enduml

@@ -1,0 +1,33 @@
+
+/// First the Feature Tree
+
+/// Adding [*] before the feature name will make it Required
+/// Adding [ ] before the feature name will mark it as Optional
+
+/// Composite features can express constraints between their sub-features
+/// { } a set of exclusive features (pick one)
+/// ( ) any combination of the features is possible
+/// [ ] a set of features (usually combined with the [*] [ ] annotation)
+
+Product: [
+    [*] Required Feature : {  
+        Alternative Sub Feature1,
+        Alternative Sub Feature1
+    },
+    [ ] Optional Feature : [
+        [*] Required Sub Feature,
+        [ ] Optional Sub Feature
+    ],
+    Combined Feature : (
+        Sub Feature1,
+        Sub Feature2
+    )
+]
+
+/// Then the feature relationships
+
+/// Implication
+Sub Feature1 => Optional Sub Feature
+
+/// Exclusive
+Alternative Sub Feature1 <--> Sub Feature2

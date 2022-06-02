@@ -1,0 +1,34 @@
+@startuml
+title Access to the Dashboard
+
+box "Identity"
+participant "Identity Service" as IS
+end box
+participant "Identity API" as IDAPI 
+
+participant "Dashboard" as DS
+participant "Database service​" as DBS
+
+participant "Graph provider​" as GP
+participant "Data extractor​​" as DE
+participant "Redis" as REDIS
+
+participant "Data API​" as DAPI
+participant "API Server" as APIS
+participant "Analytics DB" as ADB
+
+' Authentication request
+DS -> IDAPI: GET /identity/user/{userId}
+IDAPI -> IS: Verify identity qualitifications
+IS -> IDAPI: GET 200 OK | GET 404 Not Found
+
+' Data request
+DS -> GP: Request: return the graphs to display
+GP -> REDIS: Rd <graph-data>
+REDIS -> GP: <graph-data> | null
+GP -> DAPI: (if null) GET /data/graph/{graphId}
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

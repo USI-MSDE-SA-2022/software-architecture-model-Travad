@@ -1,0 +1,32 @@
+@startuml
+title User access to the dashboard​
+
+box "Identity"
+participant "Authentication Service" as AUTHENTS
+participant "Authorization Service" as AUTHORS
+participant "Identity Service" as IS
+end box
+participant "Dashboard" as DS
+participant "Database service​" as DBS
+participant "Data API​" as DAPI
+participant "Graph provider​" as GP
+participant "Data extractor​​" as DE
+
+IS -> AUTHENTS: Verify authentication of the user
+AUTHENTS -> IS: Reply with authentication approval or denial 
+IS -> DS: Grants access to the user
+DS -> GP: Retrieves the graphs calling the graph provider service ​
+GP -> DAPI: Requests the data​
+DAPI -> IS: Check user authorization​
+IS -> AUTHORS: Filter authorization request
+AUTHORS -> IS: Reply with authorization approval or denial
+IS -> DAPI: Provide authentication success or failure
+DAPI -> DBS: Fetch the data​
+DBS -> DAPI: Returns the data fetched
+DAPI -> GP: Forwards the data received
+GP -> DS: Returns the rendered graphs on the data fetched​
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

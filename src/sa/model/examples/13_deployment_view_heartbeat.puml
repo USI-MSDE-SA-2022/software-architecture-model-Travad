@@ -1,0 +1,56 @@
+@startuml
+title FruitDash - Deployment View - Heartbeat Monitor
+
+cloud "Front-end Server" as appcloud <<cloud>> {
+ [Dashboard] as DASH
+ [Data Extractor] as DE
+ [Graph Extractor] as GE
+}
+cloud "Identity Server" as identitycloud <<cloud>> {
+ [Identity Service] as IS
+}
+
+database "Analytical " as analyticaldb <<dbServer>>  {
+ [Analytical Database] as ADB
+}
+database "Operational" as operationaldb <<dbServer>> {
+ [Operational Database] as ODB
+}
+
+node "ETL" as transformer <<hostingServer>> {
+    [Data Processor] as T
+}
+node "Data API" as dataapi <<hostingServer>> {
+    [Data API] as API
+}
+node "Heartbeat " as heartbeathmonitor <<hostingServer>> {
+    [Hearbeat Monitor] as HBM
+    [Clock] as CLC
+}
+
+' Identity
+API -- IS: HTTPS
+DASH -- IS: HTTPS
+
+' Dashboard interactions
+DASH -- DE
+DASH -- GE
+DASH - API: HTTPS
+
+' Data Transformer
+ODB -- T: HTTP
+T -- ADB: HTTP
+
+' Data sourcing
+API -- ADB: HTTP
+
+' Heartbeat
+HBM -- CLC
+HBM -- DASH
+HBM -- IS
+HBM -- ODB
+HBM -- ADB
+HBM -- API: HTTP
+HBM -- T: HTTP 
+
+@enduml

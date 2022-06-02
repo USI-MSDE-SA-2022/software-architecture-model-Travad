@@ -1,2 +1,4 @@
 node_modules/
-upload/files.json
+upload/
+build.json
+.DS_Store

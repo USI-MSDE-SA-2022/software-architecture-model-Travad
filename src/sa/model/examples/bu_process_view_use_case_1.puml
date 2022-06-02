@@ -1,0 +1,29 @@
+@startuml
+title User access to the dashboard​
+
+box "Identity"
+' participant "Authentication Service" as AUTHENTS
+' participant "Authorization Service" as AUTHORS
+participant "Azure Active Directory" as AAD
+end box
+participant "Power BI" as PBI
+participant "SQL Server​" as SQLS
+' participant "ASP.NET API​" as DAPI
+participant "Power BI - Data Extractor​​" as PBIDE
+
+PBI -> AAD: Check the attempt of a user to enter the platform
+AAD -> AAD: Verify authentication of the user
+' AUTHENTS -> AAD: Reply with authentication approval or denial 
+AAD -> PBI: Provide authentication success or failure
+PBI -> SQLS: Requess the data​
+SQLS -> AAD: Check user authorization 
+AAD -> AAD: Verify authorization request for the user
+' AUTHORS -> AAD: Reply with authorization approval or denial
+AAD -> SQLS: Provide authorization success or failure
+SQLS -> PBI: Forward the data of the request
+PBI -> PBI: Render the graphs and display them to the user
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

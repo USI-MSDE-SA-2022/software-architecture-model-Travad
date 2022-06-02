@@ -1,0 +1,49 @@
+@startuml
+title (Basic) use case: access to the dashboard from multiple users
+
+box "Identity"
+participant "Azure Active Directory" as AAD
+end box
+
+participant "Power BI" as PBI
+
+box "Load Balancer"
+participant "Load Balancer" as LB
+participant "Directory" as DIR
+end box
+
+participant "Data API​" as DAPI
+participant "Weather API" as WAPI
+
+participant "Operational DB" as ODB
+participant "Analytical DB" as ADB
+
+' Authentication in the meanwhile
+PBI -> AAD: Check the attempt of a user to enter the platform
+AAD -> AAD: Verify authentication of the user
+AAD -> PBI: Provide authentication success or failure
+
+' The dashboard attempts to query the data api service
+PBI -> LB: Allocate resources for a GET Request: /GET (query)
+LB -> DIR: Retrieve the location of the allocated worker
+DIR -> LB: Return location of the allocated worker
+LB -> DAPI: Forwards the /GET (query) to received path
+DAPI -> ADB: Query the DB
+ADB -> DAPI: Query results
+DAPI -> PBI: Forward the data of the request
+PBI -> PBI: Render the graphs and display them to the user
+
+' The dashboard attempts to request the data from the 
+' weather external API\
+PBI -> LB: Allocate resources for a GET Request: /GET (query)
+LB -> DIR: Retrieve the location of the allocated worker
+DIR -> LB: Return location of the allocated worker
+LB -> DAPI: Forwards the /GET (query) to received path
+DAPI -> WAPI: Query the external API
+WAPI -> PBI: Forward the data of the request
+PBI -> PBI: Render the information on the dashboard
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

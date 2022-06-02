@@ -1,0 +1,54 @@
+@startuml
+title FruitDash - Deployment View - First Use Case
+
+cloud "Front-end Server" as appcloud <<cloud>> {
+ [Dashboard] as DASH
+ [Data Extractor] as DE
+ [Graph Extractor] as GE
+}
+cloud "Identity Server" as identitycloud <<cloud>> {
+ [Identity Service] as IS
+}
+
+database "Analytical " as analyticaldb <<dbServer>>  {
+ [Analytical Database] as ADB
+}
+database "Operational" as operationaldb <<dbServer>> {
+ [Operational Database] as ODB
+}
+
+node "ETL" as transformer <<hostingServer>> {
+    [Data Processor] as T
+}
+node "Data API" as dataapi <<hostingServer>> {
+    [Data API] as API
+}
+node "Weather API" as dataexternalapi <<hostingServer>> {
+    [Weather API] as EAPI
+}
+
+node "Load Balancer" as LB 
+node "Directory" as DIR 
+
+' Identity
+' API -- IS: HTTPS
+DASH -- IS: HTTPS
+
+' Dashboard interactions
+DASH -- DE
+DASH -- GE
+
+' load balancer interactions
+DASH - LB: HTTP
+DIR - LB
+LB - API: HTTPS
+LB -- EAPI: HTTPS
+
+ODB -- T: HTTP
+T -- ADB: HTTP
+
+' Data sourcing
+API -- ADB: HTTP
+
+
+@enduml

@@ -37,16 +37,45 @@ function run(cmd, cwd, done) {
 }
 
 
-const package_json = fs.readJsonSync('package.json');
+const build_json = fs.readJSONSync('build.json', { throws: false }) || {};
 
-package_json.doc_build = (package_json.doc_build || 0) + 1;
+build_json.doc_build = (build_json.doc_build || 0) + 1;
 
-fs.outputJsonSync('package.json', package_json, { spaces: 2 });
+fs.outputJsonSync('build.json', build_json, { spaces: 2 });
 
+
+String.prototype.hashCode = function() {
+    var hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+      chr   = this.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
+
+const cache_json = fs.readJSONSync('./upload/puml_cache.json', { throws: false }) || {};
+
+
+function cache_lookup(text, miss) {
+    let hash = new String(text).hashCode();
+
+    if (cache_json[hash]) { //hit
+        return new Promise((resolve,reject)=>resolve(cache_json[hash]));
+    } else {
+        return miss(text).then((output) => {
+            cache_json[hash] = output;
+            fs.outputJson('./upload/puml_cache.json', cache_json, { spaces: 2 });
+            return output;
+        })
+    }
+}
 
 
 let puml_count = 0;
 let epuml_count = 0;
+let fml_count = 0;
 
 const renderer = new marked.Renderer();
 
@@ -102,7 +131,7 @@ renderer.code = function(code, infostring, escaped) {
     if (infostring) {
         if (infostring.startsWith("puml")) {
             let i = epuml_count++;
-            plantuml(code).then(svg=>{
+            cache_lookup(code, ()=>plantuml(code)).then(svg=>{
                 fs.writeFile(renderer._out_folder+"puml_e"+i+".svg", svg)
             })
             return `<img src="./puml_e${i}.svg">`;
@@ -123,12 +152,37 @@ renderer.image = function(href, title, text) {
         let i = puml_count++;
 
         fs.readFile(href.replace("./",renderer._in_folder)).then(puml=>{
-            return plantuml(puml)
+            return cache_lookup(puml, ()=>plantuml(puml))
+            //return plantuml(puml)
         }).then(svg=>{
             fs.writeFile(renderer._out_folder+"puml_"+i+".svg", svg)
         })
 
         return `<img src="./puml_${i}.svg" alt="${text}">`;
+
+    }
+
+    if (href.endsWith(".fml")) {
+
+        let i = fml_count++;
+
+        const fml_output = renderer._out_folder+"fml_"+i+".svg";
+
+        run("node fml " + href.replace("./",renderer._in_folder) + " " + fml_output);
+
+        return `<img src="./fml_${i}.svg" alt="${text}">`;
+
+    }
+
+    if (href.endsWith(".c5")) {
+
+        let i = fml_count++;
+
+        const fml_output = renderer._out_folder+"c5_"+i+".svg";
+
+        run("node c5 " + href.replace("./",renderer._in_folder) + " " + fml_output);
+
+        return `<img src="./c5_${i}.svg" alt="${text}">`;
 
     }
 
@@ -344,7 +398,7 @@ function buildDoc(changed, deleted, slide) {
         //console.log(e);
     }
 
-    md.meta.build = package_json.doc_build;
+    md.meta.build = build_json.doc_build;
     //md.meta.lecture = "Web Atelier 2020 ";
     md.meta.timestamp = new Date().toLocaleString();
 
@@ -357,7 +411,7 @@ function buildDoc(changed, deleted, slide) {
 
         md.meta.series = "";
 
-        let model = { title: slide, md: md.md, meta: md.meta, pid: slide + "." + package_json.build }
+        let model = { title: slide, md: md.md, meta: md.meta, pid: slide + "." + build_json.build }
 
         let mdout = `./upload/${slide}/index.html`;
 

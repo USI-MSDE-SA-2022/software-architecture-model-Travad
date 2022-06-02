@@ -1,0 +1,46 @@
+@startuml
+title Basic usecase: User accessing the dashboard​
+
+box "Identity"
+participant "Azure Active Directory" as AAD
+end box
+
+participant "Power BI" as PBI
+participant "SQL Server​" as SQLS
+participant "Data API​" as DAPI
+
+participant "Heartbeat​​ Monitor" as HTB
+participant "Clock" as CLC
+
+' Monitoring resources
+CLC -> HTB: "tick"
+DAPI -> HTB: "beat"
+
+' Authentication in the meanwhile
+PBI -> AAD: Check the attempt of a user to enter the platform
+AAD -> AAD: Verify authentication of the user
+AAD -> PBI: Provide authentication success or failure
+
+' The data API service is timed-out
+PBI -> DAPI: /GET (query)
+DAPI -> PBI: Timeout
+
+' Finally, the service has came back up and we can forward the request
+HTB -> HTB: Timeout occurred, API component is down.
+HTB -> DAPI: Re-deploy the service (container)
+
+' The service is up and running when it sends the beat to the monitoring service
+CLC -> HTB: "tick"
+DAPI -> HTB: "beat"
+
+' Re-attempt to retrieve the data
+PBI -> DAPI: /GET (query)
+DAPI -> SQLS: Query
+SQLS -> DAPI: Query results
+DAPI -> PBI: Forward the data of the request
+PBI -> PBI: Render the graphs and display them to the user
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

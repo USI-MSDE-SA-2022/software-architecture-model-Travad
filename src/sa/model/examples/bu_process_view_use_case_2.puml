@@ -1,0 +1,36 @@
+@startuml
+title Analyze data within the Dashboard 
+
+box "Identity"
+participant "Azure Active Directory" as AAD
+end box
+participant "SQL Server​" as SQLS
+participant "Power BI" as PBI
+' participant "ASP.NET API​" as DAPI
+participant "Power BI - Data Extractor​​" as PBIDE
+
+PBI -> AAD: Check the attempt of a user to enter the platform
+AAD -> AAD: Verify authentication of the user
+' AUTHENTS -> AAD: Reply with authentication approval or denial 
+AAD -> PBI: Provide authentication success or failure
+PBI -> PBIDE: Request of the user to analyze data in excel format
+PBIDE -> SQLS: Request the data
+SQLS -> PBIDE: Forward the data of the request
+PBIDE -> PBI: Provide rendered data in tabular form in the Excel UI format
+
+
+
+' DAPI -> AAD: Check user authorization​
+' ' AAD -> AUTHORS: Filter authorization request
+' AAD -> AAD: Verify authorization request for the user
+' ' AUTHORS -> AAD: Reply with authorization approval or denial
+' AAD -> DAPI: Provide authorization success or failure
+' DAPI -> SQLS: Fetch the data​
+' SQLS -> DAPI: Returns the data fetched
+' DAPI -> PBI: Forwards the data received
+' PBI -> PBI: Renders the graphs and display them to the user
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml

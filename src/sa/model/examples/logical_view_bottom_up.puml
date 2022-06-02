@@ -1,0 +1,95 @@
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Fruitdash Bottom-Up Component Model
+
+' interface " " as DSI
+interface " " as ISI
+
+component [Power BI - Data Extractor] as PBIDE #C7C6C1
+interface " " as PBIDEI
+
+rectangle Backend {
+
+   interface " " as CDBI
+   interface " " as DEI
+   ' interface " " as GPI
+
+   component [Database Service <$database{scale=0.33}>] as CDB 
+   component [SQL Server Standard] as SQL #C7C6C1
+   interface " " as SQLI
+   CDB --( SQLI
+   SQLI -- SQL
+
+   component [Data API] as API
+   interface " " as APII
+   component [ASP.NET Framework] as ASP #C7C6C1
+   interface " " as ASPI
+   API --( ASPI
+   ASPI -- ASP
+
+   ' component [Graph Provider] as GP
+   component [Data Extractor] as DE
+   DE --( PBIDEI
+   PBIDEI -- PBIDE
+
+}
+
+rectangle UserInterface {
+   component [Dashboard] as DS
+   component [Power BI] as PBI #C7C6C1
+   interface " " as PBII
+   DS --( PBII
+   PBII -- PBI
+}
+
+component [Azure Active Directory] as AAD #C7C6C1
+interface " " as AZUREADI
+
+component Identity {
+   interface " " as AUTH_2FAI
+   interface " " as AUTHORI
+   interface " " as AUTHENTI
+   
+   component [Identity Service] as IS
+   IS --( AZUREADI
+   AZUREADI -- AAD
+
+   component [Authorization Service] as AUTHOR
+   component [Authentication Service] as AUTHENT
+   component [Two Factor Authentication] as 2FA
+   IS -- ISI
+   IS --( AUTHORI
+   IS --( AUTHENTI
+   AUTHORI -- AUTHOR
+   AUTHENTI -- AUTHENT
+   AUTHENT --( AUTH_2FAI
+   AUTH_2FAI -- 2FA 
+}
+
+' Stateful
+CDB -- CDBI 
+CDBI )-- API
+
+' API 
+' GP --( APII
+DE --( APII
+APII -- API
+
+' Graph and data services
+DE -- DEI
+' GP -- GPI
+DEI )-- DS
+' GPI )-- DS
+
+' Identity
+API --( ISI
+DS --( ISI
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
