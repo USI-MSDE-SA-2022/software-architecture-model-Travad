@@ -1486,39 +1486,14 @@ This change would not require any change in the architecture as it mainly consis
 <!-- Process view -->
 !["FruitDash - Process View - Flexibility use case scenario"](./examples/15_process_view_second_use_case.puml)
 
-
-```puml
-@startuml
-title User requires Backmarket's Product Return
-
-participant "User Interface" as UI
-participant "Order Handler" as OH
-participant "OrdersApi" as OAPI
-participant "Directory" as DIR
-
-participant "Backmarket Handler" as BH
-participant "Backmarket" as B
-
-UI -> OH: get_repairs(): require data about \nrepaired products of a specific marketplace
-OH -> OAPI:  get_repairs(BackMarket) \nrequest repair products data from BackMarket
-OAPI -> DIR: get_handlers([Backmarket]) \nrequest location of \nBackmarket Handler to an available directory 
-DIR -> DIR: checks for permissions 
-DIR -> OAPI: respond with \nBackmarket Handler location
-
-OAPI -> BH: get_repairs() \nrequest of repair products 
-BH -> B: HTTP GET request of repairs
-B -> BH: return repair products
-BH -> OAPI: return repair products 
-OAPI -> OH: return repair products
-
-skinparam monochrome true
-skinparam shadowing false
-skinparam defaultFontName Courier
-@enduml
-```
-
 ### 3. Change impact
 
+The architecture that I designed so far is quite robust to changes. In this sense, the external dependencies that are present in my architecture are two: the dashboard (PowerBI) and the identity service (Azure Active Directory). Both these products are sold by the same company, and therefore, since the two services talk to each other, the compatibility between the two is granted. Moreover, as PowerBI is a business intelligence tool that, as many other similar tools, has the ability to fetch data by calling an endpoint, we do not expect the communication interface between the data API and the dashboard to change.
+
+Nevertheless, the identity service might change the interface and for this specific case, the data API would be compromised as it would not be able to authenticate / authorize the user once it logs in to the dashboard and therefore, it would not be able to access the data. A potential solution to this problem could be to eliminate the data API once for all and leverage the feature of PowerBI to fetch the data directly from the database without any additional layer. This solution however need to be thought through properly, as it would introduce coupling between an external dependency and the internal database, with the risk of exposing too much information.
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Flexibility change impact"](./examples/15_logical_view_change_impact.puml)
 
 ### 4. Plugin
 

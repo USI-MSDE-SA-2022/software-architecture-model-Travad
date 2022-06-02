@@ -1,0 +1,89 @@
+@startuml
+skinparam componentStyle rectangle
+
+!include <tupadr3/font-awesome/database>
+
+title Fruitdash - Logical View - Change Impact
+
+
+rectangle Backend {
+
+   ' component [Data API] as ASP #EDEDED
+
+   ' Database layer services
+   component [Operational DB <$database{scale=0.33}>] as CDBO #EDEDED
+   component [Analytical DB <$database{scale=0.33}>] as CDBA #EDEDED
+   interface " " as CDBOI
+   interface " " as CDBAI
+
+   component [Data Processor] as TA  #EDEDED
+   interface " " as TAI
+
+   ' connect Operational DB to Transformer Adapter
+   CDBO -- CDBOI
+   CDBOI )-- TA
+
+   ' connect TA to Operational DB
+   TA --( TAI
+   TAI -- CDBA
+
+}
+
+rectangle UserInterface {
+   ' component [Dashboard] as DS
+   component [Power BI - Dashboard] as PBI #EDEDED
+   ' interface " " as PBII
+   component [Power BI - Data Extractor] as PBIDE #EDEDED
+   interface " " as PBIDEI
+   PBIDE -- PBIDEI
+   PBIDEI )-- PBI
+
+   ' extractor
+   component [Graph Extractor] as GE #EDEDED
+   interface " " as GEI
+   GE -- GEI
+   GEI )-- PBI
+}
+
+component Identity {
+   component [Azure Active Directory] as AAD #EDEDED
+}
+
+component [Load Balancer] as LB #EDEDED
+component [Directory] as DIR #EDEDED
+
+' Stateful
+CDBA -- CDBAI 
+' CDBAI )-- ASP
+CDBAI )-- PBI
+
+' Data service layer
+interface " " as LBI
+interface " " as DIRI
+' interface " " as ASPI
+PBI --( LBI
+LBI -- LB
+
+LB --( DIRI
+DIRI -- DIR
+
+' DIR --( ASPI
+' ASPI -- ASP
+
+' External dependency
+component [Weather API] as EAPI #EDEDED
+interface " " as EAPII
+LB --( EAPII
+EAPII -- EAPI
+
+' Identity
+interface " " as AZUREADI
+AAD -- AZUREADI
+' ASP --( AZUREADI
+PBI --( AZUREADI
+
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
