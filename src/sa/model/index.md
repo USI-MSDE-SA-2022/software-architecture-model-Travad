@@ -1465,3 +1465,62 @@ Good: 1, two out of 2-5.
 Exceed: 1-5.
 
 }
+
+### 1. First use case scenario
+After having tried the beta version of the dashboard, the users came with a request of integrating the available data produced by the company with external data sources (such as a ) to be able to capture the data seasonality, trends and correlations with the orders they receive.
+
+Such a change would require no particular change in the architecture besides the addition of a new external (API) dependency that would be connected to the dashboard. 
+
+<!-- Logical view -->
+!["FruitDash - Logical View - Flexibility use case scenario"](./examples/15_logical_view_first_use_case.puml)
+<!-- Deployment view -->
+!["FruitDash - Deployment View - Flexibility use case scenario"](./examples/15_deployment_view_first_use_case.puml)
+<!-- Process view -->
+!["FruitDash - Process View - Flexibility use case scenario"](./examples/15_process_view_first_use_case.puml)
+
+### 2. Second use case scenario
+The users would apparently love to have the opportunity to explore anomalies that are related to the orders they receive so that they can understand when they are going to receive the most demanding orders.
+
+This change would not require any change in the architecture as it mainly consists of adding additional computations on the analytical database as well as new endpoints on the Data API component that expose the data to the dashboard.
+
+<!-- Process view -->
+!["FruitDash - Process View - Flexibility use case scenario"](./examples/15_process_view_second_use_case.puml)
+
+
+```puml
+@startuml
+title User requires Backmarket's Product Return
+
+participant "User Interface" as UI
+participant "Order Handler" as OH
+participant "OrdersApi" as OAPI
+participant "Directory" as DIR
+
+participant "Backmarket Handler" as BH
+participant "Backmarket" as B
+
+UI -> OH: get_repairs(): require data about \nrepaired products of a specific marketplace
+OH -> OAPI:  get_repairs(BackMarket) \nrequest repair products data from BackMarket
+OAPI -> DIR: get_handlers([Backmarket]) \nrequest location of \nBackmarket Handler to an available directory 
+DIR -> DIR: checks for permissions 
+DIR -> OAPI: respond with \nBackmarket Handler location
+
+OAPI -> BH: get_repairs() \nrequest of repair products 
+BH -> B: HTTP GET request of repairs
+B -> BH: return repair products
+BH -> OAPI: return repair products 
+OAPI -> OH: return repair products
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Courier
+@enduml
+```
+
+### 3. Change impact
+
+
+### 4. Plugin
+
+
+### 5. Microservices
