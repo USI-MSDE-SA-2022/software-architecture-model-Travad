@@ -1497,5 +1497,9 @@ Nevertheless, the identity service might change the interface and for this speci
 
 ### 4. Plugin
 
+The PowerBI component already includes mechanisms to write user-defined plugins. This is a good example of how such a feature can be used to extend the functionality of the dashboard.
+
+Nevertheless, it would also make sense for the user to be able to specify its own queries to process and display data that is not available in the dashboard. Such functionality could be introduced on the dashboard, where the user would be able to express its own queries on a textbox, which would then be pass to an external service that would be able to validate the query, execute it on the analytical database and return the results back to the UI to be rendered properly.
+
 
 ### 5. Microservices
